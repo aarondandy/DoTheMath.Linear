@@ -1,0 +1,62 @@
+﻿{
+  "version": "0.0.0-*",
+  "description": "A bunch of stuff for Linear Algebra.",
+  "tags": [
+    "linear",
+    "algebra",
+    "math",
+    "vector",
+    "matrix"
+  ],
+  "authors": [ "aarondandy" ],
+  "owners": [ "aarondandy" ],
+  "copyright": "Copyright (c) 2016 Aaron Dandy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aarondandy/DoTheMath.Linear"
+  },
+  "projectUrl": "https://github.com/aarondandy/DoTheMath.Linear",
+  "licenseUrl": "https://github.com/aarondandy/DoTheMath.Linear/blob/master/LICENSE",
+  "compile": [
+    "../../SharedAssemblyInfo.cs"
+  ],
+  "configurations": {
+    "Debug": {
+      "compilationOptions": {
+        "define": [ "DEBUG", "TRACE" ],
+        "optimize": false
+      }
+    },
+    "Release": {
+      "compilationOptions": {
+        "define": [ "RELEASE", "TRACE" ],
+        "optimize": true,
+        "warningsAsErrors": true
+      }
+    }
+  },
+  "frameworks": {
+    "net35": {
+      "compilationOptions": {
+        "define": [ "PRE_NETSTANDARD", "DOTNET_3_5"]
+      }
+    },
+    "net451": {
+      "compilationOptions": {
+        "define": [ "NETSTANDARD_1_2", "DOTNET_4_5_1" ]
+      }
+    },
+    "dotnet5.4": {
+      "compilationOptions": {
+        "define": [ "NETSTANDARD_1_3", "DOTNET_5_4" ]
+      },
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.1-beta-23516",
+        "System.Collections": "4.0.11-beta-23516",
+        "System.Linq": "4.0.1-beta-23516",
+        "System.Runtime": "4.0.21-beta-23516",
+        "System.Threading": "4.0.11-beta-23516"
+      }
+    }
+  }
+}
