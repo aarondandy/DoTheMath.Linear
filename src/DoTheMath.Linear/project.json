@@ -38,17 +38,22 @@
   "frameworks": {
     "net35": {
       "compilationOptions": {
-        "define": [ "PRE_NETSTANDARD", "DOTNET_3_5"]
+        "define": [ "PRE_NETSTANDARD", "NET_3_5" ]
       }
     },
     "net451": {
       "compilationOptions": {
-        "define": [ "NETSTANDARD_1_2", "DOTNET_4_5_1" ]
+        "define": [ "NETSTANDARD_1_2", "NET_4_5_1" ]
+      }
+    },
+    "net461": {
+      "compilationOptions": {
+        "define": [ "NETSTANDARD_1_3", "NET_4_6" ]
       }
     },
     "dotnet5.4": {
       "compilationOptions": {
-        "define": [ "NETSTANDARD_1_3", "DOTNET_5_4" ]
+        "define": [ "NETSTANDARD_1_3", "NET_4_6" ]
       },
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-beta-23516",
