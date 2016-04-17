@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DoTheMath.Linear", "src\DoTheMath.Linear\DoTheMath.Linear.xproj", "{93F341D0-67FA-4B1A-B141-DD0352BD8160}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D7678475-6FA5-4E1C-8321-9B4DB69881B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8456EEC2-2257-49E9-8415-94BB935B3EE8}"
@@ -19,26 +17,35 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoTheMath.Linear.Tests", "t
 		{93F341D0-67FA-4B1A-B141-DD0352BD8160} = {93F341D0-67FA-4B1A-B141-DD0352BD8160}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoTheMath.Linear", "src\DoTheMath.Linear\DoTheMath.Linear.csproj", "{F20516D4-E531-4764-8AF4-94D52882C17F}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DoTheMath.Linear.DnxBuild", "src\DoTheMath.Linear\DoTheMath.Linear.DnxBuild.xproj", "{93F341D0-67FA-4B1A-B141-DD0352BD8160}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{93F341D0-67FA-4B1A-B141-DD0352BD8160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93F341D0-67FA-4B1A-B141-DD0352BD8160}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93F341D0-67FA-4B1A-B141-DD0352BD8160}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93F341D0-67FA-4B1A-B141-DD0352BD8160}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D11DB182-5A65-4651-9067-CDE625600462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D11DB182-5A65-4651-9067-CDE625600462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D11DB182-5A65-4651-9067-CDE625600462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D11DB182-5A65-4651-9067-CDE625600462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F20516D4-E531-4764-8AF4-94D52882C17F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20516D4-E531-4764-8AF4-94D52882C17F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20516D4-E531-4764-8AF4-94D52882C17F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F20516D4-E531-4764-8AF4-94D52882C17F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93F341D0-67FA-4B1A-B141-DD0352BD8160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93F341D0-67FA-4B1A-B141-DD0352BD8160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93F341D0-67FA-4B1A-B141-DD0352BD8160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93F341D0-67FA-4B1A-B141-DD0352BD8160}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{93F341D0-67FA-4B1A-B141-DD0352BD8160} = {D7678475-6FA5-4E1C-8321-9B4DB69881B5}
 		{D11DB182-5A65-4651-9067-CDE625600462} = {463C73A9-9B73-48C1-857C-56A5A3EC8E3D}
+		{F20516D4-E531-4764-8AF4-94D52882C17F} = {D7678475-6FA5-4E1C-8321-9B4DB69881B5}
+		{93F341D0-67FA-4B1A-B141-DD0352BD8160} = {D7678475-6FA5-4E1C-8321-9B4DB69881B5}
 	EndGlobalSection
 EndGlobal

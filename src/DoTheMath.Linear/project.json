@@ -35,6 +35,9 @@
       }
     }
   },
+  "runtimes":{
+    "win": { }  
+  },
   "frameworks": {
     "net35": {
       "compilationOptions": {
