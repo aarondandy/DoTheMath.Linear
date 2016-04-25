@@ -18,5 +18,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <ProduceOutputsOnBuild>True</ProduceOutputsOnBuild>
   </PropertyGroup>
+  <ItemGroup>
+    <DnxInvisibleContent Include="DoTheMath.Linear.DnxBuild.v2.ncrunchproject" />
+    <DnxInvisibleContent Include="DoTheMath.Linear.v2.ncrunchproject" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
