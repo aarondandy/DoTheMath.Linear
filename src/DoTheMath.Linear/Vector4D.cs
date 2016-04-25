@@ -2,7 +2,7 @@
 
 namespace DoTheMath.Linear
 {
-    public struct Vector3D
+    public struct Vector4D
     {
         public double X;
 
@@ -10,14 +10,17 @@ namespace DoTheMath.Linear
 
         public double Z;
 
+        public double W;
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Vector3D(double x, double y, double z)
+        public Vector4D(double x, double y, double z, double w)
         {
             X = x;
             Y = y;
             Z = z;
+            W = w;
         }
     }
 }
