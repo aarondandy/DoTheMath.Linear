@@ -65,6 +65,7 @@
     <Compile Include="Matrix2DTests.cs" />
     <Compile Include="Matrix3DTests.cs" />
     <Compile Include="Matrix4DTests.cs" />
+    <Compile Include="MatrixDTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector2DTests.cs" />
     <Compile Include="Vector3DTests.cs" />

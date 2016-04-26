@@ -11,15 +11,15 @@ namespace DoTheMath.Linear.Tests
             {
                 var m = new Matrix3D();
 
-                Assert.Equal(m.E00, 0.0d);
-                Assert.Equal(m.E01, 0.0d);
-                Assert.Equal(m.E02, 0.0d);
-                Assert.Equal(m.E10, 0.0d);
-                Assert.Equal(m.E11, 0.0d);
-                Assert.Equal(m.E12, 0.0d);
-                Assert.Equal(m.E20, 0.0d);
-                Assert.Equal(m.E21, 0.0d);
-                Assert.Equal(m.E22, 0.0d);
+                Assert.Equal(0.0d, m.E00);
+                Assert.Equal(0.0d, m.E01);
+                Assert.Equal(0.0d, m.E02);
+                Assert.Equal(0.0d, m.E10);
+                Assert.Equal(0.0d, m.E11);
+                Assert.Equal(0.0d, m.E12);
+                Assert.Equal(0.0d, m.E20);
+                Assert.Equal(0.0d, m.E21);
+                Assert.Equal(0.0d, m.E22);
             }
 
             [Fact]
@@ -30,15 +30,15 @@ namespace DoTheMath.Linear.Tests
                     -1.0, 8.0, -4.0,
                     21.0, -0.5, 1.4);
 
-                Assert.Equal(m.E00, 1.0d);
-                Assert.Equal(m.E01, -5.0);
-                Assert.Equal(m.E02, 9.0d);
-                Assert.Equal(m.E10, -1.0);
-                Assert.Equal(m.E11, 8.0d);
-                Assert.Equal(m.E12, -4.0);
-                Assert.Equal(m.E20, 21.0);
-                Assert.Equal(m.E21, -0.5d);
-                Assert.Equal(m.E22, 1.4d);
+                Assert.Equal( 1.0d, m.E00);
+                Assert.Equal( -5.0, m.E01);
+                Assert.Equal( 9.0d, m.E02);
+                Assert.Equal( -1.0, m.E10);
+                Assert.Equal( 8.0d, m.E11);
+                Assert.Equal( -4.0, m.E12);
+                Assert.Equal( 21.0, m.E20);
+                Assert.Equal(-0.5d, m.E21);
+                Assert.Equal( 1.4d, m.E22);
             }
         }
     }
