@@ -45,6 +45,7 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="IMatrix{TElement}.cs" />
     <Compile Include="Matrix2D.cs" />
     <Compile Include="Matrix3D.cs" />
     <Compile Include="Matrix4D.cs" />

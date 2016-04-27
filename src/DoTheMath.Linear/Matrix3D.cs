@@ -1,8 +1,9 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace DoTheMath.Linear
 {
-    public class Matrix3D
+    public class Matrix3D : IMatrix<double>
     {
         /// <summary>
         /// The element at row 0 and column 0.
@@ -81,6 +82,57 @@ namespace DoTheMath.Linear
             E20 = e20;
             E21 = e21;
             E22 = e22;
+        }
+
+        public int Columns
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            get
+            {
+                return 3;
+            }
+        }
+
+        public int Rows
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            get
+            {
+                return 3;
+            }
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Get(int row, int column)
+        {
+            if (row < 0 || row > 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(row));
+            }
+            if (column < 0 || column > 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(column));
+            }
+
+            switch (unchecked((row * 3) + column))
+            {
+                case 0: return E00;
+                case 1: return E01;
+                case 2: return E02;
+                case 3: return E10;
+                case 4: return E11;
+                case 5: return E12;
+                case 6: return E20;
+                case 7: return E21;
+                case 8: return E22;
+                default: return default(double); // unreachable
+            }
         }
     }
 }

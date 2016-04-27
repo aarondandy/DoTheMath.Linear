@@ -2,7 +2,7 @@
 
 namespace DoTheMath.Linear
 {
-    public class MatrixD
+    public class MatrixD : IMatrix<double>
     {
         private double[] elements;
 
@@ -32,8 +32,8 @@ namespace DoTheMath.Linear
         /// <summary>
         /// Retrieves the element value at the given row and column.
         /// </summary>
-        /// <param name="r">The row.</param>
-        /// <param name="c">The column.</param>
+        /// <param name="row">The row.</param>
+        /// <param name="column">The column.</param>
         /// <returns>The element value from the given location.</returns>
         public double Get(int row, int column)
         {
@@ -47,6 +47,26 @@ namespace DoTheMath.Linear
             }
 
             return elements[(Columns * row) + column];
+        }
+
+        /// <summary>
+        /// Sets the element value at the given row and column.
+        /// </summary>
+        /// <param name="row">The row.</param>
+        /// <param name="column">The column.</param>
+        /// <param name="value">The new value.</param>
+        public void Set(int row, int column, double value)
+        {
+            if (row < 0 || row >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(row));
+            }
+            if (column < 0 || column >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(column));
+            }
+
+            elements[(Columns * row) + column] = value;
         }
     }
 }
