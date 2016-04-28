@@ -151,35 +151,35 @@ namespace DoTheMath.Linear
 #endif
         public double Get(int row, int column)
         {
-            if ((row & 3) != row)
+            if (unchecked((row & 0xfffffffc) == 0))
             {
-                throw new ArgumentOutOfRangeException(nameof(row));
-            }
-            if ((column & 3) != column)
-            {
+                if (unchecked((column & 0xfffffffc) == 0))
+                {
+                    switch (unchecked((row << 2) | column))
+                    {
+                        case 0: return E00;
+                        case 1: return E01;
+                        case 2: return E02;
+                        case 3: return E03;
+                        case 4: return E10;
+                        case 5: return E11;
+                        case 6: return E12;
+                        case 7: return E13;
+                        case 8: return E20;
+                        case 9: return E21;
+                        case 10: return E22;
+                        case 11: return E23;
+                        case 12: return E30;
+                        case 13: return E31;
+                        case 14: return E32;
+                        default: return E33;
+                    }
+                }
+
                 throw new ArgumentOutOfRangeException(nameof(column));
             }
 
-            switch (unchecked((row * 4) + column))
-            {
-                case  0: return E00;
-                case  1: return E01;
-                case  2: return E02;
-                case  3: return E03;
-                case  4: return E10;
-                case  5: return E11;
-                case  6: return E12;
-                case  7: return E13;
-                case  8: return E20;
-                case  9: return E21;
-                case 10: return E22;
-                case 11: return E23;
-                case 12: return E30;
-                case 13: return E31;
-                case 14: return E32;
-                case 15: return E33;
-                default: return default(double); // unreachable
-            }
+            throw new ArgumentOutOfRangeException(nameof(row));
         }
     }
 }

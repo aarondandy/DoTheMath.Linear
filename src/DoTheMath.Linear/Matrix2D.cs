@@ -80,23 +80,30 @@ namespace DoTheMath.Linear
 #endif
         public double Get(int row, int column)
         {
-            if ((row & 1) != row)
+            if (row == 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(row));
+                if (column == 0)
+                {
+                    return E00;
+                }
+                if (column == 1)
+                {
+                    return E01;
+                }
             }
-            if ((column & 1) != column)
+            if (row == 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(column));
+                if (column == 0)
+                {
+                    return E10;
+                }
+                if (column == 1)
+                {
+                    return E11;
+                }
             }
 
-            switch (unchecked((row * 2) + column))
-            {
-                case 0: return E00;
-                case 1: return E01;
-                case 2: return E10;
-                case 3: return E11;
-                default: return default(double); // unreachable
-            }
+            throw new ArgumentOutOfRangeException((row & 0xfffffffe) == 0 ? nameof(column) : nameof(row));
         }
     }
 }
