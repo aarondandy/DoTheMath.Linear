@@ -12,7 +12,7 @@ namespace DoTheMath.Linear
 #endif
         public VectorD(int dimensions)
         {
-            if(dimensions < 0)
+            if (dimensions < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(dimensions));
             }
@@ -25,15 +25,21 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
             get { return components.Length; }
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public double Get(int dimension)
         {
-            if(dimension < 0 || dimension >= components.Length)
+            if (dimension < 0 || dimension >= components.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(dimension));
             }

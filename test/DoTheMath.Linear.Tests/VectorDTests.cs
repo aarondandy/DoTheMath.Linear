@@ -14,7 +14,7 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.Equal(15, v.Dimensions);
 
-                for(var d = 0; d < v.Dimensions; d++)
+                for (var d = 0; d < v.Dimensions; d++)
                 {
                     Assert.Equal(0.0, v.Get(d));
                 }

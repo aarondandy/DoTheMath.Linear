@@ -10,7 +10,7 @@ namespace DoTheMath.Linear
         public double Y;
 
 #if !PRE_NETSTANDARD
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Vector2D(double x, double y)
         {
@@ -23,19 +23,25 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
             get { return 2; }
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public double Get(int dimension)
         {
-            if(dimension == 0)
+            if (dimension == 0)
             {
                 return X;
             }
-            if(dimension == 1)
+            if (dimension == 1)
             {
                 return Y;
             }

@@ -46,12 +46,12 @@
     },
     "net451": {
       "compilationOptions": {
-        "define": [ "NETSTANDARD_1_2", "NET_4_5_1" ]
+        "define": [ "NETSTANDARD_1_2", "NET_4_5_1", "HAS_CODECONTRACTS" ]
       }
     },
     "net461": {
       "compilationOptions": {
-        "define": [ "NETSTANDARD_1_3", "NET_4_6" ]
+        "define": [ "NETSTANDARD_1_3", "NET_4_6", "HAS_CODECONTRACTS" ]
       }
     },
     "dotnet5.4": {

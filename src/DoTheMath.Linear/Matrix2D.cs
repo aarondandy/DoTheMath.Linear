@@ -58,6 +58,9 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
             get
             {
                 return 2;
@@ -69,6 +72,9 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
             get
             {
                 return 2;
@@ -77,6 +83,9 @@ namespace DoTheMath.Linear
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
 #endif
         public double Get(int row, int column)
         {

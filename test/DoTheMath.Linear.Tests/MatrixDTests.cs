@@ -14,9 +14,9 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.Equal(3, m.Rows);
                 Assert.Equal(5, m.Columns);
-                for(var r = 0; r < m.Rows; r++)
+                for (var r = 0; r < m.Rows; r++)
                 {
-                    for(var c = 0; c < m.Columns; c++)
+                    for (var c = 0; c < m.Columns; c++)
                     {
                         Assert.Equal(0.0, m.Get(r, c));
                     }

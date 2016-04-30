@@ -29,11 +29,17 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
             get { return 3; }
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
 #endif
         public double Get(int dimension)
         {
@@ -49,7 +55,7 @@ namespace DoTheMath.Linear
             {
                 return Z;
             }
-            if(dimension == 3)
+            if (dimension == 3)
             {
                 return W;
             }

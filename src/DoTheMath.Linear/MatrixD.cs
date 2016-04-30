@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace DoTheMath.Linear
 {
@@ -11,11 +12,11 @@ namespace DoTheMath.Linear
         /// </summary>
         public MatrixD(int rows, int columns)
         {
-            if(rows < 0)
+            if (rows < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(rows));
             }
-            if(columns < 0)
+            if (columns < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(columns));
             }
@@ -25,9 +26,35 @@ namespace DoTheMath.Linear
             elements = new double[checked(rows * columns)];
         }
 
-        public int Rows { get; private set; }
+        public int Rows
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+            get;
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            private set;
+        }
 
-        public int Columns { get; private set; }
+        public int Columns
+        {
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            get;
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            private set;
+        }
 
         /// <summary>
         /// Retrieves the element value at the given row and column.
@@ -35,13 +62,19 @@ namespace DoTheMath.Linear
         /// <param name="row">The row.</param>
         /// <param name="column">The column.</param>
         /// <returns>The element value from the given location.</returns>
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public double Get(int row, int column)
         {
-            if(row < 0 || row >= Rows)
+            if (row < 0 || row >= Rows)
             {
                 throw new ArgumentOutOfRangeException(nameof(row));
             }
-            if(column < 0 || column >= Columns)
+            if (column < 0 || column >= Columns)
             {
                 throw new ArgumentOutOfRangeException(nameof(column));
             }
@@ -55,6 +88,9 @@ namespace DoTheMath.Linear
         /// <param name="row">The row.</param>
         /// <param name="column">The column.</param>
         /// <param name="value">The new value.</param>
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void Set(int row, int column, double value)
         {
             if (row < 0 || row >= Rows)
