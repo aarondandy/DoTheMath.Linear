@@ -70,6 +70,7 @@
     <Compile Include="Vector2DTests.cs" />
     <Compile Include="Vector3DTests.cs" />
     <Compile Include="Vector4DTests.cs" />
+    <Compile Include="VectorDTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

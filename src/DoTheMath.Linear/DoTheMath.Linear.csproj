@@ -46,6 +46,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="IMatrix{TElement}.cs" />
+    <Compile Include="IVector{TComponent}.cs" />
     <Compile Include="Matrix2D.cs" />
     <Compile Include="Matrix3D.cs" />
     <Compile Include="Matrix4D.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Vector2D.cs" />
     <Compile Include="Vector3D.cs" />
     <Compile Include="Vector4D.cs" />
+    <Compile Include="VectorD.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
