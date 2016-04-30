@@ -111,28 +111,53 @@ namespace DoTheMath.Linear
 #endif
         public double Get(int row, int column)
         {
-            if (row < 0 || row > 2)
+            if (row == 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(row));
+                if (column == 0)
+                {
+                    return E00;
+                }
+                if (column == 1)
+                {
+                    return E01;
+                }
+                if (column == 2)
+                {
+                    return E02;
+                }
             }
-            if (column < 0 || column > 2)
+            if (row == 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(column));
+                if (column == 0)
+                {
+                    return E10;
+                }
+                if (column == 1)
+                {
+                    return E11;
+                }
+                if (column == 2)
+                {
+                    return E12;
+                }
+            }
+            if (row == 2)
+            {
+                if (column == 0)
+                {
+                    return E20;
+                }
+                if (column == 1)
+                {
+                    return E21;
+                }
+                if (column == 2)
+                {
+                    return E22;
+                }
             }
 
-            switch (unchecked((row * 3) + column))
-            {
-                case 0: return E00;
-                case 1: return E01;
-                case 2: return E02;
-                case 3: return E10;
-                case 4: return E11;
-                case 5: return E12;
-                case 6: return E20;
-                case 7: return E21;
-                case 8: return E22;
-                default: return default(double); // unreachable
-            }
+            throw new ArgumentOutOfRangeException(row >= 0 && row <= 2 ? nameof(column) : nameof(row));
         }
     }
 }
