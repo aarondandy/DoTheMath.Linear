@@ -1,8 +1,9 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace DoTheMath.Linear
 {
-    public struct Vector3D
+    public struct Vector3D : IVector<double>
     {
         public double X;
 
@@ -18,6 +19,35 @@ namespace DoTheMath.Linear
             X = x;
             Y = y;
             Z = z;
+        }
+
+        public int Dimensions
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            get { return 3; }
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Get(int dimension)
+        {
+            if (dimension == 0)
+            {
+                return X;
+            }
+            if (dimension == 1)
+            {
+                return Y;
+            }
+            if(dimension == 2)
+            {
+                return Z;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(dimension));
         }
     }
 }
