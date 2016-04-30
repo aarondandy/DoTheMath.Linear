@@ -62,6 +62,31 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Set : VectorDTests
+        {
+            [Fact]
+            public void set_negative_dimension_throws()
+            {
+                var v = new VectorD(5);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(-1, 0.0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(-4, 0.0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(-5, 0.0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(int.MinValue, 0.0));
+            }
+
+            [Fact]
+            public void set_large_dimension_throws()
+            {
+                var v = new VectorD(5);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(5, 0.0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(6, 0.0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(101, 0.0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(int.MaxValue, 0.0));
+            }
+        }
+
         public class GetAndSet : VectorDTests
         {
             [Fact]

@@ -12,9 +12,9 @@ namespace DoTheMath.Linear.Tests
             {
                 var v = new Vector3D();
 
-                Assert.Equal(v.X, 0.0d);
-                Assert.Equal(v.Y, 0.0d);
-                Assert.Equal(v.Z, 0.0d);
+                Assert.Equal(0.0d, v.X);
+                Assert.Equal(0.0d, v.Y);
+                Assert.Equal(0.0d, v.Z);
             }
 
             [Fact]
@@ -22,9 +22,9 @@ namespace DoTheMath.Linear.Tests
             {
                 var v = new Vector3D(1.0, -5.0, 6.0);
 
-                Assert.Equal(v.X, 1.0);
-                Assert.Equal(v.Y, -5.0);
-                Assert.Equal(v.Z, 6.0);
+                Assert.Equal(1.0, v.X);
+                Assert.Equal(-5.0, v.Y);
+                Assert.Equal(6.0, v.Z);
             }
         }
 
