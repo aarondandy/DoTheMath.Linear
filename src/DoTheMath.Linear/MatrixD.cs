@@ -2,7 +2,7 @@
 
 namespace DoTheMath.Linear
 {
-    public class MatrixD : IMatrix<double>
+    public sealed class MatrixD : IMatrix<double>
     {
         private double[] elements;
 

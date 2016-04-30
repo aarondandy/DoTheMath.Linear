@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace DoTheMath.Linear
 {
-    public class Matrix3D : IMatrix<double>
+    public sealed class Matrix3D : IMatrix<double>
     {
         /// <summary>
         /// The element at row 0 and column 0.
