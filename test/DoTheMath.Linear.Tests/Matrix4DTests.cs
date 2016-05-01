@@ -68,6 +68,14 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(4, m.Rows);
                 Assert.Equal(4, m.Columns);
             }
+
+            [Fact]
+            public void is_square()
+            {
+                var m = new Matrix4D();
+
+                Assert.True(m.IsSquare);
+            }
         }
 
         public class Get : Matrix4DTests

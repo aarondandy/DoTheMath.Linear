@@ -6,6 +6,8 @@
 
         int Columns { get; }
 
+        bool IsSquare { get; }
+
         TElement Get(int row, int column);
     }
 }

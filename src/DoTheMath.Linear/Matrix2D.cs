@@ -81,6 +81,20 @@ namespace DoTheMath.Linear
             }
         }
 
+        public bool IsSquare
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+            get
+            {
+                return true;
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

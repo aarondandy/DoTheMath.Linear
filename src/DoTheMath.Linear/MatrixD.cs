@@ -56,6 +56,20 @@ namespace DoTheMath.Linear
             private set;
         }
 
+        public bool IsSquare
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+            get
+            {
+                return Rows == Columns;
+            }
+        }
+
         /// <summary>
         /// Retrieves the element value at the given row and column.
         /// </summary>

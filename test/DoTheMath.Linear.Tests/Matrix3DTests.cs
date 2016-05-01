@@ -53,6 +53,14 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(3, m.Rows);
                 Assert.Equal(3, m.Columns);
             }
+
+            [Fact]
+            public void is_square()
+            {
+                var m = new Matrix3D();
+
+                Assert.True(m.IsSquare);
+            }
         }
 
         public class Get : Matrix3DTests

@@ -46,6 +46,40 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class IsSquare : MatrixDTests
+        {
+            [Fact]
+            public void zero_size_matrix_is_square()
+            {
+                var m = new MatrixD(0, 0);
+
+                Assert.True(m.IsSquare);
+            }
+
+            [Fact]
+            public void various_equal_sizes_are_square()
+            {
+                for(var order = 1; order < 10; order++)
+                {
+                    var m = new MatrixD(order, order);
+
+                    Assert.True(m.IsSquare);
+                }
+            }
+
+            [Fact]
+            public void various_nonequal_sizes_are_not_square()
+            {
+                for (var rows = 1; rows < 10; rows++)
+                {
+                    var columns = 11 - rows;
+                    var m = new MatrixD(rows, columns);
+
+                    Assert.False(m.IsSquare);
+                }
+            }
+        }
+
         public class Get : MatrixDTests
         {
             [Fact]
