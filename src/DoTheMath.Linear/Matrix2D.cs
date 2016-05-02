@@ -95,6 +95,18 @@ namespace DoTheMath.Linear
             }
         }
 
+        public bool IsIdentity
+        {
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+            get
+            {
+                return E00 == 1.0 && E11 == 1.0
+                    && E10 == 0.0 && E01 == 0.0;
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

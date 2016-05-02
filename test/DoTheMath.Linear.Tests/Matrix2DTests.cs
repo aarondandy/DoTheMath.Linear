@@ -50,6 +50,41 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class IsIdentity : Matrix2DTests
+        {
+            [Fact]
+            public void default_matrix_is_not_identity()
+            {
+                var m = new Matrix2D();
+
+                Assert.False(m.IsIdentity);
+            }
+
+            [Fact]
+            public void explicit_identity_matrix_detected()
+            {
+                var m = new Matrix2D();
+                m.E00 = 1.0;
+                m.E01 = 0.0;
+                m.E10 = 0.0;
+                m.E11 = 1.0;
+
+                Assert.True(m.IsIdentity);
+            }
+
+            [Fact]
+            public void assorted_values_are_not_identity()
+            {
+                var m = new Matrix2D();
+                m.E00 = 1.0;
+                m.E01 = 2.0;
+                m.E10 = 3.0;
+                m.E11 = 4.0;
+
+                Assert.False(m.IsIdentity);
+            }
+        }
+
         public class Get : Matrix2DTests
         {
             [Fact]

@@ -59,7 +59,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void various_equal_sizes_are_square()
             {
-                for(var order = 1; order < 10; order++)
+                for (var order = 1; order < 10; order++)
                 {
                     var m = new MatrixD(order, order);
 
@@ -77,6 +77,112 @@ namespace DoTheMath.Linear.Tests
 
                     Assert.False(m.IsSquare);
                 }
+            }
+        }
+
+        public class IsIdentity : MatrixDTests
+        {
+            [Fact]
+            public void default_square_matrix_is_not_identity()
+            {
+                var m = new MatrixD(2, 2);
+
+                Assert.False(m.IsIdentity);
+            }
+
+            [Fact]
+            public void explicit_identity_matrix_detected()
+            {
+                var m = new MatrixD(4, 4);
+                m.Set(0, 0, 1.0);
+                m.Set(0, 1, 0.0);
+                m.Set(0, 2, 0.0);
+                m.Set(0, 3, 0.0);
+                m.Set(1, 0, 0.0);
+                m.Set(1, 1, 1.0);
+                m.Set(1, 2, 0.0);
+                m.Set(1, 3, 0.0);
+                m.Set(2, 0, 0.0);
+                m.Set(2, 1, 0.0);
+                m.Set(2, 2, 1.0);
+                m.Set(2, 3, 0.0);
+                m.Set(3, 0, 0.0);
+                m.Set(3, 1, 0.0);
+                m.Set(3, 2, 0.0);
+                m.Set(3, 3, 1.0);
+
+                Assert.True(m.IsIdentity);
+            }
+
+            [Fact]
+            public void single_element_matrix_can_be_identity()
+            {
+                var m = new MatrixD(1, 1);
+                m.Set(0, 0, 1.0);
+
+                Assert.True(m.IsIdentity);
+            }
+
+            [Fact]
+            public void assorted_square_values_are_not_identity()
+            {
+                var m = new MatrixD(4, 4);
+                m.Set(0, 0, 1.0);
+                m.Set(0, 1, 2.0);
+                m.Set(0, 2, 3.0);
+                m.Set(0, 3, 4.0);
+                m.Set(1, 0, 5.0);
+                m.Set(1, 1, 6.0);
+                m.Set(1, 2, 7.0);
+                m.Set(1, 3, 8.0);
+                m.Set(2, 0, 9.0);
+                m.Set(2, 1, 0.0);
+                m.Set(2, 2, 1.0);
+                m.Set(2, 3, 2.0);
+                m.Set(3, 0, 3.0);
+                m.Set(3, 1, 4.0);
+                m.Set(3, 2, 5.0);
+                m.Set(3, 3, 6.0);
+
+                Assert.False(m.IsIdentity);
+            }
+
+            [Fact]
+            public void assorted_square_with_one_diagonal_is_not_identity()
+            {
+                var m = new MatrixD(4, 4);
+                m.Set(0, 0, 1.0);
+                m.Set(0, 1, 2.0);
+                m.Set(0, 2, 3.0);
+                m.Set(0, 3, 4.0);
+                m.Set(1, 0, 5.0);
+                m.Set(1, 1, 1.0);
+                m.Set(1, 2, 7.0);
+                m.Set(1, 3, 8.0);
+                m.Set(2, 0, 9.0);
+                m.Set(2, 1, 0.0);
+                m.Set(2, 2, 1.0);
+                m.Set(2, 3, 2.0);
+                m.Set(3, 0, 3.0);
+                m.Set(3, 1, 4.0);
+                m.Set(3, 2, 5.0);
+                m.Set(3, 3, 1.0);
+
+                Assert.False(m.IsIdentity);
+            }
+
+            [Fact]
+            public void non_square_matrix_is_not_identity()
+            {
+                var m = new MatrixD(2, 3);
+                m.Set(0, 0, 1.0);
+                m.Set(0, 1, 0.0);
+                m.Set(0, 2, 0.0);
+                m.Set(1, 0, 0.0);
+                m.Set(1, 1, 1.0);
+                m.Set(1, 2, 0.0);
+
+                Assert.False(m.IsIdentity);
             }
         }
 

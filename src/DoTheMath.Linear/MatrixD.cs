@@ -70,6 +70,33 @@ namespace DoTheMath.Linear
             }
         }
 
+        public bool IsIdentity
+        {
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+            get
+            {
+                if (!IsSquare)
+                {
+                    return false;
+                }
+
+                for (int row = 0; row < Rows; row++)
+                {
+                    for (int column = 0; column < Columns; column++)
+                    {
+                        if (elements[(Columns * row) + column] != ((row == column) ? 1.0 : 0.0))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+        }
+
         /// <summary>
         /// Retrieves the element value at the given row and column.
         /// </summary>

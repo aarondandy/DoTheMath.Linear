@@ -78,6 +78,65 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class IsIdentity : Matrix4DTests
+        {
+            [Fact]
+            public void default_matrix_is_not_identity()
+            {
+                var m = new Matrix4D();
+
+                Assert.False(m.IsIdentity);
+            }
+
+            [Fact]
+            public void explicit_identity_matrix_detected()
+            {
+                var m = new Matrix4D();
+                m.E00 = 1.0;
+                m.E01 = 0.0;
+                m.E02 = 0.0;
+                m.E03 = 0.0;
+                m.E10 = 0.0;
+                m.E11 = 1.0;
+                m.E12 = 0.0;
+                m.E13 = 0.0;
+                m.E20 = 0.0;
+                m.E21 = 0.0;
+                m.E22 = 1.0;
+                m.E23 = 0.0;
+                m.E30 = 0.0;
+                m.E31 = 0.0;
+                m.E32 = 0.0;
+                m.E33 = 1.0;
+
+                Assert.True(m.IsIdentity);
+            }
+
+            [Fact]
+            public void assorted_values_are_not_identity()
+            {
+                var m = new Matrix4D();
+                m.E00 = 1.0;
+                m.E01 = 2.0;
+                m.E02 = 3.0;
+                m.E03 = 4.0;
+                m.E10 = 5.0;
+                m.E11 = 6.0;
+                m.E12 = 7.0;
+                m.E13 = 8.0;
+                m.E20 = 9.0;
+                m.E21 = 0.0;
+                m.E22 = 1.0;
+                m.E23 = 2.0;
+                m.E30 = 3.0;
+                m.E31 = 4.0;
+                m.E32 = 5.0;
+                m.E33 = 6.0;
+
+                Assert.False(m.IsIdentity);
+            }
+        }
+
         public class Get : Matrix4DTests
         {
             [Fact]
