@@ -236,6 +236,9 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException(nameof(row));
         }
 
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix4D other)
         {
             return object.ReferenceEquals(this, other)
@@ -260,11 +263,17 @@ namespace DoTheMath.Linear
                 );
         }
 
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public sealed override bool Equals(object obj)
         {
             return this.Equals(obj as Matrix4D);
         }
 
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public sealed override int GetHashCode()
         {
             return Rows;

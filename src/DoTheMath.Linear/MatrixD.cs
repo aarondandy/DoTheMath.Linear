@@ -160,6 +160,9 @@ namespace DoTheMath.Linear
             elements[(Columns * row) + column] = value;
         }
 
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(MatrixD other)
         {
             if(object.ReferenceEquals(this, other))
@@ -190,11 +193,17 @@ namespace DoTheMath.Linear
             return true;
         }
 
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public sealed override bool Equals(object obj)
         {
             return Equals(obj as MatrixD);
         }
 
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public sealed override int GetHashCode()
         {
             unchecked

@@ -212,6 +212,9 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException(row >= 0 && row <= 2 ? nameof(column) : nameof(row));
         }
 
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix3D other)
         {
             return object.ReferenceEquals(this, other)
@@ -229,11 +232,17 @@ namespace DoTheMath.Linear
                 );
         }
 
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public sealed override bool Equals(object obj)
         {
             return this.Equals(obj as Matrix3D);
         }
 
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public sealed override int GetHashCode()
         {
             return Rows;
