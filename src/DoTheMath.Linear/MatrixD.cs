@@ -208,7 +208,7 @@ namespace DoTheMath.Linear
         {
             unchecked
             {
-                return 2203 + elements.Length * 23 + Rows * 23 + Columns;
+                return 2203 + elements.Length * 23 + Rows;
             }
         }
     }
