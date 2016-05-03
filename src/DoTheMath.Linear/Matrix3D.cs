@@ -3,7 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace DoTheMath.Linear
 {
-    public sealed class Matrix3D : IMatrix<double>
+    public sealed class Matrix3D :
+        IMatrix<double>,
+        IEquatable<Matrix3D>
     {
         /// <summary>
         /// The element at row 0 and column 0.
@@ -208,6 +210,33 @@ namespace DoTheMath.Linear
             }
 
             throw new ArgumentOutOfRangeException(row >= 0 && row <= 2 ? nameof(column) : nameof(row));
+        }
+
+        public bool Equals(Matrix3D other)
+        {
+            return object.ReferenceEquals(this, other)
+                || (
+                    !object.ReferenceEquals(null, other)
+                    && E00.Equals(other.E00)
+                    && E01.Equals(other.E01)
+                    && E02.Equals(other.E02)
+                    && E10.Equals(other.E10)
+                    && E11.Equals(other.E11)
+                    && E12.Equals(other.E12)
+                    && E20.Equals(other.E20)
+                    && E21.Equals(other.E21)
+                    && E22.Equals(other.E22)
+                );
+        }
+
+        public sealed override bool Equals(object obj)
+        {
+            return this.Equals(obj as Matrix3D);
+        }
+
+        public sealed override int GetHashCode()
+        {
+            return Rows;
         }
     }
 }

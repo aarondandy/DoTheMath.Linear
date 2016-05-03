@@ -3,7 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace DoTheMath.Linear
 {
-    public sealed class MatrixD : IMatrix<double>
+    public sealed class MatrixD :
+        IMatrix<double>,
+        IEquatable<MatrixD>
     {
         private double[] elements;
 
@@ -156,6 +158,49 @@ namespace DoTheMath.Linear
             }
 
             elements[(Columns * row) + column] = value;
+        }
+
+        public bool Equals(MatrixD other)
+        {
+            if(object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            if(object.ReferenceEquals(null, other))
+            {
+                return false;
+            }
+            if(Rows != other.Rows || Columns != other.Columns)
+            {
+                return false;
+            }
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(elements.Length == other.elements.Length);
+#endif
+
+            for (int elementIndex = 0; elementIndex < elements.Length; elementIndex++)
+            {
+                if (!elements[elementIndex].Equals(other.elements[elementIndex]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public sealed override bool Equals(object obj)
+        {
+            return Equals(obj as MatrixD);
+        }
+
+        public sealed override int GetHashCode()
+        {
+            unchecked
+            {
+                return 2203 + elements.Length * 23 + Rows * 23 + Columns;
+            }
         }
     }
 }

@@ -159,5 +159,106 @@ namespace DoTheMath.Linear.Tests
                 Assert.Throws<ArgumentOutOfRangeException>(() => m.Get(0, int.MaxValue));
             }
         }
+
+        public class IEquatable_Self_Equals : Matrix3DTests
+        {
+            [Fact]
+            public void same_ref_are_equal()
+            {
+                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+                Assert.True(m.Equals(m));
+            }
+
+            [Fact]
+            public void different_ref_same_element_are_equal()
+            {
+                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var b = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+                Assert.True(a.Equals(b));
+                Assert.True(b.Equals(a));
+            }
+
+            [Fact]
+            public void different_elements_are_not_equal()
+            {
+                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var b = new Matrix3D(4, 3, 2, 1, 0, -1, -2, -3, -4);
+
+                Assert.False(a.Equals(b));
+                Assert.False(b.Equals(a));
+            }
+
+            [Fact]
+            public void matrix_does_not_equal_null()
+            {
+                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+                Assert.False(m.Equals((Matrix3D)null));
+            }
+        }
+
+        public class Object_Equals : Matrix3DTests
+        {
+            [Fact]
+            public void same_ref_are_equal()
+            {
+                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+                Assert.True(m.Equals((object)m));
+            }
+
+            [Fact]
+            public void different_ref_same_element_are_equal()
+            {
+                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var b = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+                Assert.True(a.Equals((object)b));
+                Assert.True(b.Equals((object)a));
+            }
+
+            [Fact]
+            public void different_elements_are_not_equal()
+            {
+                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var b = new Matrix3D(4, 3, 2, 1, -1, -2, -3, -4, -5);
+
+                Assert.False(a.Equals((object)b));
+                Assert.False(b.Equals((object)a));
+            }
+
+            [Fact]
+            public void matrix_does_not_equal_null()
+            {
+                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+                Assert.False(m.Equals((object)null));
+            }
+
+            [Fact]
+            public void matrix_does_not_equal_unknown_type()
+            {
+                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+                Assert.False(m.Equals((object)"not-a-matrix"));
+            }
+        }
+
+        public class GetHashCodeTests : Matrix3DTests
+        {
+            [Fact]
+            public void same_matrix_reference_has_same_hashcode_when_changed()
+            {
+                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var expectedHashCode = m.GetHashCode();
+                m.E00 = 4;
+                m.E11 = 9;
+                m.E20 = 15.0;
+
+                Assert.Equal(expectedHashCode, m.GetHashCode());
+            }
+        }
     }
 }

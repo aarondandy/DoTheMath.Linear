@@ -317,5 +317,148 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(9.0, m.Get(2, 2));
             }
         }
+
+        public class IEquatable_Self_Equals : MatrixDTests
+        {
+            [Fact]
+            public void same_ref_are_equal()
+            {
+                var m = new MatrixD(2, 71);
+
+                Assert.True(m.Equals(m));
+            }
+
+            [Fact]
+            public void different_ref_same_element_are_equal()
+            {
+                var a = new MatrixD(4, 5);
+                a.Set(0, 0, 1);
+                a.Set(1, 3, -9);
+                a.Set(3, 4, 8);
+                var b = new MatrixD(4, 5);
+                b.Set(0, 0, 1);
+                b.Set(1, 3, -9);
+                b.Set(3, 4, 8);
+
+                Assert.True(a.Equals(b));
+                Assert.True(b.Equals(a));
+            }
+
+            [Fact]
+            public void different_elements_are_not_equal()
+            {
+                var a = new MatrixD(4, 5);
+                a.Set(0, 0, -1);
+                a.Set(1, 3, -9);
+                a.Set(2, 4, 8);
+                var b = new MatrixD(4, 5);
+                b.Set(0, 0, 1);
+                b.Set(1, 3, 9);
+                b.Set(2, 3, 8);
+
+                Assert.False(a.Equals(b));
+                Assert.False(b.Equals(a));
+            }
+
+            [Fact]
+            public void different_size_are_not_equal()
+            {
+                var a = new MatrixD(4, 5);
+                a.Set(0, 0, -1);
+                a.Set(1, 3, -9);
+                a.Set(3, 4, 8);
+                var b = new MatrixD(5, 5);
+                b.Set(0, 0, -1);
+                b.Set(1, 3, -9);
+                b.Set(3, 4, 8);
+
+                Assert.False(a.Equals(b));
+                Assert.False(b.Equals(a));
+            }
+
+            [Fact]
+            public void matrix_does_not_equal_null()
+            {
+                var m = new MatrixD(6, 2);
+
+                Assert.False(m.Equals((MatrixD)null));
+            }
+        }
+
+        public class Object_Equals : MatrixDTests
+        {
+            [Fact]
+            public void same_ref_are_equal()
+            {
+                var m = new MatrixD(2, 71);
+
+                Assert.True(m.Equals((object)m));
+            }
+
+            [Fact]
+            public void different_ref_same_element_are_equal()
+            {
+                var a = new MatrixD(4, 5);
+                a.Set(0, 0, 1);
+                a.Set(1, 3, -9);
+                a.Set(3, 4, 8);
+                var b = new MatrixD(4, 5);
+                b.Set(0, 0, 1);
+                b.Set(1, 3, -9);
+                b.Set(3, 4, 8);
+
+                Assert.True(a.Equals((object)b));
+                Assert.True(b.Equals((object)a));
+            }
+
+            [Fact]
+            public void different_elements_are_not_equal()
+            {
+                var a = new MatrixD(4, 5);
+                a.Set(0, 0, -1);
+                a.Set(1, 3, -9);
+                a.Set(2, 4, 8);
+                var b = new MatrixD(4, 5);
+                b.Set(0, 0, 1);
+                b.Set(1, 3, 9);
+                b.Set(2, 3, 8);
+
+                Assert.False(a.Equals((object)b));
+                Assert.False(b.Equals((object)a));
+            }
+
+            [Fact]
+            public void matrix_does_not_equal_null()
+            {
+                var m = new MatrixD(6, 2);
+
+                Assert.False(m.Equals((object)null));
+            }
+        }
+
+        public class GetHashCodeTests : MatrixDTests
+        {
+            [Fact]
+            public void same_matrix_reference_has_same_hashcode_when_changed()
+            {
+                var m = new MatrixD(2, 3);
+                m.Set(1, 1, 9);
+                m.Set(1, 2, -8);
+                var expectedHashCode = m.GetHashCode();
+                m.Set(1, 1, 4);
+                m.Set(0, 2, 19);
+
+                Assert.Equal(expectedHashCode, m.GetHashCode());
+            }
+
+            [Fact]
+            public void some_different_size_matrices_have_different_hashcodes()
+            {
+                Assert.NotEqual(new MatrixD(2, 3).GetHashCode(), new MatrixD(0, 0).GetHashCode());
+                Assert.NotEqual(new MatrixD(2, 3).GetHashCode(), new MatrixD(3, 2).GetHashCode());
+                Assert.NotEqual(new MatrixD(2, 3).GetHashCode(), new MatrixD(4, 8).GetHashCode());
+                Assert.NotEqual(new MatrixD(2, 3).GetHashCode(), new MatrixD(10, 2).GetHashCode());
+            }
+        }
     }
 }

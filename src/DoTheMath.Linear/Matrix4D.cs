@@ -3,7 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace DoTheMath.Linear
 {
-    public sealed class Matrix4D : IMatrix<double>
+    public sealed class Matrix4D :
+        IMatrix<double>,
+        IEquatable<Matrix4D>
     {
         /// <summary>
         /// The element at row 0 and column 0.
@@ -232,6 +234,40 @@ namespace DoTheMath.Linear
             }
 
             throw new ArgumentOutOfRangeException(nameof(row));
+        }
+
+        public bool Equals(Matrix4D other)
+        {
+            return object.ReferenceEquals(this, other)
+                || (
+                    !object.ReferenceEquals(null, other)
+                    && E00.Equals(other.E00)
+                    && E01.Equals(other.E01)
+                    && E02.Equals(other.E02)
+                    && E03.Equals(other.E03)
+                    && E10.Equals(other.E10)
+                    && E11.Equals(other.E11)
+                    && E12.Equals(other.E12)
+                    && E13.Equals(other.E13)
+                    && E20.Equals(other.E20)
+                    && E21.Equals(other.E21)
+                    && E22.Equals(other.E22)
+                    && E23.Equals(other.E23)
+                    && E30.Equals(other.E30)
+                    && E31.Equals(other.E31)
+                    && E32.Equals(other.E32)
+                    && E33.Equals(other.E33)
+                );
+        }
+
+        public sealed override bool Equals(object obj)
+        {
+            return this.Equals(obj as Matrix4D);
+        }
+
+        public sealed override int GetHashCode()
+        {
+            return Rows;
         }
     }
 }
