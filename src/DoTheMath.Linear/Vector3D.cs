@@ -3,7 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace DoTheMath.Linear
 {
-    public struct Vector3D : IVector<double>
+    public struct Vector3D :
+        IVector<double>,
+        IEquatable<Vector3D>
     {
         public double X;
 
@@ -54,6 +56,32 @@ namespace DoTheMath.Linear
             }
 
             throw new ArgumentOutOfRangeException(nameof(dimension));
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
+        public bool Equals(Vector3D other)
+        {
+            return X.Equals(other.X)
+                && Y.Equals(other.Y)
+                && Z.Equals(other.Z);
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
+        public sealed override bool Equals(object obj)
+        {
+            return obj is Vector3D && Equals((Vector3D)obj);
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
+        public sealed override int GetHashCode()
+        {
+            return Dimensions;
         }
     }
 }

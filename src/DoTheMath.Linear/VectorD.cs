@@ -3,7 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace DoTheMath.Linear
 {
-    public sealed class VectorD : IVector<double>
+    public sealed class VectorD :
+        IVector<double>,
+        IEquatable<VectorD>
     {
         private double[] components;
 
@@ -58,6 +60,58 @@ namespace DoTheMath.Linear
             }
 
             components[dimension] = value;
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
+        public bool Equals(VectorD other)
+        {
+            if (object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            if(object.ReferenceEquals(null, other))
+            {
+                return false;
+            }
+            if(components.Length != other.components.Length)
+            {
+                return false;
+            }
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(components.Length == other.components.Length);
+#endif
+
+            for (int dimension = 0; dimension < components.Length; dimension++)
+            {
+                if (!components[dimension].Equals(other.components[dimension]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
+        public sealed override bool Equals(object obj)
+        {
+            return obj is VectorD && Equals((VectorD)obj);
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
+        public sealed override int GetHashCode()
+        {
+            unchecked
+            {
+                return 4099 + components.Length * 23;
+            }
         }
     }
 }
