@@ -110,6 +110,18 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+        public static Matrix2D CreateIdentity()
+        {
+            return new Matrix2D
+            {
+                E00 = 1.0,
+                E11 = 1.0
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif

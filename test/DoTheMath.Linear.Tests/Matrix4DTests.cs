@@ -5,7 +5,7 @@ namespace DoTheMath.Linear.Tests
 {
     public class Matrix4DTests
     {
-        public class Constructors : Matrix4DTests
+        public class ConstructorsAndFactories : Matrix4DTests
         {
             [Fact]
             public void default_constructor_sets_elements_to_zero()
@@ -55,6 +55,14 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(5.0, m.E31);
                 Assert.Equal(-17.0, m.E32);
                 Assert.Equal(19.3, m.E33);
+            }
+
+            [Fact]
+            public void identity_factory_constructs_identity_matrix()
+            {
+                var m = Matrix4D.CreateIdentity();
+
+                Assert.True(m.IsIdentity);
             }
         }
 

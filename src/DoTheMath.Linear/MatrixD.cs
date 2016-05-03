@@ -97,6 +97,18 @@ namespace DoTheMath.Linear
             }
         }
 
+        public static MatrixD CreateIdentity(int order)
+        {
+            var result = new MatrixD(order, order);
+
+            for(var rowAndColumn = 0; rowAndColumn < order; rowAndColumn++)
+            {
+                result.Set(rowAndColumn, rowAndColumn, 1.0);
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Retrieves the element value at the given row and column.
         /// </summary>

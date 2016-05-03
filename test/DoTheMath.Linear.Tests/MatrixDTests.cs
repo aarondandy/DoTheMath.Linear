@@ -46,6 +46,40 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class CreateIdentity : MatrixDTests
+        {
+            [Fact]
+            public void can_constructs_order_4_identity()
+            {
+                var m = MatrixD.CreateIdentity(4);
+
+                Assert.Equal(4, m.Rows);
+                Assert.Equal(4, m.Columns);
+                Assert.True(m.IsIdentity);
+            }
+
+            [Fact]
+            public void can_constructs_order_0_identity()
+            {
+                var m = MatrixD.CreateIdentity(0);
+
+                Assert.Equal(0, m.Rows);
+                Assert.Equal(0, m.Columns);
+                Assert.True(m.IsIdentity);
+            }
+
+            [Fact]
+            public void can_constructs_order_1_identity()
+            {
+                var m = MatrixD.CreateIdentity(1);
+
+                Assert.Equal(1, m.Rows);
+                Assert.Equal(1, m.Columns);
+                Assert.Equal(1.0, m.Get(0, 0));
+                Assert.True(m.IsIdentity);
+            }
+        }
+
         public class IsSquare : MatrixDTests
         {
             [Fact]

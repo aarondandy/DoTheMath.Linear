@@ -5,7 +5,7 @@ namespace DoTheMath.Linear.Tests
 {
     public class Matrix2DTests
     {
-        public class Constructors : Matrix2DTests
+        public class ConstructorsAndFactories : Matrix2DTests
         {
             [Fact]
             public void default_constructor_sets_elements_to_zero()
@@ -27,6 +27,14 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(-5.0d, m.E01);
                 Assert.Equal(9.0d, m.E10);
                 Assert.Equal(-1.0d, m.E11);
+            }
+
+            [Fact]
+            public void identity_factory_constructs_identity_matrix()
+            {
+                var m = Matrix2D.CreateIdentity();
+
+                Assert.True(m.IsIdentity);
             }
         }
 
