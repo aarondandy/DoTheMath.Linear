@@ -228,5 +228,103 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expectedHashCode, m.GetHashCode());
             }
         }
+
+        public class SwapRows : Matrix2DTests
+        {
+            [Fact]
+            public void invalid_rows_throws()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, 2));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, 99));
+            }
+
+            [Fact]
+            public void can_swap_first_and_second_rows()
+            {
+                var m = new Matrix2D(0, 1, 2, 3);
+
+                m.SwapRows(0, 1);
+
+                Assert.Equal(new Matrix2D(2, 3, 0, 1), m);
+            }
+
+            [Fact]
+            public void can_swap_second_and_first_rows()
+            {
+                var m = new Matrix2D(0, 1, 2, 3);
+
+                m.SwapRows(1, 0);
+
+                Assert.Equal(new Matrix2D(2, 3, 0, 1), m);
+            }
+
+            [Fact]
+            public void swapping_same_rows_does_nothing()
+            {
+                var m = new Matrix2D(0, 1, 2, 3);
+
+                for (int r = 0; r < m.Rows; r++)
+                {
+                    m.SwapRows(r, r);
+
+                    Assert.Equal(new Matrix2D(0, 1, 2, 3), m);
+                }
+            }
+        }
+
+        public class SwapColumns : Matrix2DTests
+        {
+            [Fact]
+            public void invalid_columns_throws()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, 2));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, 99));
+            }
+
+            [Fact]
+            public void can_swap_first_and_second_columns()
+            {
+                var m = new Matrix2D(0, 1, 2, 3);
+
+                m.SwapColumns(0, 1);
+
+                Assert.Equal(new Matrix2D(1, 0, 3, 2), m);
+            }
+
+            [Fact]
+            public void can_swap_second_and_first_columns()
+            {
+                var m = new Matrix2D(0, 1, 2, 3);
+
+                m.SwapColumns(1, 0);
+
+                Assert.Equal(new Matrix2D(1, 0, 3, 2), m);
+            }
+
+            [Fact]
+            public void swapping_same_columns_does_nothing()
+            {
+                var m = new Matrix2D(0, 1, 2, 3);
+
+                for (int r = 0; r < m.Columns; r++)
+                {
+                    m.SwapColumns(r, r);
+
+                    Assert.Equal(new Matrix2D(0, 1, 2, 3), m);
+                }
+            }
+        }
     }
 }

@@ -155,6 +155,52 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException((row & 0xfffffffe) == 0 ? nameof(column) : nameof(row));
         }
 
+        public void SwapRows(int rowA, int rowB)
+        {
+            if ((rowA & 0xfe) != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowA));
+            }
+
+            if ((rowB & 0xfe) != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowB));
+            }
+
+            if(rowA != rowB)
+            {
+                var temp = E00;
+                E00 = E10;
+                E10 = temp;
+                temp = E01;
+                E01 = E11;
+                E11 = temp;
+            }
+        }
+
+        public void SwapColumns(int columnA, int columnB)
+        {
+            if ((columnA & 0xfe) != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnA));
+            }
+
+            if ((columnB & 0xfe) != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnB));
+            }
+
+            if (columnA != columnB)
+            {
+                var temp = E00;
+                E00 = E01;
+                E01 = temp;
+                temp = E10;
+                E10 = E11;
+                E11 = temp;
+            }
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
