@@ -47,6 +47,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="IMatrix{TElement}.cs" />
+    <Compile Include="Utilities\Swapper.cs" />
     <Compile Include="IVector{TComponent}.cs" />
     <Compile Include="Matrix2D.cs" />
     <Compile Include="Matrix3D.cs" />

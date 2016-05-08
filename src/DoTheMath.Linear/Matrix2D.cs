@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using static DoTheMath.Linear.Utilities.Swapper;
+
 namespace DoTheMath.Linear
 {
     public sealed class Matrix2D :
@@ -207,12 +209,9 @@ namespace DoTheMath.Linear
 
             if (rowA != rowB)
             {
-                var temp = E00;
-                E00 = E10;
-                E10 = temp;
-                temp = E01;
-                E01 = E11;
-                E11 = temp;
+                SwapPairs(
+                    ref E00, ref E10,
+                    ref E01, ref E11);
             }
         }
 
@@ -229,12 +228,9 @@ namespace DoTheMath.Linear
 
             if (columnA != columnB)
             {
-                var temp = E00;
-                E00 = E01;
-                E01 = temp;
-                temp = E10;
-                E10 = E11;
-                E11 = temp;
+                SwapPairs(
+                    ref E00, ref E01,
+                    ref E10, ref E11);
             }
         }
 

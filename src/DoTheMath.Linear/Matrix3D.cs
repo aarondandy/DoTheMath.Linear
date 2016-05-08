@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using static DoTheMath.Linear.Utilities.Swapper;
+
 namespace DoTheMath.Linear
 {
     public sealed class Matrix3D :
@@ -294,11 +296,10 @@ namespace DoTheMath.Linear
             {
                 return;
             }
-            if(rowB < rowA)
+
+            if(rowA > rowB)
             {
-                var rowTemp = rowB;
-                rowB = rowA;
-                rowA = rowTemp;
+                Swap(ref rowA, ref rowB);
             }
 
 #if HAS_CODECONTRACTS
@@ -307,33 +308,21 @@ namespace DoTheMath.Linear
             System.Diagnostics.Contracts.Contract.Assume(rowB == 1 || rowB == 2);
 #endif
 
-            double temp;
-
             if(rowA == 0)
             {
                 if(rowB == 1)
                 {
-                    temp = E00;
-                    E00 = E10;
-                    E10 = temp;
-                    temp = E01;
-                    E01 = E11;
-                    E11 = temp;
-                    temp = E02;
-                    E02 = E12;
-                    E12 = temp;
+                    SwapPairs(
+                        ref E00, ref E10,
+                        ref E01, ref E11,
+                        ref E02, ref E12);
                 }
                 else if(rowB == 2)
                 {
-                    temp = E00;
-                    E00 = E20;
-                    E20 = temp;
-                    temp = E01;
-                    E01 = E21;
-                    E21 = temp;
-                    temp = E02;
-                    E02 = E22;
-                    E22 = temp;
+                    SwapPairs(
+                        ref E00, ref E20,
+                        ref E01, ref E21,
+                        ref E02, ref E22);
                 }
             }
             else if(rowA == 1)
@@ -341,15 +330,11 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
                 System.Diagnostics.Contracts.Contract.Assume(rowB == 2);
 #endif
-                temp = E10;
-                E10 = E20;
-                E20 = temp;
-                temp = E11;
-                E11 = E21;
-                E21 = temp;
-                temp = E12;
-                E12 = E22;
-                E22 = temp;
+                SwapPairs(
+                    ref E10, ref E20,
+                    ref E11, ref E21,
+                    ref E12, ref E22);
+
             }
         }
 
@@ -368,11 +353,9 @@ namespace DoTheMath.Linear
             {
                 return;
             }
-            if (columnB < columnA)
+            if (columnA > columnB)
             {
-                var columnTemp = columnB;
-                columnB = columnA;
-                columnA = columnTemp;
+                Swap(ref columnA, ref columnB);
             }
 
 
@@ -382,33 +365,21 @@ namespace DoTheMath.Linear
             System.Diagnostics.Contracts.Contract.Assume(columnB == 1 || columnB == 2);
 #endif
 
-            double temp;
-
             if (columnA == 0)
             {
                 if (columnB == 1)
                 {
-                    temp = E00;
-                    E00 = E01;
-                    E01 = temp;
-                    temp = E10;
-                    E10 = E11;
-                    E11 = temp;
-                    temp = E20;
-                    E20 = E21;
-                    E21 = temp;
+                    SwapPairs(
+                        ref E00, ref E01,
+                        ref E10, ref E11,
+                        ref E20, ref E21);
                 }
                 else if (columnB == 2)
                 {
-                    temp = E00;
-                    E00 = E02;
-                    E02 = temp;
-                    temp = E10;
-                    E10 = E12;
-                    E12 = temp;
-                    temp = E20;
-                    E20 = E22;
-                    E22 = temp;
+                    SwapPairs(
+                        ref E00, ref E02,
+                        ref E10, ref E12,
+                        ref E20, ref E22);
                 }
             }
             else if (columnA == 1)
@@ -416,15 +387,10 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
                 System.Diagnostics.Contracts.Contract.Assume(columnB == 2);
 #endif
-                temp = E01;
-                E01 = E02;
-                E02 = temp;
-                temp = E11;
-                E11 = E12;
-                E12 = temp;
-                temp = E21;
-                E21 = E22;
-                E22 = temp;
+                SwapPairs(
+                    ref E01, ref E02,
+                    ref E11, ref E12,
+                    ref E21, ref E22);
             }
         }
 
