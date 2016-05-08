@@ -460,5 +460,173 @@ namespace DoTheMath.Linear.Tests
                 Assert.NotEqual(new MatrixD(2, 3).GetHashCode(), new MatrixD(10, 2).GetHashCode());
             }
         }
+
+        public class SwapRows : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_rows_throw(int rows)
+            {
+                var m = new MatrixD(rows, 2);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(-m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(m.Rows * 2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, -m.Rows));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, m.Rows));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, m.Rows * 2));
+            }
+
+            [Theory]
+            [InlineData(0, 5)]
+            [InlineData(1, 5)]
+            [InlineData(1, 10)]
+            [InlineData(5, 2)]
+            [InlineData(5, 5)]
+            public void swapping_same_rows_does_nothing(int rows, int columns)
+            {
+                var actual = new MatrixD(rows, columns);
+                var expected = new MatrixD(actual.Rows, actual.Columns);
+                for (int r = 0; r < actual.Rows; r++)
+                {
+                    for (int c = 0; c < actual.Columns; c++)
+                    {
+                        double elementValue = (r * actual.Columns) + c;
+                        actual.Set(r, c, elementValue);
+                        expected.Set(r, c, elementValue);
+                    }
+                }
+
+                for (int row = 0; row < actual.Rows; row++)
+                {
+                    actual.SwapRows(row, row);
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+
+            [Theory]
+            [InlineData(1, 5, 0, 0)]
+            [InlineData(2, 10, 0, 1)]
+            [InlineData(2, 10, 1, 0)]
+            [InlineData(5, 2, 0, 3)]
+            [InlineData(5, 5, 3, 4)]
+            [InlineData(5, 7, 4, 0)]
+            public void can_swap_rows(int rows, int columns, int rowA, int rowB)
+            {
+                var actual = new MatrixD(rows, columns);
+                var expected = new MatrixD(actual.Rows, actual.Columns);
+                for (int r = 0; r < actual.Rows; r++)
+                {
+                    for (int c = 0; c < actual.Columns; c++)
+                    {
+                        double elementValue = (r * actual.Columns) + c;
+                        actual.Set(r, c, elementValue);
+                        expected.Set(r, c, elementValue);
+                    }
+                }
+
+                for (var col = 0; col < expected.Columns; col++)
+                {
+                    var temp = expected.Get(rowA, col);
+                    expected.Set(rowA, col, expected.Get(rowB, col));
+                    expected.Set(rowB, col, temp);
+                }
+
+                actual.SwapRows(rowA, rowB);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class SwapColumns : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_columns_throw(int columns)
+            {
+                var m = new MatrixD(2, columns);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(-m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(m.Columns * 2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, -m.Columns));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, m.Columns));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, m.Columns * 2));
+            }
+
+            [Theory]
+            [InlineData(0, 5)]
+            [InlineData(1, 5)]
+            [InlineData(1, 10)]
+            [InlineData(5, 2)]
+            [InlineData(5, 5)]
+            public void swapping_same_columns_does_nothing(int columns, int rows)
+            {
+                var actual = new MatrixD(rows, columns);
+                var expected = new MatrixD(actual.Rows, actual.Columns);
+                for (int r = 0; r < actual.Rows; r++)
+                {
+                    for (int c = 0; c < actual.Columns; c++)
+                    {
+                        double elementValue = (r * actual.Columns) + c;
+                        actual.Set(r, c, elementValue);
+                        expected.Set(r, c, elementValue);
+                    }
+                }
+
+                for (int column = 0; column < actual.Columns; column++)
+                {
+                    actual.SwapColumns(column, column);
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+
+            [Theory]
+            [InlineData(1, 5, 0, 0)]
+            [InlineData(2, 10, 0, 1)]
+            [InlineData(2, 10, 1, 0)]
+            [InlineData(5, 2, 0, 3)]
+            [InlineData(5, 5, 3, 4)]
+            [InlineData(5, 7, 4, 0)]
+            public void can_swap_columns(int columns, int rows, int columnA, int columnB)
+            {
+                var actual = new MatrixD(rows, columns);
+                var expected = new MatrixD(actual.Rows, actual.Columns);
+                for (int r = 0; r < actual.Rows; r++)
+                {
+                    for (int c = 0; c < actual.Columns; c++)
+                    {
+                        double elementValue = (r * actual.Columns) + c;
+                        actual.Set(r, c, elementValue);
+                        expected.Set(r, c, elementValue);
+                    }
+                }
+
+                for (var row = 0; row < expected.Rows; row++)
+                {
+                    var temp = expected.Get(row, columnA);
+                    expected.Set(row, columnA, expected.Get(row, columnB));
+                    expected.Set(row, columnB, temp);
+                }
+
+                actual.SwapColumns(columnA, columnB);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

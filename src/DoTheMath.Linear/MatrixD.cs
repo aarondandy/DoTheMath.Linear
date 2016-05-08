@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using static DoTheMath.Linear.Utilities.Swapper;
+
 namespace DoTheMath.Linear
 {
     public sealed class MatrixD :
@@ -158,6 +160,53 @@ namespace DoTheMath.Linear
             }
 
             elements[(Columns * row) + column] = value;
+        }
+
+        public void SwapRows(int rowA, int rowB)
+        {
+            if(rowA < 0 || rowA >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowA));
+            }
+            if(rowB < 0 || rowB >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowB));
+            }
+
+            if(rowA == rowB)
+            {
+                return;
+            }
+
+            var rowOffetA = Columns * rowA;
+            var rowOffsetB = Columns * rowB;
+
+            for(var column = 0; column < Columns; column++)
+            {
+                Swap(ref elements[rowOffetA + column], ref elements[rowOffsetB + column]);
+            }
+        }
+
+        public void SwapColumns(int columnA, int columnB)
+        {
+            if (columnA < 0 || columnA >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnA));
+            }
+            if (columnB < 0 || columnB >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnB));
+            }
+
+            if (columnA == columnB)
+            {
+                return;
+            }
+
+            for(var rowOffset = 0; rowOffset < elements.Length; rowOffset += Columns)
+            {
+                Swap(ref elements[columnA + rowOffset], ref elements[columnB + rowOffset]);
+            }
         }
 
 #if HAS_CODECONTRACTS
