@@ -69,7 +69,7 @@ namespace DoTheMath.Linear.Tests
         public class Properties : Matrix4DTests
         {
             [Fact]
-            public void rows_and_cols_are_two()
+            public void rows_and_cols_are_correct_size()
             {
                 var m = new Matrix4D();
 
@@ -194,6 +194,71 @@ namespace DoTheMath.Linear.Tests
                 Assert.Throws<ArgumentOutOfRangeException>(() => m.Get(0, 4));
                 Assert.Throws<ArgumentOutOfRangeException>(() => m.Get(0, int.MinValue));
                 Assert.Throws<ArgumentOutOfRangeException>(() => m.Get(0, int.MaxValue));
+            }
+        }
+
+        public class Set : Matrix4DTests
+        {
+            [Fact]
+            public void can_set_all_elements()
+            {
+                var m = new Matrix4D();
+
+                m.Set(0, 0, 1.0);
+                m.Set(0, 1, -5.0);
+                m.Set(0, 2, 9.0);
+                m.Set(0, 3, 0.1);
+                m.Set(1, 0, -1.0);
+                m.Set(1, 1, 8.0);
+                m.Set(1, 2, -4.0);
+                m.Set(1, 3, -0.9);
+                m.Set(2, 0, 21.0);
+                m.Set(2, 1, -0.5);
+                m.Set(2, 2, 1.4);
+                m.Set(2, 3, -9.9);
+                m.Set(3, 0, -101.9);
+                m.Set(3, 1, 5.0);
+                m.Set(3, 2, -17.0);
+                m.Set(3, 3, 19.3);
+
+                Assert.Equal(1.0d, m.Get(0, 0));
+                Assert.Equal(-5.0, m.Get(0, 1));
+                Assert.Equal(9.0d, m.Get(0, 2));
+                Assert.Equal(0.1d, m.Get(0, 3));
+                Assert.Equal(-1.0, m.Get(1, 0));
+                Assert.Equal(8.0d, m.Get(1, 1));
+                Assert.Equal(-4.0, m.Get(1, 2));
+                Assert.Equal(-0.9, m.Get(1, 3));
+                Assert.Equal(21.0, m.Get(2, 0));
+                Assert.Equal(-0.5d, m.Get(2, 1));
+                Assert.Equal(1.4d, m.Get(2, 2));
+                Assert.Equal(-9.9d, m.Get(2, 3));
+                Assert.Equal(-101.9, m.Get(3, 0));
+                Assert.Equal(5.0, m.Get(3, 1));
+                Assert.Equal(-17.0, m.Get(3, 2));
+                Assert.Equal(19.3, m.Get(3, 3));
+            }
+
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(-1, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(4, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(int.MinValue, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(int.MaxValue, 0, 0));
+            }
+
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, -1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, 4, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, int.MinValue, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, int.MaxValue, 0));
             }
         }
 

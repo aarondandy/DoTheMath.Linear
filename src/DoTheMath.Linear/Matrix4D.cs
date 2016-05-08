@@ -236,6 +236,42 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException(nameof(row));
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Set(int row, int column, double value)
+        {
+            if (unchecked((row & 0xfffffffc) == 0))
+            {
+                if (unchecked((column & 0xfffffffc) == 0))
+                {
+                    switch (unchecked((row << 2) | column))
+                    {
+                        case 0: E00  = value; return;
+                        case 1: E01  = value; return;
+                        case 2: E02  = value; return;
+                        case 3: E03  = value; return;
+                        case 4: E10  = value; return;
+                        case 5: E11  = value; return;
+                        case 6: E12  = value; return;
+                        case 7: E13  = value; return;
+                        case 8: E20  = value; return;
+                        case 9: E21  = value; return;
+                        case 10: E22 = value; return;
+                        case 11: E23 = value; return;
+                        case 12: E30 = value; return;
+                        case 13: E31 = value; return;
+                        case 14: E32 = value; return;
+                        default: E33 = value; return;
+                    }
+                }
+
+                throw new ArgumentOutOfRangeException(nameof(column));
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(row));
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
