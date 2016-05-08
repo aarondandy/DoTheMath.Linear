@@ -129,6 +129,47 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Set : Matrix2DTests
+        {
+            [Fact]
+            public void can_set_all_elements()
+            {
+                var m = new Matrix2D();
+
+                m.Set(0, 0, 1.0);
+                m.Set(0, 1, -5.0);
+                m.Set(1, 0, 9.0);
+                m.Set(1, 1, -1.0);
+
+                Assert.Equal(1.0d, m.Get(0, 0));
+                Assert.Equal(-5.0d, m.Get(0, 1));
+                Assert.Equal(9.0d, m.Get(1, 0));
+                Assert.Equal(-1.0d, m.Get(1, 1));
+            }
+
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(-1, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(2, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(int.MinValue, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(int.MaxValue, 0, 0));
+            }
+
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, -1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, 2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, int.MinValue, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, int.MaxValue, 0));
+            }
+        }
+
         public class IEquatable_Self_Equals : Matrix2DTests
         {
             [Fact]

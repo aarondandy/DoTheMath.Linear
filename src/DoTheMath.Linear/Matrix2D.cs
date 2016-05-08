@@ -155,19 +155,57 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException((row & 0xfffffffe) == 0 ? nameof(column) : nameof(row));
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Set(int row, int column, double value)
+        {
+            if (row == 0)
+            {
+                if (column == 0)
+                {
+                    E00 = value;
+                    return;
+                }
+                if (column == 1)
+                {
+                    E01 = value;
+                    return;
+                }
+            }
+            else if (row == 1)
+            {
+                if (column == 0)
+                {
+                    E10 = value;
+                    return;
+                }
+                if (column == 1)
+                {
+                    E11 = value;
+                    return;
+                }
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(row));
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(column));
+        }
+
         public void SwapRows(int rowA, int rowB)
         {
             if ((rowA & 0xfe) != 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowA));
             }
-
             if ((rowB & 0xfe) != 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowB));
             }
 
-            if(rowA != rowB)
+            if (rowA != rowB)
             {
                 var temp = E00;
                 E00 = E10;
@@ -184,7 +222,6 @@ namespace DoTheMath.Linear
             {
                 throw new ArgumentOutOfRangeException(nameof(columnA));
             }
-
             if ((columnB & 0xfe) != 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(columnB));
