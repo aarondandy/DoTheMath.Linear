@@ -54,7 +54,7 @@ namespace DoTheMath.Linear.Tests
         public class Properties : Matrix3DTests
         {
             [Fact]
-            public void rows_and_cols_are_two()
+            public void rows_and_cols_are_correct()
             {
                 var m = new Matrix3D();
 
@@ -160,6 +160,57 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Set : Matrix3DTests
+        {
+            [Fact]
+            public void can_set_all_elements()
+            {
+                var m = new Matrix3D();
+
+                m.Set(0, 0, 1.0);
+                m.Set(0, 1, -5.0);
+                m.Set(0, 2, 9.0);
+                m.Set(1, 0, -1.0);
+                m.Set(1, 1, 8.0);
+                m.Set(1, 2, -4.0);
+                m.Set(2, 0, 21.0);
+                m.Set(2, 1, -0.5);
+                m.Set(2, 2, 1.4);
+
+                Assert.Equal(1.0d, m.Get(0, 0));
+                Assert.Equal(-5.0, m.Get(0, 1));
+                Assert.Equal(9.0d, m.Get(0, 2));
+                Assert.Equal(-1.0, m.Get(1, 0));
+                Assert.Equal(8.0d, m.Get(1, 1));
+                Assert.Equal(-4.0, m.Get(1, 2));
+                Assert.Equal(21.0, m.Get(2, 0));
+                Assert.Equal(-0.5d, m.Get(2, 1));
+                Assert.Equal(1.4d, m.Get(2, 2));
+            }
+
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(-1, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(3, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(int.MinValue, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(int.MaxValue, 0, 0));
+            }
+
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, -1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, 3, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, int.MinValue, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.Set(0, int.MaxValue, 0));
+            }
+        }
+
         public class IEquatable_Self_Equals : Matrix3DTests
         {
             [Fact]
@@ -258,6 +309,142 @@ namespace DoTheMath.Linear.Tests
                 m.E20 = 15.0;
 
                 Assert.Equal(expectedHashCode, m.GetHashCode());
+            }
+        }
+
+        public class SwapRows : Matrix3DTests
+        {
+            [Fact]
+            public void invalid_rows_throws()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, m.Rows));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, 99));
+            }
+
+            [Theory]
+            [InlineData(0, 1)]
+            [InlineData(1, 0)]
+            [InlineData(0, 2)]
+            [InlineData(2, 0)]
+            [InlineData(1, 2)]
+            [InlineData(2, 1)]
+            public void can_swap_rows(int rowA, int rowB)
+            {
+                var expected = new Matrix3D(
+                    0, 1, 2,
+                    3, 4, 5,
+                    6, 7, 8);
+
+                for (var col = 0; col < expected.Columns; col++)
+                {
+                    var temp = expected.Get(rowA, col);
+                    expected.Set(rowA, col, expected.Get(rowB, col));
+                    expected.Set(rowB, col, temp);
+                }
+
+                var actual = new Matrix3D(
+                    0, 1, 2,
+                    3, 4, 5,
+                    6, 7, 8);
+
+                actual.SwapRows(rowA, rowB);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            public void swapping_same_rows_does_nothing(int row)
+            {
+                var m = new Matrix3D(
+                    0, 1, 2,
+                    3, 4, 5,
+                    6, 7, 8);
+
+                m.SwapRows(row, row);
+
+                Assert.Equal(
+                    new Matrix3D(
+                        0, 1, 2,
+                        3, 4, 5,
+                        6, 7, 8),
+                    m);
+            }
+        }
+
+        public class SwapColumns : Matrix3DTests
+        {
+            [Fact]
+            public void invalid_columns_throws()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, m.Columns));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, 99));
+            }
+
+            [Theory]
+            [InlineData(0, 1)]
+            [InlineData(1, 0)]
+            [InlineData(0, 2)]
+            [InlineData(2, 0)]
+            [InlineData(1, 2)]
+            [InlineData(2, 1)]
+            public void can_swap_columns(int columnA, int columnB)
+            {
+                var expected = new Matrix3D(
+                    0, 1, 2,
+                    3, 4, 5,
+                    6, 7, 8);
+
+                for (var row = 0; row < expected.Columns; row++)
+                {
+                    var temp = expected.Get(row, columnA);
+                    expected.Set(row, columnA, expected.Get(row, columnB));
+                    expected.Set(row, columnB, temp);
+                }
+
+                var actual = new Matrix3D(
+                    0, 1, 2,
+                    3, 4, 5,
+                    6, 7, 8);
+
+                actual.SwapColumns(columnA, columnB);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            public void swapping_same_columns_does_nothing(int column)
+            {
+                var m = new Matrix3D(
+                    0, 1, 2,
+                    3, 4, 5,
+                    6, 7, 8);
+
+                m.SwapColumns(column, column);
+
+                Assert.Equal(
+                    new Matrix3D(
+                        0, 1, 2,
+                        3, 4, 5,
+                        6, 7, 8),
+                    m);
             }
         }
     }

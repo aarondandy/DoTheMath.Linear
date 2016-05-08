@@ -212,6 +212,222 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException(row >= 0 && row <= 2 ? nameof(column) : nameof(row));
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Set(int row, int column, double value)
+        {
+            if (row == 0)
+            {
+                if (column == 0)
+                {
+                    E00 = value;
+                    return;
+                }
+                else if (column == 1)
+                {
+                    E01 = value;
+                    return;
+                }
+                else if (column == 2)
+                {
+                    E02 = value;
+                    return;
+                }
+            }
+            else if (row == 1)
+            {
+                if (column == 0)
+                {
+                    E10 = value;
+                    return;
+                }
+                else if (column == 1)
+                {
+                    E11 = value;
+                    return;
+                }
+                else if (column == 2)
+                {
+                    E12 = value;
+                    return;
+                }
+            }
+            else if (row == 2)
+            {
+                if (column == 0)
+                {
+                    E20 = value;
+                    return;
+                }
+                else if (column == 1)
+                {
+                    E21 = value;
+                    return;
+                }
+                else if (column == 2)
+                {
+                    E22 = value;
+                    return;
+                }
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(row));
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(column));
+        }
+
+        public void SwapRows(int rowA, int rowB)
+        {
+            if(rowA < 0 || rowA > 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowA));
+            }
+            if(rowB < 0 || rowB > 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowB));
+            }
+
+            if(rowA == rowB)
+            {
+                return;
+            }
+            if(rowB < rowA)
+            {
+                var rowTemp = rowB;
+                rowB = rowA;
+                rowA = rowTemp;
+            }
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(rowA < rowB);
+            System.Diagnostics.Contracts.Contract.Assume(rowA == 0 || rowA == 1);
+            System.Diagnostics.Contracts.Contract.Assume(rowB == 1 || rowB == 2);
+#endif
+
+            double temp;
+
+            if(rowA == 0)
+            {
+                if(rowB == 1)
+                {
+                    temp = E00;
+                    E00 = E10;
+                    E10 = temp;
+                    temp = E01;
+                    E01 = E11;
+                    E11 = temp;
+                    temp = E02;
+                    E02 = E12;
+                    E12 = temp;
+                }
+                else if(rowB == 2)
+                {
+                    temp = E00;
+                    E00 = E20;
+                    E20 = temp;
+                    temp = E01;
+                    E01 = E21;
+                    E21 = temp;
+                    temp = E02;
+                    E02 = E22;
+                    E22 = temp;
+                }
+            }
+            else if(rowA == 1)
+            {
+#if HAS_CODECONTRACTS
+                System.Diagnostics.Contracts.Contract.Assume(rowB == 2);
+#endif
+                temp = E10;
+                E10 = E20;
+                E20 = temp;
+                temp = E11;
+                E11 = E21;
+                E21 = temp;
+                temp = E12;
+                E12 = E22;
+                E22 = temp;
+            }
+        }
+
+        public void SwapColumns(int columnA, int columnB)
+        {
+            if (columnA < 0 || columnA > 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnA));
+            }
+            if (columnB < 0 || columnB > 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnB));
+            }
+
+            if (columnA == columnB)
+            {
+                return;
+            }
+            if (columnB < columnA)
+            {
+                var columnTemp = columnB;
+                columnB = columnA;
+                columnA = columnTemp;
+            }
+
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(columnA < columnB);
+            System.Diagnostics.Contracts.Contract.Assume(columnA == 0 || columnA == 1);
+            System.Diagnostics.Contracts.Contract.Assume(columnB == 1 || columnB == 2);
+#endif
+
+            double temp;
+
+            if (columnA == 0)
+            {
+                if (columnB == 1)
+                {
+                    temp = E00;
+                    E00 = E01;
+                    E01 = temp;
+                    temp = E10;
+                    E10 = E11;
+                    E11 = temp;
+                    temp = E20;
+                    E20 = E21;
+                    E21 = temp;
+                }
+                else if (columnB == 2)
+                {
+                    temp = E00;
+                    E00 = E02;
+                    E02 = temp;
+                    temp = E10;
+                    E10 = E12;
+                    E12 = temp;
+                    temp = E20;
+                    E20 = E22;
+                    E22 = temp;
+                }
+            }
+            else if (columnA == 1)
+            {
+#if HAS_CODECONTRACTS
+                System.Diagnostics.Contracts.Contract.Assume(columnB == 2);
+#endif
+                temp = E01;
+                E01 = E02;
+                E02 = temp;
+                temp = E11;
+                E11 = E12;
+                E12 = temp;
+                temp = E21;
+                E21 = E22;
+                E22 = temp;
+            }
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
