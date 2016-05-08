@@ -272,6 +272,278 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException(nameof(row));
         }
 
+        public void SwapRows(int rowA, int rowB)
+        {
+            if (unchecked((rowA & 0xfffffffc) != 0))
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowA));
+            }
+            if (unchecked((rowB & 0xfffffffc) != 0))
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowB));
+            }
+
+            if(rowA == rowB)
+            {
+                return;
+            }
+            if (rowB < rowA)
+            {
+                var rowTemp = rowB;
+                rowB = rowA;
+                rowA = rowTemp;
+            }
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(rowA < rowB);
+            System.Diagnostics.Contracts.Contract.Assume(rowA == 0 || rowA == 1 || rowA == 2);
+            System.Diagnostics.Contracts.Contract.Assume(rowB == 1 || rowB == 2 || rowB == 3);
+#endif
+
+            double tmp;
+
+            if(rowA == 0)
+            {
+                if(rowB == 1)
+                {
+                    tmp = E00;
+                    E00 = E10;
+                    E10 = tmp;
+                    tmp = E01;
+                    E01 = E11;
+                    E11 = tmp;
+                    tmp = E02;
+                    E02 = E12;
+                    E12 = tmp;
+                    tmp = E03;
+                    E03 = E13;
+                    E13 = tmp;
+                }
+                else if(rowB == 2)
+                {
+                    tmp = E00;
+                    E00 = E20;
+                    E20 = tmp;
+                    tmp = E01;
+                    E01 = E21;
+                    E21 = tmp;
+                    tmp = E02;
+                    E02 = E22;
+                    E22 = tmp;
+                    tmp = E03;
+                    E03 = E23;
+                    E23 = tmp;
+                }
+                else if(rowB == 3)
+                {
+                    tmp = E00;
+                    E00 = E30;
+                    E30 = tmp;
+                    tmp = E01;
+                    E01 = E31;
+                    E31 = tmp;
+                    tmp = E02;
+                    E02 = E32;
+                    E32 = tmp;
+                    tmp = E03;
+                    E03 = E33;
+                    E33 = tmp;
+                }
+            }
+            else if(rowA == 1)
+            {
+#if HAS_CODECONTRACTS
+                System.Diagnostics.Contracts.Contract.Assume(rowB == 2 || rowB == 3);
+#endif
+                if (rowB == 2)
+                {
+                    tmp = E10;
+                    E10 = E20;
+                    E20 = tmp;
+                    tmp = E11;
+                    E11 = E21;
+                    E21 = tmp;
+                    tmp = E12;
+                    E12 = E22;
+                    E22 = tmp;
+                    tmp = E13;
+                    E13 = E23;
+                    E23 = tmp;
+                }
+                else if(rowB == 3)
+                {
+                    tmp = E10;
+                    E10 = E30;
+                    E30 = tmp;
+                    tmp = E11;
+                    E11 = E31;
+                    E31 = tmp;
+                    tmp = E12;
+                    E12 = E32;
+                    E32 = tmp;
+                    tmp = E13;
+                    E13 = E33;
+                    E33 = tmp;
+                }
+            }
+            else if(rowA == 2)
+            {
+#if HAS_CODECONTRACTS
+                System.Diagnostics.Contracts.Contract.Assume(rowB == 3);
+#endif
+
+                tmp = E20;
+                E20 = E30;
+                E30 = tmp;
+                tmp = E21;
+                E21 = E31;
+                E31 = tmp;
+                tmp = E22;
+                E22 = E32;
+                E32 = tmp;
+                tmp = E23;
+                E23 = E33;
+                E33 = tmp;
+            }
+
+        }
+
+        public void SwapColumns(int columnA, int columnB)
+        {
+            if (unchecked((columnA & 0xfffffffc) != 0))
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnA));
+            }
+            if (unchecked((columnB & 0xfffffffc) != 0))
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnB));
+            }
+
+            if (columnA == columnB)
+            {
+                return;
+            }
+            if (columnB < columnA)
+            {
+                var columnTemp = columnB;
+                columnB = columnA;
+                columnA = columnTemp;
+            }
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(columnA < columnB);
+            System.Diagnostics.Contracts.Contract.Assume(columnA == 0 || columnA == 1 || columnA == 2);
+            System.Diagnostics.Contracts.Contract.Assume(columnB == 1 || columnB == 2 || columnB == 3);
+#endif
+
+            double tmp;
+
+            if (columnA == 0)
+            {
+                if (columnB == 1)
+                {
+                    tmp = E00;
+                    E00 = E01;
+                    E01 = tmp;
+                    tmp = E10;
+                    E10 = E11;
+                    E11 = tmp;
+                    tmp = E20;
+                    E20 = E21;
+                    E21 = tmp;
+                    tmp = E30;
+                    E30 = E31;
+                    E31 = tmp;
+                }
+                else if (columnB == 2)
+                {
+                    tmp = E00;
+                    E00 = E02;
+                    E02 = tmp;
+                    tmp = E10;
+                    E10 = E12;
+                    E12 = tmp;
+                    tmp = E20;
+                    E20 = E22;
+                    E22 = tmp;
+                    tmp = E30;
+                    E30 = E32;
+                    E32 = tmp;
+                }
+                else if (columnB == 3)
+                {
+                    tmp = E00;
+                    E00 = E03;
+                    E03 = tmp;
+                    tmp = E10;
+                    E10 = E13;
+                    E13 = tmp;
+                    tmp = E20;
+                    E20 = E23;
+                    E23 = tmp;
+                    tmp = E30;
+                    E30 = E33;
+                    E33 = tmp;
+                }
+            }
+            else if (columnA == 1)
+            {
+#if HAS_CODECONTRACTS
+                System.Diagnostics.Contracts.Contract.Assume(columnB == 2 || columnB == 3);
+#endif
+                if (columnB == 2)
+                {
+                    tmp = E01;
+                    E01 = E02;
+                    E02 = tmp;
+                    tmp = E11;
+                    E11 = E12;
+                    E12 = tmp;
+                    tmp = E21;
+                    E21 = E22;
+                    E22 = tmp;
+                    tmp = E31;
+                    E31 = E32;
+                    E32 = tmp;
+                }
+                else if (columnB == 3)
+                {
+                    tmp = E01;
+                    E01 = E03;
+                    E03 = tmp;
+                    tmp = E11;
+                    E11 = E13;
+                    E13 = tmp;
+                    tmp = E21;
+                    E21 = E23;
+                    E23 = tmp;
+                    tmp = E31;
+                    E31 = E33;
+                    E33 = tmp;
+                }
+            }
+            else if (columnA == 2)
+            {
+#if HAS_CODECONTRACTS
+                System.Diagnostics.Contracts.Contract.Assume(columnB == 3);
+#endif
+
+                tmp = E02;
+                E02 = E03;
+                E03 = tmp;
+                tmp = E12;
+                E12 = E13;
+                E13 = tmp;
+                tmp = E22;
+                E22 = E23;
+                E23 = tmp;
+                tmp = E32;
+                E32 = E33;
+                E33 = tmp;
+            }
+
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif

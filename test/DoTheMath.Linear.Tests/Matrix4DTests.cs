@@ -363,5 +363,163 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expectedHashCode, m.GetHashCode());
             }
         }
+
+        public class SwapRows : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_rows_throws()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, m.Rows));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, 99));
+            }
+
+            [Theory]
+            [InlineData(0, 1)]
+            [InlineData(1, 0)]
+            [InlineData(0, 2)]
+            [InlineData(2, 0)]
+            [InlineData(0, 3)]
+            [InlineData(3, 0)]
+            [InlineData(1, 2)]
+            [InlineData(2, 1)]
+            [InlineData(1, 3)]
+            [InlineData(3, 1)]
+            [InlineData(2, 3)]
+            [InlineData(3, 2)]
+            public void can_swap_rows(int rowA, int rowB)
+            {
+                var expected = new Matrix4D(
+                    0, 1, 2, 3,
+                    4, 5, 6, 7,
+                    8, 9, 10, 11,
+                    12, 13, 14, 15);
+
+                for (var col = 0; col < expected.Columns; col++)
+                {
+                    var temp = expected.Get(rowA, col);
+                    expected.Set(rowA, col, expected.Get(rowB, col));
+                    expected.Set(rowB, col, temp);
+                }
+
+                var actual = new Matrix4D(
+                    0, 1, 2, 3,
+                    4, 5, 6, 7,
+                    8, 9, 10, 11,
+                    12, 13, 14, 15);
+
+                actual.SwapRows(rowA, rowB);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            public void swapping_same_rows_does_nothing(int row)
+            {
+                var m = new Matrix4D(
+                    0, 1, 2, 3,
+                    4, 5, 6, 7,
+                    8, 9, 10, 11,
+                    12, 13, 14, 15);
+
+                m.SwapRows(row, row);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        0, 1, 2, 3,
+                        4, 5, 6, 7,
+                        8, 9, 10, 11,
+                        12, 13, 14, 15),
+                    m);
+            }
+        }
+
+        public class SwapColumns : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_columnss_throws()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, m.Columns));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, 99));
+            }
+
+            [Theory]
+            [InlineData(0, 1)]
+            [InlineData(1, 0)]
+            [InlineData(0, 2)]
+            [InlineData(2, 0)]
+            [InlineData(0, 3)]
+            [InlineData(3, 0)]
+            [InlineData(1, 2)]
+            [InlineData(2, 1)]
+            [InlineData(1, 3)]
+            [InlineData(3, 1)]
+            [InlineData(2, 3)]
+            [InlineData(3, 2)]
+            public void can_swap_columns(int columnA, int columnB)
+            {
+                var expected = new Matrix4D(
+                    0, 1, 2, 3,
+                    4, 5, 6, 7,
+                    8, 9, 10, 11,
+                    12, 13, 14, 15);
+
+                for (var row = 0; row < expected.Rows; row++)
+                {
+                    var temp = expected.Get(row, columnA);
+                    expected.Set(row, columnA, expected.Get(row, columnB));
+                    expected.Set(row, columnB, temp);
+                }
+
+                var actual = new Matrix4D(
+                    0, 1, 2, 3,
+                    4, 5, 6, 7,
+                    8, 9, 10, 11,
+                    12, 13, 14, 15);
+
+                actual.SwapColumns(columnA, columnB);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            public void swapping_same_rows_does_nothing(int row)
+            {
+                var m = new Matrix4D(
+                    0, 1, 2, 3,
+                    4, 5, 6, 7,
+                    8, 9, 10, 11,
+                    12, 13, 14, 15);
+
+                m.SwapColumns(row, row);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        0, 1, 2, 3,
+                        4, 5, 6, 7,
+                        8, 9, 10, 11,
+                        12, 13, 14, 15),
+                    m);
+            }
+        }
     }
 }
