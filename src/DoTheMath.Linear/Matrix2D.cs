@@ -196,11 +196,11 @@ namespace DoTheMath.Linear
 
         public void SwapRows(int rowA, int rowB)
         {
-            if ((rowA & 0xfe) != 0)
+            if (unchecked((rowA & 0xfe) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(rowA));
             }
-            if ((rowB & 0xfe) != 0)
+            if (unchecked((rowB & 0xfe) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(rowB));
             }
@@ -218,11 +218,11 @@ namespace DoTheMath.Linear
 
         public void SwapColumns(int columnA, int columnB)
         {
-            if ((columnA & 0xfe) != 0)
+            if (unchecked((columnA & 0xfe) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(columnA));
             }
-            if ((columnB & 0xfe) != 0)
+            if (unchecked((columnB & 0xfe) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(columnB));
             }

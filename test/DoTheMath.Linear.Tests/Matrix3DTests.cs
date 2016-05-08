@@ -409,7 +409,7 @@ namespace DoTheMath.Linear.Tests
                     3, 4, 5,
                     6, 7, 8);
 
-                for (var row = 0; row < expected.Columns; row++)
+                for (var row = 0; row < expected.Rows; row++)
                 {
                     var temp = expected.Get(row, columnA);
                     expected.Set(row, columnA, expected.Get(row, columnB));
