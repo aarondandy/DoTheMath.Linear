@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using static DoTheMath.Linear.Utilities.Duplicator;
+
 namespace DoTheMath.Linear
 {
     public sealed class VectorD :
@@ -20,6 +22,16 @@ namespace DoTheMath.Linear
             }
 
             components = new double[dimensions];
+        }
+
+        public VectorD(VectorD source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            components = Clone(source.components);
         }
 
         public int Dimensions
@@ -71,11 +83,11 @@ namespace DoTheMath.Linear
             {
                 return true;
             }
-            if(object.ReferenceEquals(null, other))
+            if (object.ReferenceEquals(null, other))
             {
                 return false;
             }
-            if(components.Length != other.components.Length)
+            if (components.Length != other.components.Length)
             {
                 return false;
             }

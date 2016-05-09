@@ -26,6 +26,17 @@ namespace DoTheMath.Linear
             W = w;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector4D(Vector4D source)
+        {
+            X = source.X;
+            Y = source.Y;
+            Z = source.Z;
+            W = source.W;
+        }
+
         public int Dimensions
         {
 #if !PRE_NETSTANDARD

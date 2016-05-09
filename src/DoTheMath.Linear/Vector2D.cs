@@ -20,6 +20,15 @@ namespace DoTheMath.Linear
             Y = y;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector2D(Vector2D source)
+        {
+            X = source.X;
+            Y = source.Y;
+        }
+
         public int Dimensions
         {
 #if !PRE_NETSTANDARD

@@ -24,6 +24,17 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(1.0, v.X);
                 Assert.Equal(-5.0, v.Y);
             }
+            
+            [Fact]
+            public void copy_constructor_copies_all_componenets()
+            {
+                var expected = new Vector2D(0, 1);
+
+                var actual = new Vector2D(expected);
+
+                Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
         }
 
         public class Get : Vector2DTests

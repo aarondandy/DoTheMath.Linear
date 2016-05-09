@@ -64,6 +64,23 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.True(m.IsIdentity);
             }
+
+            [Fact]
+            public void copy_constructor_throws_for_null()
+            {
+                Assert.Throws<ArgumentNullException>(() => new Matrix4D((Matrix4D)null));
+            }
+
+            [Fact]
+            public void copy_constructor_contains_same_element()
+            {
+                var expected = new Matrix4D(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+
+                var actual = new Matrix4D(expected);
+
+                Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
         }
 
         public class Properties : Matrix4DTests

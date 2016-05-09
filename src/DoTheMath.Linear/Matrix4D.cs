@@ -103,6 +103,9 @@ namespace DoTheMath.Linear
         /// <param name="e31">The value for the element at 3,1.</param>
         /// <param name="e32">The value for the element at 3,2.</param>
         /// <param name="e33">The value for the element at 3,3.</param>
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public Matrix4D(
             double e00, double e01, double e02, double e03,
             double e10, double e11, double e12, double e13,
@@ -126,6 +129,34 @@ namespace DoTheMath.Linear
             E31 = e31;
             E32 = e32;
             E33 = e33;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Matrix4D(Matrix4D source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            E00 = source.E00;
+            E01 = source.E01;
+            E02 = source.E02;
+            E03 = source.E03;
+            E10 = source.E10;
+            E11 = source.E11;
+            E12 = source.E12;
+            E13 = source.E13;
+            E20 = source.E20;
+            E21 = source.E21;
+            E22 = source.E22;
+            E23 = source.E23;
+            E30 = source.E30;
+            E31 = source.E31;
+            E32 = source.E32;
+            E33 = source.E33;
         }
 
         public int Columns
@@ -249,16 +280,16 @@ namespace DoTheMath.Linear
                 {
                     switch (unchecked((row << 2) | column))
                     {
-                        case 0: E00  = value; return;
-                        case 1: E01  = value; return;
-                        case 2: E02  = value; return;
-                        case 3: E03  = value; return;
-                        case 4: E10  = value; return;
-                        case 5: E11  = value; return;
-                        case 6: E12  = value; return;
-                        case 7: E13  = value; return;
-                        case 8: E20  = value; return;
-                        case 9: E21  = value; return;
+                        case 0: E00 = value; return;
+                        case 1: E01 = value; return;
+                        case 2: E02 = value; return;
+                        case 3: E03 = value; return;
+                        case 4: E10 = value; return;
+                        case 5: E11 = value; return;
+                        case 6: E12 = value; return;
+                        case 7: E13 = value; return;
+                        case 8: E20 = value; return;
+                        case 9: E21 = value; return;
                         case 10: E22 = value; return;
                         case 11: E23 = value; return;
                         case 12: E30 = value; return;
@@ -285,7 +316,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(rowB));
             }
 
-            if(rowA == rowB)
+            if (rowA == rowB)
             {
                 return;
             }
@@ -300,9 +331,9 @@ namespace DoTheMath.Linear
             System.Diagnostics.Contracts.Contract.Assume(rowB == 1 || rowB == 2 || rowB == 3);
 #endif
 
-            if(rowA == 0)
+            if (rowA == 0)
             {
-                if(rowB == 1)
+                if (rowB == 1)
                 {
                     SwapPairs(
                         ref E00, ref E10,
@@ -310,7 +341,7 @@ namespace DoTheMath.Linear
                         ref E02, ref E12,
                         ref E03, ref E13);
                 }
-                else if(rowB == 2)
+                else if (rowB == 2)
                 {
                     SwapPairs(
                         ref E00, ref E20,
@@ -318,7 +349,7 @@ namespace DoTheMath.Linear
                         ref E02, ref E22,
                         ref E03, ref E23);
                 }
-                else if(rowB == 3)
+                else if (rowB == 3)
                 {
                     SwapPairs(
                         ref E00, ref E30,
@@ -327,7 +358,7 @@ namespace DoTheMath.Linear
                         ref E03, ref E33);
                 }
             }
-            else if(rowA == 1)
+            else if (rowA == 1)
             {
 #if HAS_CODECONTRACTS
                 System.Diagnostics.Contracts.Contract.Assume(rowB == 2 || rowB == 3);
@@ -340,7 +371,7 @@ namespace DoTheMath.Linear
                         ref E12, ref E22,
                         ref E13, ref E23);
                 }
-                else if(rowB == 3)
+                else if (rowB == 3)
                 {
                     SwapPairs(
                         ref E10, ref E30,
@@ -349,7 +380,7 @@ namespace DoTheMath.Linear
                         ref E13, ref E33);
                 }
             }
-            else if(rowA == 2)
+            else if (rowA == 2)
             {
 #if HAS_CODECONTRACTS
                 System.Diagnostics.Contracts.Contract.Assume(rowB == 3);

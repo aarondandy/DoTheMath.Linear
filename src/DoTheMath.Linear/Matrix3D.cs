@@ -88,6 +88,27 @@ namespace DoTheMath.Linear
             E22 = e22;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Matrix3D(Matrix3D source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            E00 = source.E00;
+            E01 = source.E01;
+            E02 = source.E02;
+            E10 = source.E10;
+            E11 = source.E11;
+            E12 = source.E12;
+            E20 = source.E20;
+            E21 = source.E21;
+            E22 = source.E22;
+        }
+
         public int Columns
         {
 #if !PRE_NETSTANDARD
@@ -283,21 +304,21 @@ namespace DoTheMath.Linear
 
         public void SwapRows(int rowA, int rowB)
         {
-            if(rowA < 0 || rowA > 2)
+            if (rowA < 0 || rowA > 2)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowA));
             }
-            if(rowB < 0 || rowB > 2)
+            if (rowB < 0 || rowB > 2)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowB));
             }
 
-            if(rowA == rowB)
+            if (rowA == rowB)
             {
                 return;
             }
 
-            if(rowA > rowB)
+            if (rowA > rowB)
             {
                 Swap(ref rowA, ref rowB);
             }
@@ -308,16 +329,16 @@ namespace DoTheMath.Linear
             System.Diagnostics.Contracts.Contract.Assume(rowB == 1 || rowB == 2);
 #endif
 
-            if(rowA == 0)
+            if (rowA == 0)
             {
-                if(rowB == 1)
+                if (rowB == 1)
                 {
                     SwapPairs(
                         ref E00, ref E10,
                         ref E01, ref E11,
                         ref E02, ref E12);
                 }
-                else if(rowB == 2)
+                else if (rowB == 2)
                 {
                     SwapPairs(
                         ref E00, ref E20,
@@ -325,7 +346,7 @@ namespace DoTheMath.Linear
                         ref E02, ref E22);
                 }
             }
-            else if(rowA == 1)
+            else if (rowA == 1)
             {
 #if HAS_CODECONTRACTS
                 System.Diagnostics.Contracts.Contract.Assume(rowB == 2);

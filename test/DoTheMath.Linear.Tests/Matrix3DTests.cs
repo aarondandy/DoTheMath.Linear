@@ -49,6 +49,23 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.True(m.IsIdentity);
             }
+
+            [Fact]
+            public void copy_constructor_throws_for_null()
+            {
+                Assert.Throws<ArgumentNullException>(() => new Matrix3D((Matrix3D)null));
+            }
+
+            [Fact]
+            public void copy_constructor_contains_same_element()
+            {
+                var expected = new Matrix3D(0, 1, 2, 3, 4, 5, 6, 7, 8);
+
+                var actual = new Matrix3D(expected);
+
+                Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
         }
 
         public class Properties : Matrix3DTests

@@ -44,6 +44,29 @@ namespace DoTheMath.Linear.Tests
             {
                 Assert.Throws<ArgumentOutOfRangeException>(() => new MatrixD(3, -2));
             }
+
+            [Fact]
+            public void copy_constructor_throws_for_null()
+            {
+                Assert.Throws<ArgumentNullException>(() => new MatrixD((MatrixD)null));
+            }
+
+            [Fact]
+            public void copy_constructor_contains_same_element()
+            {
+                var expected = new MatrixD(2, 3);
+                expected.Set(0, 0, 0);
+                expected.Set(0, 1, 1);
+                expected.Set(0, 2, 2);
+                expected.Set(1, 0, 3);
+                expected.Set(1, 1, 4);
+                expected.Set(1, 2, 5);
+
+                var actual = new MatrixD(expected);
+
+                Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
         }
 
         public class CreateIdentity : MatrixDTests

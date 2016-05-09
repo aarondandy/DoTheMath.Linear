@@ -35,6 +35,28 @@ namespace DoTheMath.Linear.Tests
                 Assert.Throws<ArgumentOutOfRangeException>(() => new VectorD(-40));
                 Assert.Throws<ArgumentOutOfRangeException>(() => new VectorD(int.MinValue));
             }
+
+            [Fact]
+            public void copy_constructor_throws_for_null()
+            {
+                Assert.Throws<ArgumentNullException>(() => new VectorD((VectorD)null));
+            }
+
+            [Fact]
+            public void copy_constructor_copies_all_componenets()
+            {
+                var expected = new VectorD(5);
+                expected.Set(0, 0);
+                expected.Set(1, 1);
+                expected.Set(2, 2);
+                expected.Set(3, 3);
+                expected.Set(4, 4);
+
+                var actual = new VectorD(expected);
+
+                Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
         }
 
         public class Get : VectorDTests

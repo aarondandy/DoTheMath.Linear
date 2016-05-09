@@ -57,6 +57,22 @@ namespace DoTheMath.Linear
             E11 = e11;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Matrix2D(Matrix2D source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            E00 = source.E00;
+            E01 = source.E01;
+            E10 = source.E10;
+            E11 = source.E11;
+        }
+
         public int Columns
         {
 #if !PRE_NETSTANDARD

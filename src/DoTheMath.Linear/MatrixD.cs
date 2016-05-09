@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using static DoTheMath.Linear.Utilities.Swapper;
+using static DoTheMath.Linear.Utilities.Duplicator;
 
 namespace DoTheMath.Linear
 {
@@ -28,6 +29,19 @@ namespace DoTheMath.Linear
             Rows = rows;
             Columns = columns;
             elements = new double[checked(rows * columns)];
+        }
+
+        public MatrixD(MatrixD source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            Rows = source.Rows;
+            Columns = source.Columns;
+
+            elements = Clone(source.elements);
         }
 
         public int Rows
@@ -105,7 +119,7 @@ namespace DoTheMath.Linear
         {
             var result = new MatrixD(order, order);
 
-            for(var rowAndColumn = 0; rowAndColumn < order; rowAndColumn++)
+            for (var rowAndColumn = 0; rowAndColumn < order; rowAndColumn++)
             {
                 result.Set(rowAndColumn, rowAndColumn, 1.0);
             }
@@ -164,16 +178,16 @@ namespace DoTheMath.Linear
 
         public void SwapRows(int rowA, int rowB)
         {
-            if(rowA < 0 || rowA >= Rows)
+            if (rowA < 0 || rowA >= Rows)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowA));
             }
-            if(rowB < 0 || rowB >= Rows)
+            if (rowB < 0 || rowB >= Rows)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowB));
             }
 
-            if(rowA == rowB)
+            if (rowA == rowB)
             {
                 return;
             }
@@ -181,7 +195,7 @@ namespace DoTheMath.Linear
             var rowOffetA = Columns * rowA;
             var rowOffsetB = Columns * rowB;
 
-            for(var column = 0; column < Columns; column++)
+            for (var column = 0; column < Columns; column++)
             {
                 Swap(ref elements[rowOffetA + column], ref elements[rowOffsetB + column]);
             }
@@ -203,7 +217,7 @@ namespace DoTheMath.Linear
                 return;
             }
 
-            for(var rowOffset = 0; rowOffset < elements.Length; rowOffset += Columns)
+            for (var rowOffset = 0; rowOffset < elements.Length; rowOffset += Columns)
             {
                 Swap(ref elements[columnA + rowOffset], ref elements[columnB + rowOffset]);
             }
@@ -214,15 +228,15 @@ namespace DoTheMath.Linear
 #endif
         public bool Equals(MatrixD other)
         {
-            if(object.ReferenceEquals(this, other))
+            if (object.ReferenceEquals(this, other))
             {
                 return true;
             }
-            if(object.ReferenceEquals(null, other))
+            if (object.ReferenceEquals(null, other))
             {
                 return false;
             }
-            if(Rows != other.Rows || Columns != other.Columns)
+            if (Rows != other.Rows || Columns != other.Columns)
             {
                 return false;
             }

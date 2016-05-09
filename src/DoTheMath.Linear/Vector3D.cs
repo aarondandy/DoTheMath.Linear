@@ -23,6 +23,16 @@ namespace DoTheMath.Linear
             Z = z;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector3D(Vector3D source)
+        {
+            X = source.X;
+            Y = source.Y;
+            Z = source.Z;
+        }
+
         public int Dimensions
         {
 #if !PRE_NETSTANDARD

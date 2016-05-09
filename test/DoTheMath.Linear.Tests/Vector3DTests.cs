@@ -26,6 +26,17 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(-5.0, v.Y);
                 Assert.Equal(6.0, v.Z);
             }
+
+            [Fact]
+            public void copy_constructor_copies_all_componenets()
+            {
+                var expected = new Vector3D(0, 1, 2);
+
+                var actual = new Vector3D(expected);
+
+                Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
         }
 
         public class Get : Vector3DTests
