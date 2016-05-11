@@ -250,6 +250,42 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void ScaleRow(int row, double value)
+        {
+            if(row == 0)
+            {
+                E00 *= value;
+                E01 *= value;
+            }
+            else if(row == 1)
+            {
+                E10 *= value;
+                E11 *= value;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(row));
+            }
+        }
+
+        public void ScaleColumn(int column, double value)
+        {
+            if (column == 0)
+            {
+                E00 *= value;
+                E10 *= value;
+            }
+            else if (column == 1)
+            {
+                E01 *= value;
+                E11 *= value;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(column));
+            }
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif

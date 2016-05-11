@@ -223,6 +223,39 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void ScaleRow(int row, double value)
+        {
+            if (row < 0 || row >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(row));
+            }
+
+            var elementIndex = Columns * row;
+            var elementIndexUpperBound = Columns + elementIndex;
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(elementIndexUpperBound <= elements.Length);
+#endif
+
+            for (; elementIndex < elementIndexUpperBound; elementIndex++)
+            {
+                elements[elementIndex] *= value;
+            }
+        }
+
+        public void ScaleColumn(int column, double value)
+        {
+            if (column < 0 || column >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(column));
+            }
+
+            for (var elementIndex = column; elementIndex < elements.Length; elementIndex += Columns)
+            {
+                elements[elementIndex] *= value;
+            }
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif

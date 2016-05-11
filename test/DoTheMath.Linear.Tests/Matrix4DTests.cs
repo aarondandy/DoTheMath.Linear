@@ -538,5 +538,161 @@ namespace DoTheMath.Linear.Tests
                     m);
             }
         }
+
+        public class ScaleRow : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(-100, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(4, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(20, 0));
+            }
+
+            [Fact]
+            public void can_scale_first_row()
+            {
+                var m = new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+
+                m.ScaleRow(0, 10);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        10, 20, 30, 40,
+                        5, 6, 7, 8,
+                        9, 10, 11, 12,
+                        13, 14, 15, 16),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_second_row()
+            {
+                var m = new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+
+                m.ScaleRow(1, 10);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        1, 2, 3, 4,
+                        50, 60, 70, 80,
+                        9, 10, 11, 12,
+                        13, 14, 15, 16),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_third_row()
+            {
+                var m = new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+
+                m.ScaleRow(2, 10);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        1, 2, 3, 4,
+                        5, 6, 7, 8,
+                        90, 100, 110, 120,
+                        13, 14, 15, 16),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_fourth_row()
+            {
+                var m = new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+
+                m.ScaleRow(3, 10);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        1, 2, 3, 4,
+                        5, 6, 7, 8,
+                        9, 10, 11, 12,
+                        130, 140, 150, 160),
+                    m);
+            }
+        }
+
+        public class ScaleColumn : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(-100, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(4, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(20, 0));
+            }
+
+            [Fact]
+            public void can_scale_first_column()
+            {
+                var m = new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+
+                m.ScaleColumn(0, 10);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        10, 2, 3, 4,
+                        50, 6, 7, 8,
+                        90, 10, 11, 12,
+                        130, 14, 15, 16),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_second_column()
+            {
+                var m = new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+
+                m.ScaleColumn(1, 10);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        1, 20, 3, 4,
+                        5, 60, 7, 8,
+                        9, 100, 11, 12,
+                        13, 140, 15, 16),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_third_column()
+            {
+                var m = new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+
+                m.ScaleColumn(2, 10);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        1, 2, 30, 4,
+                        5, 6, 70, 8,
+                        9, 10, 110, 12,
+                        13, 14, 150, 16),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_fourth_column()
+            {
+                var m = new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+
+                m.ScaleColumn(3, 10);
+
+                Assert.Equal(
+                    new Matrix4D(
+                        1, 2, 3, 40,
+                        5, 6, 7, 80,
+                        9, 10, 11, 120,
+                        13, 14, 15, 160),
+                    m);
+            }
+        }
     }
 }

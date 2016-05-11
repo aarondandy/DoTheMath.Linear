@@ -415,6 +415,64 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void ScaleRow(int row, double value)
+        {
+            switch (row)
+            {
+                case 0:
+                    {
+                        E00 *= value;
+                        E01 *= value;
+                        E02 *= value;
+                        break;
+                    }
+                case 1:
+                    {
+                        E10 *= value;
+                        E11 *= value;
+                        E12 *= value;
+                        break;
+                    }
+                case 2:
+                    {
+                        E20 *= value;
+                        E21 *= value;
+                        E22 *= value;
+                        break;
+                    }
+                default: throw new ArgumentOutOfRangeException(nameof(row));
+            }
+        }
+
+        public void ScaleColumn(int column, double value)
+        {
+            switch (column)
+            {
+                case 0:
+                    {
+                        E00 *= value;
+                        E10 *= value;
+                        E20 *= value;
+                        break;
+                    }
+                case 1:
+                    {
+                        E01 *= value;
+                        E11 *= value;
+                        E21 *= value;
+                        break;
+                    }
+                case 2:
+                    {
+                        E02 *= value;
+                        E12 *= value;
+                        E22 *= value;
+                        break;
+                    }
+                default: throw new ArgumentOutOfRangeException(nameof(column));
+            }
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif

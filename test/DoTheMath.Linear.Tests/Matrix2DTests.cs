@@ -384,5 +384,89 @@ namespace DoTheMath.Linear.Tests
                 }
             }
         }
+
+        public class ScaleRow : Matrix2DTests
+        {
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(-100, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(20, 0));
+            }
+
+            [Fact]
+            public void can_scale_first_row()
+            {
+                var m = new Matrix2D(1, 2, 3, 4);
+
+                m.ScaleRow(0, 10);
+
+                Assert.Equal(
+                    new Matrix2D(
+                        10, 20,
+                        3, 4),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_second_row()
+            {
+                var m = new Matrix2D(1, 2, 3, 4);
+
+                m.ScaleRow(1, 10);
+
+                Assert.Equal(
+                    new Matrix2D(
+                        1, 2,
+                        30, 40),
+                    m);
+            }
+        }
+
+        public class ScaleColumn : Matrix2DTests
+        {
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(-100, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(20, 0));
+            }
+
+            [Fact]
+            public void can_scale_first_column()
+            {
+                var m = new Matrix2D(1, 2, 3, 4);
+
+                m.ScaleColumn(0, 10);
+
+                Assert.Equal(
+                    new Matrix2D(
+                        10, 2,
+                        30, 4),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_second_column()
+            {
+                var m = new Matrix2D(1, 2, 3, 4);
+
+                m.ScaleColumn(1, 10);
+
+                Assert.Equal(
+                    new Matrix2D(
+                        1, 20,
+                        3, 40),
+                    m);
+            }
+        }
     }
 }
