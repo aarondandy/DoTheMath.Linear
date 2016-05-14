@@ -679,9 +679,9 @@ namespace DoTheMath.Linear.Tests
             public void can_scale_rows(int rows, int columns, int row, double value)
             {
                 var actual = new MatrixD(rows, columns);
-                for(var r = 0; r < actual.Rows; r++)
+                for (var r = 0; r < actual.Rows; r++)
                 {
-                    for(var c = 0; c < actual.Columns; c++)
+                    for (var c = 0; c < actual.Columns; c++)
                     {
                         actual.Set(r, c, (r * actual.Columns) + c);
                     }
@@ -689,7 +689,7 @@ namespace DoTheMath.Linear.Tests
 
                 var expected = new MatrixD(actual);
 
-                for(var c = 0; c < expected.Columns; c++)
+                for (var c = 0; c < expected.Columns; c++)
                 {
                     expected.Set(row, c, expected.Get(row, c) * value);
                 }
@@ -743,6 +743,108 @@ namespace DoTheMath.Linear.Tests
                 }
 
                 actual.ScaleColumn(column, value);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class AddScaledRow : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_rows_throw(int rows)
+            {
+                var m = new MatrixD(rows, 2);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledRow(-1, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledRow(-m.Rows, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledRow(m.Rows, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledRow(m.Rows * 2, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledRow(0, -1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledRow(0, -m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledRow(0, m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledRow(0, m.Rows * 2, 0));
+            }
+
+            [Theory]
+            [InlineData(1, 1, 0, 0, 2)]
+            [InlineData(2, 3, 1, 0, -9.3)]
+            [InlineData(4, 0, 1, 3, -2)]
+            [InlineData(5, 5, 0, 2, 3.3)]
+            [InlineData(5, 5, 4, 3, 3.3)]
+            public void can_add_scaled_row(int rows, int columns, int sourceRow, int targetRow, double scalar)
+            {
+                var actual = new MatrixD(rows, columns);
+                for (var r = 0; r < actual.Rows; r++)
+                {
+                    for (var c = 0; c < actual.Columns; c++)
+                    {
+                        actual.Set(r, c, (r * actual.Columns) + c);
+                    }
+                }
+
+                var expected = new MatrixD(actual);
+                for (var c = 0; c < expected.Columns; c++)
+                {
+                    expected.Set(targetRow, c, expected.Get(targetRow, c) + (actual.Get(sourceRow, c) * scalar));
+                }
+
+                actual.AddScaledRow(sourceRow, targetRow, scalar);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class AddScaledColumn : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_columns_throw(int columns)
+            {
+                var m = new MatrixD(2, columns);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledColumn(-1, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledColumn(-m.Columns, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledColumn(m.Columns, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledColumn(m.Columns * 2, 0, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledColumn(0, -1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledColumn(0, -m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledColumn(0, m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddScaledColumn(0, m.Columns * 2, 0));
+            }
+
+            [Theory]
+            [InlineData(1, 1, 0, 0, 2)]
+            [InlineData(2, 3, 1, 0, -9.3)]
+            [InlineData(4, 0, 1, 3, -2)]
+            [InlineData(5, 5, 0, 2, 3.3)]
+            [InlineData(5, 5, 4, 3, 3.3)]
+            public void can_add_scaled_column(int columns, int rows, int sourceColumn, int targetColumn, double scalar)
+            {
+                var actual = new MatrixD(rows, columns);
+                for (var r = 0; r < actual.Rows; r++)
+                {
+                    for (var c = 0; c < actual.Columns; c++)
+                    {
+                        actual.Set(r, c, (r * actual.Columns) + c);
+                    }
+                }
+
+                var expected = new MatrixD(actual);
+                for (var r = 0; r < expected.Rows; r++)
+                {
+                    expected.Set(r, targetColumn, expected.Get(r, targetColumn) + (actual.Get(r, sourceColumn) * scalar));
+                }
+
+                actual.AddScaledColumn(sourceColumn, targetColumn, scalar);
 
                 Assert.Equal(expected, actual);
             }

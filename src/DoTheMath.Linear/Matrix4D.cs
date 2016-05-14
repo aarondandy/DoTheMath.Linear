@@ -566,6 +566,140 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void AddScaledRow(int sourceRow, int targetRow, double scalar)
+        {
+            double e0, e1, e2, e3;
+            switch (sourceRow)
+            {
+                case 0:
+                    e0 = E00;
+                    e1 = E01;
+                    e2 = E02;
+                    e3 = E03;
+                    break;
+                case 1:
+                    e0 = E10;
+                    e1 = E11;
+                    e2 = E12;
+                    e3 = E13;
+                    break;
+                case 2:
+                    e0 = E20;
+                    e1 = E21;
+                    e2 = E22;
+                    e3 = E23;
+                    break;
+                case 3:
+                    e0 = E30;
+                    e1 = E31;
+                    e2 = E32;
+                    e3 = E33;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(sourceRow));
+            }
+
+            e0 *= scalar;
+            e1 *= scalar;
+            e2 *= scalar;
+            e3 *= scalar;
+
+            switch (targetRow)
+            {
+                case 0:
+                    E00 += e0;
+                    E01 += e1;
+                    E02 += e2;
+                    E03 += e3;
+                    break;
+                case 1:
+                    E10 += e0;
+                    E11 += e1;
+                    E12 += e2;
+                    E13 += e3;
+                    break;
+                case 2:
+                    E20 += e0;
+                    E21 += e1;
+                    E22 += e2;
+                    E23 += e3;
+                    break;
+                case 3:
+                    E30 += e0;
+                    E31 += e1;
+                    E32 += e2;
+                    E33 += e3;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(targetRow));
+            }
+        }
+
+        public void AddScaledColumn(int sourceColumn, int targetColumn, double scalar)
+        {
+            double e0, e1, e2, e3;
+            switch (sourceColumn)
+            {
+                case 0:
+                    e0 = E00;
+                    e1 = E10;
+                    e2 = E20;
+                    e3 = E30;
+                    break;
+                case 1:
+                    e0 = E01;
+                    e1 = E11;
+                    e2 = E21;
+                    e3 = E31;
+                    break;
+                case 2:
+                    e0 = E02;
+                    e1 = E12;
+                    e2 = E22;
+                    e3 = E32;
+                    break;
+                case 3:
+                    e0 = E03;
+                    e1 = E13;
+                    e2 = E23;
+                    e3 = E33;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(sourceColumn));
+            }
+
+            e0 *= scalar;
+            e1 *= scalar;
+            e2 *= scalar;
+            e3 *= scalar;
+
+            switch (targetColumn)
+            {
+                case 0:
+                    E00 += e0;
+                    E10 += e1;
+                    E20 += e2;
+                    E30 += e3;
+                    break;
+                case 1:
+                    E01 += e0;
+                    E11 += e1;
+                    E21 += e2;
+                    E31 += e3;
+                    break;
+                case 2:
+                    E02 += e0;
+                    E12 += e1;
+                    E22 += e2;
+                    E32 += e3;
+                    break;
+                case 3:
+                    E03 += e0;
+                    E13 += e1;
+                    E23 += e2;
+                    E33 += e3;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(targetColumn));
+            }
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif

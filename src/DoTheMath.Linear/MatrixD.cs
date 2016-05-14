@@ -256,6 +256,40 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void AddScaledRow(int sourceRow, int targetRow, double scalar)
+        {
+            if (sourceRow < 0 || sourceRow >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceRow));
+            }
+            if (targetRow < 0 || targetRow >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetRow));
+            }
+
+            for (int column = 0; column < Columns; column++)
+            {
+                Set(targetRow, column, (Get(sourceRow, column) * scalar) + Get(targetRow, column));
+            }
+        }
+
+        public void AddScaledColumn(int sourceColumn, int targetColumn, double scalar)
+        {
+            if (sourceColumn < 0 || sourceColumn >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceColumn));
+            }
+            if (targetColumn < 0 || targetColumn >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetColumn));
+            }
+
+            for (int row = 0; row < Rows; row++)
+            {
+                Set(row, targetColumn, (Get(row, sourceColumn) * scalar) + Get(row, targetColumn));
+            }
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif

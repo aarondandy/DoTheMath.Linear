@@ -252,12 +252,12 @@ namespace DoTheMath.Linear
 
         public void ScaleRow(int row, double value)
         {
-            if(row == 0)
+            if (row == 0)
             {
                 E00 *= value;
                 E01 *= value;
             }
-            else if(row == 1)
+            else if (row == 1)
             {
                 E10 *= value;
                 E11 *= value;
@@ -283,6 +283,80 @@ namespace DoTheMath.Linear
             else
             {
                 throw new ArgumentOutOfRangeException(nameof(column));
+            }
+        }
+
+        public void AddScaledRow(int sourceRow, int targetRow, double scalar)
+        {
+            double e0, e1;
+            if (sourceRow == 0)
+            {
+                e0 = E00;
+                e1 = E01;
+            }
+            else if (sourceRow == 1)
+            {
+                e0 = E10;
+                e1 = E11;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceRow));
+            }
+
+            e0 *= scalar;
+            e1 *= scalar;
+
+            if (targetRow == 0)
+            {
+                E00 += e0;
+                E01 += e1;
+            }
+            else if (targetRow == 1)
+            {
+                E10 += e0;
+                E11 += e1;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetRow));
+            }
+        }
+
+        public void AddScaledColumn(int sourceColumn, int targetColumn, double scalar)
+        {
+            double e0, e1;
+            if (sourceColumn == 0)
+            {
+                e0 = E00;
+                e1 = E10;
+            }
+            else if (sourceColumn == 1)
+            {
+                e0 = E01;
+                e1 = E11;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceColumn));
+            }
+
+            e0 *= scalar;
+            e1 *= scalar;
+
+            if (targetColumn == 0)
+            {
+                E00 += e0;
+                E10 += e1;
+            }
+            else if (targetColumn == 1)
+            {
+                E01 += e0;
+                E11 += e1;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetColumn));
             }
         }
 
