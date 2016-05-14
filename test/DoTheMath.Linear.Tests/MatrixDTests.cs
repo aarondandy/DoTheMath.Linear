@@ -849,5 +849,57 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class AddMatrix : MatrixDTests
+        {
+            [Fact]
+            public void null_matrix_throws()
+            {
+                var m = new MatrixD(4, 2);
+
+                Assert.Throws<ArgumentNullException>(() => m.Add((MatrixD)null));
+            }
+
+            [Fact]
+            public void mixed_size_throws()
+            {
+                var a = new MatrixD(4, 2);
+                var b = new MatrixD(2, 4);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => a.Add(b));
+            }
+
+            [Fact]
+            public void can_add_all_elements()
+            {
+                var a = new MatrixD(2, 3);
+                a.Set(0, 0, 1);
+                a.Set(0, 1, 2);
+                a.Set(0, 2, 3);
+                a.Set(1, 0, 4);
+                a.Set(1, 1, 5);
+                a.Set(1, 2, 6);
+
+                var b = new MatrixD(2, 3);
+                b.Set(0, 0, -1.1);
+                b.Set(0, 1, 0.2);
+                b.Set(0, 2, -3.2);
+                b.Set(1, 0, 0.4);
+                b.Set(1, 1, -5.3);
+                b.Set(1, 2, 0.6);
+
+                var expected = new MatrixD(2, 3);
+                expected.Set(0, 0, 1 - 1.1);
+                expected.Set(0, 1, 2 + 0.2);
+                expected.Set(0, 2, 3 - 3.2);
+                expected.Set(1, 0, 4 + 0.4);
+                expected.Set(1, 1, 5 - 5.3);
+                expected.Set(1, 2, 6 + 0.6);
+
+                var actual = a.Add(b);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

@@ -293,6 +293,35 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public MatrixD Add(MatrixD other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+            if (other.Rows != Rows || other.Columns != Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(other));
+            }
+
+            var sum = new MatrixD(Rows, Columns);
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(elements.Length == other.elements.Length);
+            System.Diagnostics.Contracts.Contract.Assume(elements.Length == sum.elements.Length);
+#endif
+
+            for (var elementIndex = 0; elementIndex < sum.elements.Length; elementIndex++)
+            {
+                sum.elements[elementIndex] = elements[elementIndex] + other.elements[elementIndex];
+            }
+
+            return sum;
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(MatrixD other)
         {
             if (object.ReferenceEquals(this, other))

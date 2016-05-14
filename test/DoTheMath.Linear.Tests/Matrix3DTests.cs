@@ -666,5 +666,28 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class AddMatrix : Matrix3DTests
+        {
+            [Fact]
+            public void null_matrix_throws()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<ArgumentNullException>(() => m.Add((Matrix3D)null));
+            }
+
+            [Fact]
+            public void can_add_all_elements()
+            {
+                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var b = new Matrix3D(4.4, 3.3, 2.2, 1.1, -0.1, 1.2, 2.3, 4.6, 7.7);
+                var expected = new Matrix3D(5.4, 5.3, 5.2, 5.1, 4.9, 7.2, 9.3, 12.6, 16.7);
+
+                var actual = a.Add(b);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

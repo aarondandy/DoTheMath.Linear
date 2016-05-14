@@ -542,5 +542,28 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class AddMatrix : Matrix2DTests
+        {
+            [Fact]
+            public void null_matrix_throws()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentNullException>(() => m.Add((Matrix2D)null));
+            }
+
+            [Fact]
+            public void can_add_all_elements()
+            {
+                var a = new Matrix2D(1, 2, 3, 4);
+                var b = new Matrix2D(4.4, 3.3, 2.2, 1.1);
+                var expected = new Matrix2D(5.4, 5.3, 5.2, 5.1);
+
+                var actual = a.Add(b);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

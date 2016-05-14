@@ -572,6 +572,29 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public Matrix3D Add(Matrix3D other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+            return new Matrix3D()
+            {
+                E00 = other.E00 + E00,
+                E01 = other.E01 + E01,
+                E02 = other.E02 + E02,
+                E10 = other.E10 + E10,
+                E11 = other.E11 + E11,
+                E12 = other.E12 + E12,
+                E20 = other.E20 + E20,
+                E21 = other.E21 + E21,
+                E22 = other.E22 + E22
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix3D other)
         {
             return object.ReferenceEquals(this, other)

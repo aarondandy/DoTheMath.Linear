@@ -792,5 +792,40 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class AddMatrix : Matrix4DTests
+        {
+            [Fact]
+            public void null_matrix_throws()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentNullException>(() => m.Add((Matrix4D)null));
+            }
+
+            [Fact]
+            public void can_add_all_elements()
+            {
+                var a = new Matrix4D(
+                    1, 2, 3, 4,
+                    5, 6, 7, 8,
+                    9, 10, 11, 12,
+                    13, 14, 15, 16);
+                var b = new Matrix4D(
+                    4.4, 3.3, 2.2, 1.1,
+                    -0.1, 1.2, 2.3, 4.6,
+                    7.7, 1.9, -9, 0,
+                    -5, -8, 6.6, 4);
+                var expected = new Matrix4D(
+                    5.4, 5.3, 5.2, 5.1,
+                    4.9, 7.2, 9.3, 12.6,
+                    16.7, 11.9, 2, 12,
+                    8, 6, 21.6, 20);
+
+                var actual = a.Add(b);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }
