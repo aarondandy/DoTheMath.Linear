@@ -827,5 +827,27 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class MultiplyScalar : Matrix4DTests
+        {
+            [Fact]
+            public void all_elements_get_scaled()
+            {
+                var a = new Matrix4D(
+                    1, 2, 3, 4,
+                    5, 6, -7, 8,
+                    -9, 10, 11, 12,
+                    13, 14, 15, 16);
+                var expected = new Matrix4D(
+                    1.1, 2 * 1.1, 3 * 1.1, 4 * 1.1,
+                    5 * 1.1, 6 * 1.1, -7 * 1.1, 8 * 1.1,
+                    -9 * 1.1, 10 * 1.1, 11 * 1.1, 12 * 1.1,
+                    13 * 1.1, 14 * 1.1, 15 * 1.1, 16 * 1.1);
+
+                var actual = a.Multiply(1.1);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

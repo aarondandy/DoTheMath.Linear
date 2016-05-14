@@ -565,5 +565,19 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class MultiplyScalar : Matrix2DTests
+        {
+            [Fact]
+            public void all_elements_get_scaled()
+            {
+                var a = new Matrix2D(1, 2, 3, 4);
+                var expected = new Matrix2D(1 * 1.1, 2 * 1.1, 3 * 1.1, 4 * 1.1);
+
+                var actual = a.Multiply(1.1);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

@@ -709,7 +709,7 @@ namespace DoTheMath.Linear
             {
                 throw new ArgumentNullException(nameof(other));
             }
-            return new Matrix4D()
+            return new Matrix4D
             {
                 E00 = other.E00 + E00,
                 E01 = other.E01 + E01,
@@ -727,6 +727,32 @@ namespace DoTheMath.Linear
                 E31 = other.E31 + E31,
                 E32 = other.E32 + E32,
                 E33 = other.E33 + E33
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
+        public Matrix4D Multiply(double scalar)
+        {
+            return new Matrix4D
+            {
+                E00 = E00 * scalar,
+                E01 = E01 * scalar,
+                E02 = E02 * scalar,
+                E03 = E03 * scalar,
+                E10 = E10 * scalar,
+                E11 = E11 * scalar,
+                E12 = E12 * scalar,
+                E13 = E13 * scalar,
+                E20 = E20 * scalar,
+                E21 = E21 * scalar,
+                E22 = E22 * scalar,
+                E23 = E23 * scalar,
+                E30 = E30 * scalar,
+                E31 = E31 * scalar,
+                E32 = E32 * scalar,
+                E33 = E33 * scalar,
             };
         }
 

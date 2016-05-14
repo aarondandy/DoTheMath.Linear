@@ -322,6 +322,25 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public MatrixD Multiply(double scalar)
+        {
+            var scaled = new MatrixD(Rows, Columns);
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(elements.Length == scaled.elements.Length);
+#endif
+
+            for (var elementIndex = 0; elementIndex < scaled.elements.Length; elementIndex++)
+            {
+                scaled.elements[elementIndex] = elements[elementIndex] * scalar;
+            }
+
+            return scaled;
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(MatrixD other)
         {
             if (object.ReferenceEquals(this, other))

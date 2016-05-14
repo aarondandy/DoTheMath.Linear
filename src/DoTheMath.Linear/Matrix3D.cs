@@ -578,7 +578,7 @@ namespace DoTheMath.Linear
             {
                 throw new ArgumentNullException(nameof(other));
             }
-            return new Matrix3D()
+            return new Matrix3D
             {
                 E00 = other.E00 + E00,
                 E01 = other.E01 + E01,
@@ -589,6 +589,25 @@ namespace DoTheMath.Linear
                 E20 = other.E20 + E20,
                 E21 = other.E21 + E21,
                 E22 = other.E22 + E22
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
+        public Matrix3D Multiply(double scalar)
+        {
+            return new Matrix3D
+            {
+                E00 = E00 * scalar,
+                E01 = E01 * scalar,
+                E02 = E02 * scalar,
+                E10 = E10 * scalar,
+                E11 = E11 * scalar,
+                E12 = E12 * scalar,
+                E20 = E20 * scalar,
+                E21 = E21 * scalar,
+                E22 = E22 * scalar,
             };
         }
 

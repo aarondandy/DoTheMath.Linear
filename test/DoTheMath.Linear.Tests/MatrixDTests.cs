@@ -901,5 +901,32 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class MultiplyScalar : MatrixDTests
+        {
+            [Fact]
+            public void all_elements_get_scaled()
+            {
+                var a = new MatrixD(2, 3);
+                a.Set(0, 0, 1);
+                a.Set(0, 1, 2);
+                a.Set(0, 2, 3);
+                a.Set(1, 0, 4);
+                a.Set(1, 1, 5);
+                a.Set(1, 2, 6);
+
+                var expected = new MatrixD(2, 3);
+                expected.Set(0, 0, 1 * 1.1);
+                expected.Set(0, 1, 2 * 1.1);
+                expected.Set(0, 2, 3 * 1.1);
+                expected.Set(1, 0, 4 * 1.1);
+                expected.Set(1, 1, 5 * 1.1);
+                expected.Set(1, 2, 6 * 1.1);
+
+                var actual = a.Multiply(1.1);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }
