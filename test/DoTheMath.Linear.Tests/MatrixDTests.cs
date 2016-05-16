@@ -928,5 +928,112 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class Multiply : MatrixDTests
+        {
+            [Fact]
+            public void null_matrix_throws()
+            {
+                var sut = new MatrixD(4, 7);
+
+                Assert.Throws<ArgumentNullException>(() => sut.Multiply((MatrixD)null));
+            }
+
+            [Fact]
+            public void can_multiply_same_size_matrix()
+            {
+                var a = new MatrixD(3, 3);
+                a.Set(0, 0, 3);
+                a.Set(0, 1, 1);
+                a.Set(0, 2, 2);
+                a.Set(1, 0, -10);
+                a.Set(1, 1, -2);
+                a.Set(1, 2, 4);
+                a.Set(2, 0, -9);
+                a.Set(2, 1, 5);
+                a.Set(2, 2, -3);
+
+                var b = new MatrixD(3, 3);
+                b.Set(0, 0, 2);
+                b.Set(0, 1, 3);
+                b.Set(0, 2, 90);
+                b.Set(1, 0, -4);
+                b.Set(1, 1, 5);
+                b.Set(1, 2, 7);
+                b.Set(2, 0, 13);
+                b.Set(2, 1, -2);
+                b.Set(2, 2, -1);
+
+                var expected = new MatrixD(3, 3);
+                expected.Set(0, 0, 28);
+                expected.Set(0, 1, 10);
+                expected.Set(0, 2, 275);
+                expected.Set(1, 0, 40);
+                expected.Set(1, 1, -48);
+                expected.Set(1, 2, -918);
+                expected.Set(2, 0, -77);
+                expected.Set(2, 1, 4);
+                expected.Set(2, 2, -772);
+
+                var actual = a.Multiply(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void mismatched_inner_row_and_column_throws()
+            {
+                var a = new MatrixD(2, 2);
+                var b = new MatrixD(3, 2);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => a.Multiply(b));
+            }
+
+            [Fact]
+            public void can_multiply_different_size_matricies()
+            {
+                var a = new MatrixD(1, 2);
+                a.Set(0, 0, 2);
+                a.Set(0, 1, 3);
+
+                var b = new MatrixD(2, 3);
+                b.Set(0, 0, 1);
+                b.Set(0, 1, 2);
+                b.Set(0, 2, 3);
+                b.Set(1, 0, 4);
+                b.Set(1, 1, 5);
+                b.Set(1, 2, 6);
+
+                var expected = new MatrixD(1, 3);
+                expected.Set(0, 0, (2 * 1) + (3 * 4));
+                expected.Set(0, 1, (2 * 2) + (3 * 5));
+                expected.Set(0, 2, (2 * 3) + (3 * 6));
+
+                var actual = a.Multiply(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void multiplying_with_identity_results_in_same_matrix()
+            {
+                var a = new MatrixD(3, 3);
+                a.Set(0, 0, 3);
+                a.Set(0, 1, 1);
+                a.Set(0, 2, 2);
+                a.Set(1, 0, -10);
+                a.Set(1, 1, -2);
+                a.Set(1, 2, 4);
+                a.Set(2, 0, -9);
+                a.Set(2, 1, 5);
+                a.Set(2, 2, -3);
+
+                var identity = MatrixD.CreateIdentity(3);
+                Assert.NotEqual(identity, a);
+
+                Assert.Equal(a, a.Multiply(identity));
+                Assert.Equal(a, identity.Multiply(a));
+            }
+        }
     }
 }

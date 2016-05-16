@@ -395,6 +395,25 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public Matrix2D Multiply(Matrix2D right)
+        {
+            if (right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+
+            return new Matrix2D
+            {
+                E00 = (E00 * right.E00) + (E01 * right.E10),
+                E01 = (E00 * right.E01) + (E01 * right.E11),
+                E10 = (E10 * right.E00) + (E11 * right.E10),
+                E11 = (E10 * right.E01) + (E11 * right.E11)
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix2D other)
         {
             return object.ReferenceEquals(this, other)

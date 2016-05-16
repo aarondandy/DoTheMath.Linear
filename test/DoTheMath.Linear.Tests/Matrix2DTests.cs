@@ -46,7 +46,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void copy_constructor_contains_same_element()
             {
-                var expected = new Matrix2D(0, 1, 2, 3);
+                var expected = CreateIncremenetalMatrix();
 
                 var actual = new Matrix2D(expected);
 
@@ -192,7 +192,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void same_ref_are_equal()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.True(m.Equals(m));
             }
@@ -200,8 +200,8 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void different_ref_same_element_are_equal()
             {
-                var a = new Matrix2D(1, 2, 3, 4);
-                var b = new Matrix2D(1, 2, 3, 4);
+                var a = CreateIncremenetalMatrix();
+                var b = CreateIncremenetalMatrix();
 
                 Assert.True(a.Equals(b));
                 Assert.True(b.Equals(a));
@@ -210,8 +210,9 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void different_elements_are_not_equal()
             {
-                var a = new Matrix2D(1, 2, 3, 4);
+                var a = CreateIncremenetalMatrix();
                 var b = new Matrix2D(4, 3, 2, 1);
+                Assert.NotSame(a, b);
 
                 Assert.False(a.Equals(b));
                 Assert.False(b.Equals(a));
@@ -220,7 +221,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void matrix_does_not_equal_null()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.False(m.Equals((Matrix2D)null));
             }
@@ -231,7 +232,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void same_ref_are_equal()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.True(m.Equals((object)m));
             }
@@ -239,8 +240,9 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void different_ref_same_element_are_equal()
             {
-                var a = new Matrix2D(1, 2, 3, 4);
-                var b = new Matrix2D(1, 2, 3, 4);
+                var a = CreateIncremenetalMatrix();
+                var b = CreateIncremenetalMatrix();
+                Assert.NotSame(a, b);
 
                 Assert.True(a.Equals((object)b));
                 Assert.True(b.Equals((object)a));
@@ -249,7 +251,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void different_elements_are_not_equal()
             {
-                var a = new Matrix2D(1, 2, 3, 4);
+                var a = CreateIncremenetalMatrix();
                 var b = new Matrix2D(4, 3, 2, 1);
 
                 Assert.False(a.Equals((object)b));
@@ -259,7 +261,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void matrix_does_not_equal_null()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.False(m.Equals((object)null));
             }
@@ -267,7 +269,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void matrix_does_not_equal_unknown_type()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.False(m.Equals((object)"not-a-matrix"));
             }
@@ -278,12 +280,15 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void same_matrix_reference_has_same_hashcode_when_changed()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
-                var expectedHashCode = m.GetHashCode();
-                m.E00 = 4;
-                m.E11 = 9;
+                var sut = CreateIncremenetalMatrix();
+                var expectedHashCode = sut.GetHashCode();
 
-                Assert.Equal(expectedHashCode, m.GetHashCode());
+                sut.E00 = 4;
+                sut.E01 = -1.1;
+                sut.E10 = -999.999;
+                sut.E11 = 9;
+
+                Assert.Equal(expectedHashCode, sut.GetHashCode());
             }
         }
 
@@ -292,46 +297,49 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void invalid_rows_throws()
             {
-                var m = new Matrix2D();
+                var sut = new Matrix2D();
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(-1, 0));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(2, 0));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(99, 0));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, -1));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, 2));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapRows(0, 99));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapRows(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapRows(2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapRows(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapRows(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapRows(0, 2));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapRows(0, 99));
             }
 
             [Fact]
             public void can_swap_first_and_second_rows()
             {
-                var m = new Matrix2D(0, 1, 2, 3);
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix2D(3, 4, 1, 2);
 
-                m.SwapRows(0, 1);
+                actual.SwapRows(0, 1);
 
-                Assert.Equal(new Matrix2D(2, 3, 0, 1), m);
+                Assert.Equal(expected, actual);
             }
 
             [Fact]
             public void can_swap_second_and_first_rows()
             {
-                var m = new Matrix2D(0, 1, 2, 3);
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix2D(3, 4, 1, 2);
 
-                m.SwapRows(1, 0);
+                actual.SwapRows(1, 0);
 
-                Assert.Equal(new Matrix2D(2, 3, 0, 1), m);
+                Assert.Equal(expected, actual);
             }
 
             [Fact]
             public void swapping_same_rows_does_nothing()
             {
-                var m = new Matrix2D(0, 1, 2, 3);
+                var actual = CreateIncremenetalMatrix();
+                var expected = CreateIncremenetalMatrix();
 
-                for (int r = 0; r < m.Rows; r++)
+                for (int r = 0; r < actual.Rows; r++)
                 {
-                    m.SwapRows(r, r);
+                    actual.SwapRows(r, r);
 
-                    Assert.Equal(new Matrix2D(0, 1, 2, 3), m);
+                    Assert.Equal(expected, actual);
                 }
             }
         }
@@ -341,46 +349,49 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void invalid_columns_throws()
             {
-                var m = new Matrix2D();
+                var sut = new Matrix2D();
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(-1, 0));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(2, 0));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(99, 0));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, -1));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, 2));
-                Assert.Throws<ArgumentOutOfRangeException>(() => m.SwapColumns(0, 99));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapColumns(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapColumns(2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapColumns(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapColumns(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapColumns(0, 2));
+                Assert.Throws<ArgumentOutOfRangeException>(() => sut.SwapColumns(0, 99));
             }
 
             [Fact]
             public void can_swap_first_and_second_columns()
             {
-                var m = new Matrix2D(0, 1, 2, 3);
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix2D(2, 1, 4, 3);
 
-                m.SwapColumns(0, 1);
+                actual.SwapColumns(0, 1);
 
-                Assert.Equal(new Matrix2D(1, 0, 3, 2), m);
+                Assert.Equal(expected, actual);
             }
 
             [Fact]
             public void can_swap_second_and_first_columns()
             {
-                var m = new Matrix2D(0, 1, 2, 3);
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix2D(2, 1, 4, 3);
 
-                m.SwapColumns(1, 0);
+                actual.SwapColumns(1, 0);
 
-                Assert.Equal(new Matrix2D(1, 0, 3, 2), m);
+                Assert.Equal(expected, actual);
             }
 
             [Fact]
             public void swapping_same_columns_does_nothing()
             {
-                var m = new Matrix2D(0, 1, 2, 3);
+                var actual = CreateIncremenetalMatrix();
+                var expected = CreateIncremenetalMatrix();
 
-                for (int r = 0; r < m.Columns; r++)
+                for (int r = 0; r < actual.Columns; r++)
                 {
-                    m.SwapColumns(r, r);
+                    actual.SwapColumns(r, r);
 
-                    Assert.Equal(new Matrix2D(0, 1, 2, 3), m);
+                    Assert.Equal(expected, actual);
                 }
             }
         }
@@ -401,7 +412,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_first_row()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleRow(0, 10);
 
@@ -415,7 +426,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_second_row()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleRow(1, 10);
 
@@ -443,7 +454,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_first_column()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleColumn(0, 10);
 
@@ -457,7 +468,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_second_column()
             {
-                var m = new Matrix2D(1, 2, 3, 4);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleColumn(1, 10);
 
@@ -491,7 +502,7 @@ namespace DoTheMath.Linear.Tests
             [InlineData(1, 1, -99.9)]
             public void can_add_scaled_row(int sourceRow, int targetRow, double scalar)
             {
-                var actual = new Matrix2D(1, 2, 3, 4);
+                var actual = CreateIncremenetalMatrix();
                 var expected = new Matrix2D(actual);
 
                 for (int c = 0; c < actual.Columns; c++)
@@ -528,7 +539,7 @@ namespace DoTheMath.Linear.Tests
             [InlineData(1, 1, -99.9)]
             public void can_add_scaled_column(int sourceColumn, int targetColumn, double scalar)
             {
-                var actual = new Matrix2D(1, 2, 3, 4);
+                var actual = CreateIncremenetalMatrix();
                 var expected = new Matrix2D(actual);
 
                 for (int r = 0; r < actual.Rows; r++)
@@ -556,7 +567,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_add_all_elements()
             {
-                var a = new Matrix2D(1, 2, 3, 4);
+                var a = CreateIncremenetalMatrix();
                 var b = new Matrix2D(4.4, 3.3, 2.2, 1.1);
                 var expected = new Matrix2D(5.4, 5.3, 5.2, 5.1);
 
@@ -571,13 +582,53 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void all_elements_get_scaled()
             {
-                var a = new Matrix2D(1, 2, 3, 4);
+                var a = CreateIncremenetalMatrix();
                 var expected = new Matrix2D(1 * 1.1, 2 * 1.1, 3 * 1.1, 4 * 1.1);
 
                 var actual = a.Multiply(1.1);
 
                 Assert.Equal(expected, actual);
             }
+        }
+
+        public class Multiply : Matrix2DTests
+        {
+            [Fact]
+            public void null_matrix_throws()
+            {
+                var sut = CreateIncremenetalMatrix();
+
+                Assert.Throws<ArgumentNullException>(() => sut.Multiply((Matrix2D)null));
+            }
+
+            [Fact]
+            public void can_multiply_same_size_matrix()
+            {
+                var a = new Matrix2D(3, 1, -10, -2);
+                var b = new Matrix2D(2, 3, -4, 5);
+                var expected = new Matrix2D(2, 14, -12, -40);
+
+                var actual = a.Multiply(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void multiplying_with_identity_results_in_same_matrix()
+            {
+                var a = new Matrix2D(3, 1, -10, -2);
+                var identity = Matrix2D.CreateIdentity();
+                Assert.NotEqual(identity, a);
+
+                Assert.Equal(a, a.Multiply(identity));
+                Assert.Equal(a, identity.Multiply(a));
+            }
+        }
+
+
+        protected Matrix2D CreateIncremenetalMatrix()
+        {
+            return new Matrix2D(1, 2, 3, 4);
         }
     }
 }

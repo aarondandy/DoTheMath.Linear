@@ -59,7 +59,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void copy_constructor_contains_same_element()
             {
-                var expected = new Matrix3D(0, 1, 2, 3, 4, 5, 6, 7, 8);
+                var expected = CreateIncremenetalMatrix();
 
                 var actual = new Matrix3D(expected);
 
@@ -233,7 +233,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void same_ref_are_equal()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.True(m.Equals(m));
             }
@@ -241,8 +241,9 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void different_ref_same_element_are_equal()
             {
-                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
-                var b = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var a = CreateIncremenetalMatrix();
+                var b = CreateIncremenetalMatrix();
+                Assert.NotSame(a, b);
 
                 Assert.True(a.Equals(b));
                 Assert.True(b.Equals(a));
@@ -251,7 +252,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void different_elements_are_not_equal()
             {
-                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var a = CreateIncremenetalMatrix();
                 var b = new Matrix3D(4, 3, 2, 1, 0, -1, -2, -3, -4);
 
                 Assert.False(a.Equals(b));
@@ -261,7 +262,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void matrix_does_not_equal_null()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.False(m.Equals((Matrix3D)null));
             }
@@ -272,7 +273,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void same_ref_are_equal()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.True(m.Equals((object)m));
             }
@@ -280,8 +281,9 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void different_ref_same_element_are_equal()
             {
-                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
-                var b = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var a = CreateIncremenetalMatrix();
+                var b = CreateIncremenetalMatrix();
+                Assert.NotSame(a, b);
 
                 Assert.True(a.Equals((object)b));
                 Assert.True(b.Equals((object)a));
@@ -290,7 +292,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void different_elements_are_not_equal()
             {
-                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var a = CreateIncremenetalMatrix();
                 var b = new Matrix3D(4, 3, 2, 1, -1, -2, -3, -4, -5);
 
                 Assert.False(a.Equals((object)b));
@@ -300,7 +302,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void matrix_does_not_equal_null()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.False(m.Equals((object)null));
             }
@@ -308,7 +310,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void matrix_does_not_equal_unknown_type()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 Assert.False(m.Equals((object)"not-a-matrix"));
             }
@@ -319,7 +321,8 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void same_matrix_reference_has_same_hashcode_when_changed()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
+
                 var expectedHashCode = m.GetHashCode();
                 m.E00 = 4;
                 m.E11 = 9;
@@ -353,10 +356,8 @@ namespace DoTheMath.Linear.Tests
             [InlineData(2, 1)]
             public void can_swap_rows(int rowA, int rowB)
             {
-                var expected = new Matrix3D(
-                    0, 1, 2,
-                    3, 4, 5,
-                    6, 7, 8);
+                var expected = CreateIncremenetalMatrix();
+                var actual = new Matrix3D(expected);
 
                 for (var col = 0; col < expected.Columns; col++)
                 {
@@ -364,11 +365,6 @@ namespace DoTheMath.Linear.Tests
                     expected.Set(rowA, col, expected.Get(rowB, col));
                     expected.Set(rowB, col, temp);
                 }
-
-                var actual = new Matrix3D(
-                    0, 1, 2,
-                    3, 4, 5,
-                    6, 7, 8);
 
                 actual.SwapRows(rowA, rowB);
 
@@ -381,19 +377,12 @@ namespace DoTheMath.Linear.Tests
             [InlineData(2)]
             public void swapping_same_rows_does_nothing(int row)
             {
-                var m = new Matrix3D(
-                    0, 1, 2,
-                    3, 4, 5,
-                    6, 7, 8);
+                var actual = CreateIncremenetalMatrix();
+                var expected = CreateIncremenetalMatrix();
 
-                m.SwapRows(row, row);
+                actual.SwapRows(row, row);
 
-                Assert.Equal(
-                    new Matrix3D(
-                        0, 1, 2,
-                        3, 4, 5,
-                        6, 7, 8),
-                    m);
+                Assert.Equal(expected, actual);
             }
         }
 
@@ -421,10 +410,8 @@ namespace DoTheMath.Linear.Tests
             [InlineData(2, 1)]
             public void can_swap_columns(int columnA, int columnB)
             {
-                var expected = new Matrix3D(
-                    0, 1, 2,
-                    3, 4, 5,
-                    6, 7, 8);
+                var expected = CreateIncremenetalMatrix();
+                var actual = new Matrix3D(expected);
 
                 for (var row = 0; row < expected.Rows; row++)
                 {
@@ -432,11 +419,6 @@ namespace DoTheMath.Linear.Tests
                     expected.Set(row, columnA, expected.Get(row, columnB));
                     expected.Set(row, columnB, temp);
                 }
-
-                var actual = new Matrix3D(
-                    0, 1, 2,
-                    3, 4, 5,
-                    6, 7, 8);
 
                 actual.SwapColumns(columnA, columnB);
 
@@ -449,19 +431,13 @@ namespace DoTheMath.Linear.Tests
             [InlineData(2)]
             public void swapping_same_columns_does_nothing(int column)
             {
-                var m = new Matrix3D(
-                    0, 1, 2,
-                    3, 4, 5,
-                    6, 7, 8);
+                var actual = CreateIncremenetalMatrix();
+                var expected = CreateIncremenetalMatrix();
+                Assert.NotSame(expected, actual);
 
-                m.SwapColumns(column, column);
+                actual.SwapColumns(column, column);
 
-                Assert.Equal(
-                    new Matrix3D(
-                        0, 1, 2,
-                        3, 4, 5,
-                        6, 7, 8),
-                    m);
+                Assert.Equal(expected, actual);
             }
         }
 
@@ -481,7 +457,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_first_row()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleRow(0, 10);
 
@@ -496,7 +472,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_second_row()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleRow(1, 10);
 
@@ -511,7 +487,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_third_row()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleRow(2, 10);
 
@@ -540,7 +516,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_first_column()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleColumn(0, 10);
 
@@ -555,7 +531,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_second_column()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleColumn(1, 10);
 
@@ -570,7 +546,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_scale_third_column()
             {
-                var m = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var m = CreateIncremenetalMatrix();
 
                 m.ScaleColumn(2, 10);
 
@@ -610,7 +586,7 @@ namespace DoTheMath.Linear.Tests
             [InlineData(2, 2, -4.09)]
             public void can_add_scaled_row(int sourceRow, int targetRow, double scalar)
             {
-                var actual = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var actual = CreateIncremenetalMatrix();
                 var expected = new Matrix3D(actual);
 
                 for (int c = 0; c < actual.Columns; c++)
@@ -652,7 +628,7 @@ namespace DoTheMath.Linear.Tests
             [InlineData(2, 2, -4.09)]
             public void can_add_scaled_column(int sourceColumn, int targetColumn, double scalar)
             {
-                var actual = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var actual = CreateIncremenetalMatrix();
                 var expected = new Matrix3D(actual);
 
                 for (int r = 0; r < actual.Rows; r++)
@@ -680,7 +656,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void can_add_all_elements()
             {
-                var a = new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
+                var a = CreateIncremenetalMatrix();
                 var b = new Matrix3D(4.4, 3.3, 2.2, 1.1, -0.1, 1.2, 2.3, 4.6, 7.7);
                 var expected = new Matrix3D(5.4, 5.3, 5.2, 5.1, 4.9, 7.2, 9.3, 12.6, 16.7);
 
@@ -702,6 +678,54 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.Equal(expected, actual);
             }
+        }
+
+        public class Multiply : Matrix3DTests
+        {
+            [Fact]
+            public void null_matrix_throws()
+            {
+                var sut = CreateIncremenetalMatrix();
+
+                Assert.Throws<ArgumentNullException>(() => sut.Multiply((Matrix3D)null));
+            }
+
+            [Fact]
+            public void can_multiply_same_size_matrix()
+            {
+                var a = new Matrix3D(
+                    3, 1, 2,
+                    -10, -2, 4,
+                    -9, 5, -3);
+                var b = new Matrix3D(
+                    2, 3, 90,
+                    -4, 5, 7,
+                    13, -2, -1);
+                var expected = new Matrix3D(
+                    28, 10, 275,
+                    40, -48, -918,
+                    -77, 4, -772);
+
+                var actual = a.Multiply(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void multiplying_with_identity_results_in_same_matrix()
+            {
+                var a = new Matrix3D(3, 1, -10, -2, 5, 6, 7, 1, 99.9);
+                var identity = Matrix3D.CreateIdentity();
+                Assert.NotEqual(identity, a);
+
+                Assert.Equal(a, a.Multiply(identity));
+                Assert.Equal(a, identity.Multiply(a));
+            }
+        }
+
+        protected Matrix3D CreateIncremenetalMatrix()
+        {
+            return new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);
         }
     }
 }

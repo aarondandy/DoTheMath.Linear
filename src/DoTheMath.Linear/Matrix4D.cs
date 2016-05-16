@@ -759,6 +759,40 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public Matrix4D Multiply(Matrix4D right)
+        {
+            if (right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+
+            return new Matrix4D
+            {
+                E00 = (E00 * right.E00) + (E01 * right.E10) + (E02 * right.E20) + (E03 * right.E30),
+                E01 = (E00 * right.E01) + (E01 * right.E11) + (E02 * right.E21) + (E03 * right.E31),
+                E02 = (E00 * right.E02) + (E01 * right.E12) + (E02 * right.E22) + (E03 * right.E32),
+                E03 = (E00 * right.E03) + (E01 * right.E13) + (E02 * right.E23) + (E03 * right.E33),
+
+                E10 = (E10 * right.E00) + (E11 * right.E10) + (E12 * right.E20) + (E13 * right.E30),
+                E11 = (E10 * right.E01) + (E11 * right.E11) + (E12 * right.E21) + (E13 * right.E31),
+                E12 = (E10 * right.E02) + (E11 * right.E12) + (E12 * right.E22) + (E13 * right.E32),
+                E13 = (E10 * right.E03) + (E11 * right.E13) + (E12 * right.E23) + (E13 * right.E33),
+
+                E20 = (E20 * right.E00) + (E21 * right.E10) + (E22 * right.E20) + (E23 * right.E30),
+                E21 = (E20 * right.E01) + (E21 * right.E11) + (E22 * right.E21) + (E23 * right.E31),
+                E22 = (E20 * right.E02) + (E21 * right.E12) + (E22 * right.E22) + (E23 * right.E32),
+                E23 = (E20 * right.E03) + (E21 * right.E13) + (E22 * right.E23) + (E23 * right.E33),
+
+                E30 = (E30 * right.E00) + (E31 * right.E10) + (E32 * right.E20) + (E33 * right.E30),
+                E31 = (E30 * right.E01) + (E31 * right.E11) + (E32 * right.E21) + (E33 * right.E31),
+                E32 = (E30 * right.E02) + (E31 * right.E12) + (E32 * right.E22) + (E33 * right.E32),
+                E33 = (E30 * right.E03) + (E31 * right.E13) + (E32 * right.E23) + (E33 * right.E33)
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix4D other)
         {
             return object.ReferenceEquals(this, other)

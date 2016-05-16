@@ -341,6 +341,48 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public MatrixD Multiply(MatrixD right)
+        {
+            if (right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+            if (Columns != right.Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(right));
+            }
+
+            var product = new MatrixD(Rows, right.Columns);
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(Columns == right.Rows);
+            System.Diagnostics.Contracts.Contract.Assume(product.Rows == Rows);
+            System.Diagnostics.Contracts.Contract.Assume(product.Columns == right.Columns);
+#endif
+
+            for (int row = 0; row < product.Rows; row++)
+            {
+                int leftRowOffset = Columns * row;
+                int productRowOffset = product.Columns * row;
+
+                for (int column = 0; column < product.Columns; column++)
+                {
+                    double sum = 0.0;
+                    for (int innerIndex = 0; innerIndex < Columns; innerIndex++)
+                    {
+                        sum += elements[leftRowOffset + innerIndex] * right.Get(innerIndex, column);
+                    }
+
+                    product.elements[productRowOffset + column] = sum;
+                }
+            }
+
+            return product;
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(MatrixD other)
         {
             if (object.ReferenceEquals(this, other))
