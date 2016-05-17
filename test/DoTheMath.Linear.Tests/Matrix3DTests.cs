@@ -723,6 +723,23 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Transposed : Matrix3DTests
+        {
+            [Fact]
+            public void can_transpose()
+            {
+                var source = CreateIncremenetalMatrix();
+                var expected = new Matrix3D(
+                    1, 4, 7,
+                    2, 5, 8,
+                    3, 6, 9);
+
+                var actual = source.Transposed();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix3D CreateIncremenetalMatrix()
         {
             return new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);

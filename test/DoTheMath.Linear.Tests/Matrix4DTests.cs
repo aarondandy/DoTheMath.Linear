@@ -852,6 +852,24 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Transposed : Matrix4DTests
+        {
+            [Fact]
+            public void can_transpose()
+            {
+                var source = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    1, 5, 9, 13,
+                    2, 6, 10, 14,
+                    3, 7, 11, 15,
+                    4, 8, 12, 16);
+
+                var actual = source.Transposed();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix4D CreateIncremenetalMatrix()
         {
             return new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);

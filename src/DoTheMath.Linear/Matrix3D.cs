@@ -638,6 +638,27 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public Matrix3D Transposed()
+        {
+            return new Matrix3D
+            {
+                E00 = E00,
+                E01 = E10,
+                E02 = E20,
+
+                E10 = E01,
+                E11 = E11,
+                E12 = E21,
+
+                E20 = E02,
+                E21 = E12,
+                E22 = E22,
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix3D other)
         {
             return object.ReferenceEquals(this, other)

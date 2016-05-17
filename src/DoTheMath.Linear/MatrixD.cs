@@ -267,9 +267,12 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(targetRow));
             }
 
+            var sourceRowOffset = Columns * sourceRow;
+            var targetRowOffset = Columns * targetRow;
             for (int column = 0; column < Columns; column++)
             {
-                Set(targetRow, column, (Get(sourceRow, column) * scalar) + Get(targetRow, column));
+                var targetIndex = targetRowOffset + column;
+                elements[targetIndex] = (elements[sourceRowOffset + column] * scalar) + elements[targetIndex];
             }
         }
 
@@ -286,7 +289,9 @@ namespace DoTheMath.Linear
 
             for (int row = 0; row < Rows; row++)
             {
-                Set(row, targetColumn, (Get(row, sourceColumn) * scalar) + Get(row, targetColumn));
+                var rowOffset = (Columns * row);
+                var targetIndex = rowOffset + targetColumn;
+                elements[targetIndex] = (elements[rowOffset + sourceColumn] * scalar) + elements[targetIndex];
             }
         }
 
@@ -378,6 +383,30 @@ namespace DoTheMath.Linear
             }
 
             return product;
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
+        public MatrixD Transposed()
+        {
+            var transposed = new MatrixD(Columns, Rows);
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(transposed.elements.Length == elements.Length);
+#endif
+
+            for (int row = 0; row < Rows; row++)
+            {
+                var selfRowOffset = Columns * row;
+
+                for (int column = 0; column < Columns; column++)
+                {
+                    transposed.elements[(column * Rows) + row] = elements[selfRowOffset + column];
+                }
+            }
+
+            return transposed;
         }
 
 #if HAS_CODECONTRACTS

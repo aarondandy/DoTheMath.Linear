@@ -1035,5 +1035,32 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(a, identity.Multiply(a));
             }
         }
+
+        public class Transposed : MatrixDTests
+        {
+            [Fact]
+            public void can_transpose_diff_rows_and_columns()
+            {
+                var source = new MatrixD(2, 3);
+                source.Set(0, 0, 1);
+                source.Set(0, 1, 2);
+                source.Set(0, 2, 3);
+                source.Set(1, 0, 4);
+                source.Set(1, 1, 5);
+                source.Set(1, 2, 6);
+
+                var expected = new MatrixD(3, 2);
+                expected.Set(0, 0, 1);
+                expected.Set(0, 1, 4);
+                expected.Set(1, 0, 2);
+                expected.Set(1, 1, 5);
+                expected.Set(2, 0, 3);
+                expected.Set(2, 1, 6);
+
+                var actual = source.Transposed();
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

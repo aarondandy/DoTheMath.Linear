@@ -625,6 +625,21 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Transposed : Matrix2DTests
+        {
+            [Fact]
+            public void can_transpose()
+            {
+                var source = CreateIncremenetalMatrix();
+                var expected = new Matrix2D(
+                    1, 3,
+                    2, 4);
+
+                var actual = source.Transposed();
+
+                Assert.Equal(expected, actual);
+            }
+        }
 
         protected Matrix2D CreateIncremenetalMatrix()
         {

@@ -414,6 +414,20 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public Matrix2D Transposed()
+        {
+            return new Matrix2D
+            {
+                E00 = E00,
+                E01 = E10,
+                E10 = E01,
+                E11 = E11
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix2D other)
         {
             return object.ReferenceEquals(this, other)

@@ -793,6 +793,35 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public Matrix4D Transposed()
+        {
+            return new Matrix4D
+            {
+                E00 = E00,
+                E01 = E10,
+                E02 = E20,
+                E03 = E30,
+
+                E10 = E01,
+                E11 = E11,
+                E12 = E21,
+                E13 = E31,
+
+                E20 = E02,
+                E21 = E12,
+                E22 = E22,
+                E23 = E32,
+
+                E30 = E03,
+                E31 = E13,
+                E32 = E23,
+                E33 = E33
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix4D other)
         {
             return object.ReferenceEquals(this, other)
