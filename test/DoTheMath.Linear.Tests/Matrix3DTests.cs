@@ -740,6 +740,23 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Transpose : Matrix3DTests
+        {
+            [Fact]
+            public void can_transpose()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix3D(
+                    1, 4, 7,
+                    2, 5, 8,
+                    3, 6, 9);
+
+                actual.Transpose();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class IsSymmetric : Matrix3DTests
         {
             [Fact]

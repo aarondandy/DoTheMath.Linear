@@ -473,15 +473,6 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.Equal(expectedHashCode, m.GetHashCode());
             }
-
-            [Fact]
-            public void some_different_size_matrices_have_different_hashcodes()
-            {
-                Assert.NotEqual(new MatrixD(2, 3).GetHashCode(), new MatrixD(0, 0).GetHashCode());
-                Assert.NotEqual(new MatrixD(2, 3).GetHashCode(), new MatrixD(3, 2).GetHashCode());
-                Assert.NotEqual(new MatrixD(2, 3).GetHashCode(), new MatrixD(4, 8).GetHashCode());
-                Assert.NotEqual(new MatrixD(2, 3).GetHashCode(), new MatrixD(10, 2).GetHashCode());
-            }
         }
 
         public class SwapRows : MatrixDTests
@@ -1060,6 +1051,51 @@ namespace DoTheMath.Linear.Tests
                 var actual = source.Transposed();
 
                 Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Transpose : MatrixDTests
+        {
+            [Fact]
+            public void can_transpose_diff_rows_and_columns()
+            {
+                var actual = new MatrixD(2, 3);
+                actual.Set(0, 0, 1);
+                actual.Set(0, 1, 2);
+                actual.Set(0, 2, 3);
+                actual.Set(1, 0, 4);
+                actual.Set(1, 1, 5);
+                actual.Set(1, 2, 6);
+
+                var expected = new MatrixD(3, 2);
+                expected.Set(0, 0, 1);
+                expected.Set(0, 1, 4);
+                expected.Set(1, 0, 2);
+                expected.Set(1, 1, 5);
+                expected.Set(2, 0, 3);
+                expected.Set(2, 1, 6);
+
+                actual.Transpose();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void transpose_has_same_hash_code()
+            {
+                var actual = new MatrixD(2, 3);
+                var expectedHashCode = actual.GetHashCode();
+
+                actual.Set(0, 0, 1);
+                actual.Set(0, 1, 2);
+                actual.Set(0, 2, 3);
+                actual.Set(1, 0, 4);
+                actual.Set(1, 1, 5);
+                actual.Set(1, 2, 6);
+
+                actual.Transpose();
+
+                Assert.Equal(expectedHashCode, actual.GetHashCode());
             }
         }
     }

@@ -669,6 +669,13 @@ namespace DoTheMath.Linear
             };
         }
 
+        public void Transpose()
+        {
+            Swap(ref E01, ref E10);
+            Swap(ref E02, ref E20);
+            Swap(ref E12, ref E21);
+        }
+
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif

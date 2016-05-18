@@ -870,6 +870,24 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Transpose : Matrix4DTests
+        {
+            [Fact]
+            public void can_transpose()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    1, 5, 9, 13,
+                    2, 6, 10, 14,
+                    3, 7, 11, 15,
+                    4, 8, 12, 16);
+
+                actual.Transpose();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class IsSymmetric : Matrix4DTests
         {
             [Fact]

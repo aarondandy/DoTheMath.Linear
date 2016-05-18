@@ -10,7 +10,9 @@ namespace DoTheMath.Linear
         IMatrix<double>,
         IEquatable<MatrixD>
     {
-        private double[] elements;
+        private double[] _elements;
+        private int _rows;
+        private int _columns;
 
         /// <summary>
         /// Constructs a new zero matrix.
@@ -26,9 +28,9 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(columns));
             }
 
-            Rows = rows;
-            Columns = columns;
-            elements = new double[checked(rows * columns)];
+            _rows = rows;
+            _columns = columns;
+            _elements = new double[checked(rows * columns)];
         }
 
         public MatrixD(MatrixD source)
@@ -38,10 +40,10 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException(nameof(source));
             }
 
-            Rows = source.Rows;
-            Columns = source.Columns;
+            _rows = source.Rows;
+            _columns = source.Columns;
 
-            elements = Clone(source.elements);
+            _elements = Clone(source._elements);
         }
 
         public int Rows
@@ -52,11 +54,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
             [System.Diagnostics.Contracts.Pure]
 #endif
-            get;
-#if !PRE_NETSTANDARD
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-            private set;
+            get { return _rows; }
         }
 
         public int Columns
@@ -67,11 +65,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-            get;
-#if !PRE_NETSTANDARD
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-            private set;
+            get { return _columns; }
         }
 
         public bool IsSquare
@@ -104,7 +98,7 @@ namespace DoTheMath.Linear
                 {
                     for (int column = 0; column < Columns; column++)
                     {
-                        if (elements[(Columns * row) + column] != ((row == column) ? 1.0 : 0.0))
+                        if (_elements[(Columns * row) + column] != ((row == column) ? 1.0 : 0.0))
                         {
                             return false;
                         }
@@ -150,7 +144,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(column));
             }
 
-            return elements[(Columns * row) + column];
+            return _elements[(Columns * row) + column];
         }
 
         /// <summary>
@@ -173,7 +167,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(column));
             }
 
-            elements[(Columns * row) + column] = value;
+            _elements[(Columns * row) + column] = value;
         }
 
         public void SwapRows(int rowA, int rowB)
@@ -197,7 +191,7 @@ namespace DoTheMath.Linear
 
             for (var column = 0; column < Columns; column++)
             {
-                Swap(ref elements[rowOffetA + column], ref elements[rowOffsetB + column]);
+                Swap(ref _elements[rowOffetA + column], ref _elements[rowOffsetB + column]);
             }
         }
 
@@ -217,9 +211,9 @@ namespace DoTheMath.Linear
                 return;
             }
 
-            for (var rowOffset = 0; rowOffset < elements.Length; rowOffset += Columns)
+            for (var rowOffset = 0; rowOffset < _elements.Length; rowOffset += Columns)
             {
-                Swap(ref elements[columnA + rowOffset], ref elements[columnB + rowOffset]);
+                Swap(ref _elements[columnA + rowOffset], ref _elements[columnB + rowOffset]);
             }
         }
 
@@ -234,12 +228,12 @@ namespace DoTheMath.Linear
             var elementIndexUpperBound = Columns + elementIndex;
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(elementIndexUpperBound <= elements.Length);
+            System.Diagnostics.Contracts.Contract.Assume(elementIndexUpperBound <= _elements.Length);
 #endif
 
             for (; elementIndex < elementIndexUpperBound; elementIndex++)
             {
-                elements[elementIndex] *= value;
+                _elements[elementIndex] *= value;
             }
         }
 
@@ -250,9 +244,9 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(column));
             }
 
-            for (var elementIndex = column; elementIndex < elements.Length; elementIndex += Columns)
+            for (var elementIndex = column; elementIndex < _elements.Length; elementIndex += Columns)
             {
-                elements[elementIndex] *= value;
+                _elements[elementIndex] *= value;
             }
         }
 
@@ -272,7 +266,7 @@ namespace DoTheMath.Linear
             for (int column = 0; column < Columns; column++)
             {
                 var targetIndex = targetRowOffset + column;
-                elements[targetIndex] = (elements[sourceRowOffset + column] * scalar) + elements[targetIndex];
+                _elements[targetIndex] = (_elements[sourceRowOffset + column] * scalar) + _elements[targetIndex];
             }
         }
 
@@ -291,7 +285,7 @@ namespace DoTheMath.Linear
             {
                 var rowOffset = (Columns * row);
                 var targetIndex = rowOffset + targetColumn;
-                elements[targetIndex] = (elements[rowOffset + sourceColumn] * scalar) + elements[targetIndex];
+                _elements[targetIndex] = (_elements[rowOffset + sourceColumn] * scalar) + _elements[targetIndex];
             }
         }
 
@@ -312,13 +306,13 @@ namespace DoTheMath.Linear
             var sum = new MatrixD(Rows, Columns);
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(elements.Length == other.elements.Length);
-            System.Diagnostics.Contracts.Contract.Assume(elements.Length == sum.elements.Length);
+            System.Diagnostics.Contracts.Contract.Assume(_elements.Length == other._elements.Length);
+            System.Diagnostics.Contracts.Contract.Assume(_elements.Length == sum._elements.Length);
 #endif
 
-            for (var elementIndex = 0; elementIndex < sum.elements.Length; elementIndex++)
+            for (var elementIndex = 0; elementIndex < sum._elements.Length; elementIndex++)
             {
-                sum.elements[elementIndex] = elements[elementIndex] + other.elements[elementIndex];
+                sum._elements[elementIndex] = _elements[elementIndex] + other._elements[elementIndex];
             }
 
             return sum;
@@ -332,12 +326,12 @@ namespace DoTheMath.Linear
             var scaled = new MatrixD(Rows, Columns);
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(elements.Length == scaled.elements.Length);
+            System.Diagnostics.Contracts.Contract.Assume(_elements.Length == scaled._elements.Length);
 #endif
 
-            for (var elementIndex = 0; elementIndex < scaled.elements.Length; elementIndex++)
+            for (var elementIndex = 0; elementIndex < scaled._elements.Length; elementIndex++)
             {
-                scaled.elements[elementIndex] = elements[elementIndex] * scalar;
+                scaled._elements[elementIndex] = _elements[elementIndex] * scalar;
             }
 
             return scaled;
@@ -375,10 +369,10 @@ namespace DoTheMath.Linear
                     double sum = 0.0;
                     for (int innerIndex = 0; innerIndex < Columns; innerIndex++)
                     {
-                        sum += elements[leftRowOffset + innerIndex] * right.Get(innerIndex, column);
+                        sum += _elements[leftRowOffset + innerIndex] * right.Get(innerIndex, column);
                     }
 
-                    product.elements[productRowOffset + column] = sum;
+                    product._elements[productRowOffset + column] = sum;
                 }
             }
 
@@ -393,7 +387,7 @@ namespace DoTheMath.Linear
             var transposed = new MatrixD(Columns, Rows);
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(transposed.elements.Length == elements.Length);
+            System.Diagnostics.Contracts.Contract.Assume(transposed._elements.Length == _elements.Length);
 #endif
 
             for (int row = 0; row < Rows; row++)
@@ -402,11 +396,26 @@ namespace DoTheMath.Linear
 
                 for (int column = 0; column < Columns; column++)
                 {
-                    transposed.elements[(column * Rows) + row] = elements[selfRowOffset + column];
+                    transposed._elements[(column * Rows) + row] = _elements[selfRowOffset + column];
                 }
             }
 
             return transposed;
+        }
+
+        public void Transpose()
+        {
+            var newElements = new double[_elements.Length];
+
+            for(int elementIndex = 0; elementIndex < _elements.Length; elementIndex++)
+            {
+                var newIndex = ((elementIndex % Columns) * Rows) + (elementIndex / Columns);
+
+                newElements[newIndex] = _elements[elementIndex];
+            }
+            
+            _elements = newElements;
+            Swap(ref _rows, ref _columns);
         }
 
 #if HAS_CODECONTRACTS
@@ -428,12 +437,12 @@ namespace DoTheMath.Linear
             }
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(elements.Length == other.elements.Length);
+            System.Diagnostics.Contracts.Contract.Assume(_elements.Length == other._elements.Length);
 #endif
 
-            for (int elementIndex = 0; elementIndex < elements.Length; elementIndex++)
+            for (int elementIndex = 0; elementIndex < _elements.Length; elementIndex++)
             {
-                if (!elements[elementIndex].Equals(other.elements[elementIndex]))
+                if (!_elements[elementIndex].Equals(other._elements[elementIndex]))
                 {
                     return false;
                 }
@@ -457,7 +466,7 @@ namespace DoTheMath.Linear
         {
             unchecked
             {
-                return 2203 + elements.Length * 23 + Rows;
+                return 2203 + _elements.Length * 23;
             }
         }
     }
