@@ -740,6 +740,28 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class IsSymmetric : Matrix3DTests
+        {
+            [Fact]
+            public void symetric_matrix_is_symetric()
+            {
+                var matrix = new Matrix3D(
+                    9, 4, 3,
+                    4, 15, 1,
+                    3, 1, -2);
+
+                Assert.True(matrix.IsSymetric);
+            }
+
+            [Fact]
+            public void incremental_values_are_not_symetric()
+            {
+                var matrix = CreateIncremenetalMatrix();
+
+                Assert.False(matrix.IsSymetric);
+            }
+        }
+
         protected Matrix3D CreateIncremenetalMatrix()
         {
             return new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);

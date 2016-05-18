@@ -641,6 +641,27 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class IsSymmetric : Matrix2DTests
+        {
+            [Fact]
+            public void symetric_matrix_is_symetric()
+            {
+                var matrix = new Matrix2D(
+                    9, 4,
+                    4, 15);
+
+                Assert.True(matrix.IsSymetric);
+            }
+
+            [Fact]
+            public void incremental_values_are_not_symetric()
+            {
+                var matrix = CreateIncremenetalMatrix();
+
+                Assert.False(matrix.IsSymetric);
+            }
+        }
+
         protected Matrix2D CreateIncremenetalMatrix()
         {
             return new Matrix2D(1, 2, 3, 4);

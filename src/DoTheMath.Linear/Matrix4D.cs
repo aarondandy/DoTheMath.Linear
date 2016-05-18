@@ -216,6 +216,22 @@ namespace DoTheMath.Linear
             }
         }
 
+        public bool IsSymetric
+        {
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+            get
+            {
+                return E01 == E10
+                    && E02 == E20
+                    && E03 == E30
+                    && E12 == E21
+                    && E13 == E31
+                    && E23 == E32;
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

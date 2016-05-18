@@ -165,6 +165,19 @@ namespace DoTheMath.Linear
             }
         }
 
+        public bool IsSymetric
+        {
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+            get
+            {
+                return E01 == E10
+                    && E02 == E20
+                    && E12 == E21;
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

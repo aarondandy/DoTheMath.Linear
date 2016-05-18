@@ -127,6 +127,17 @@ namespace DoTheMath.Linear
             }
         }
 
+        public bool IsSymetric
+        {
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+            get
+            {
+                return E01 == E10;
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
