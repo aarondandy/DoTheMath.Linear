@@ -9,7 +9,7 @@ namespace DoTheMath.Linear
         IVector<double>,
         IEquatable<VectorD>
     {
-        private double[] components;
+        private double[] _components;
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -21,7 +21,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(dimensions));
             }
 
-            components = new double[dimensions];
+            _components = new double[dimensions];
         }
 
         public VectorD(VectorD source)
@@ -31,7 +31,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException(nameof(source));
             }
 
-            components = Clone(source.components);
+            _components = Clone(source._components);
         }
 
         public int Dimensions
@@ -42,7 +42,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
             [System.Diagnostics.Contracts.Pure]
 #endif
-            get { return components.Length; }
+            get { return _components.Length; }
         }
 
 #if !PRE_NETSTANDARD
@@ -53,12 +53,12 @@ namespace DoTheMath.Linear
 #endif
         public double Get(int dimension)
         {
-            if (dimension < 0 || dimension >= components.Length)
+            if (dimension < 0 || dimension >= _components.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(dimension));
             }
 
-            return components[dimension];
+            return _components[dimension];
         }
 
 #if !PRE_NETSTANDARD
@@ -66,12 +66,12 @@ namespace DoTheMath.Linear
 #endif
         public void Set(int dimension, double value)
         {
-            if (dimension < 0 || dimension >= components.Length)
+            if (dimension < 0 || dimension >= _components.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(dimension));
             }
 
-            components[dimension] = value;
+            _components[dimension] = value;
         }
 
 #if HAS_CODECONTRACTS
@@ -87,18 +87,18 @@ namespace DoTheMath.Linear
             {
                 return false;
             }
-            if (components.Length != other.components.Length)
+            if (_components.Length != other._components.Length)
             {
                 return false;
             }
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(components.Length == other.components.Length);
+            System.Diagnostics.Contracts.Contract.Assume(_components.Length == other._components.Length);
 #endif
 
-            for (int dimension = 0; dimension < components.Length; dimension++)
+            for (int dimension = 0; dimension < _components.Length; dimension++)
             {
-                if (!components[dimension].Equals(other.components[dimension]))
+                if (!_components[dimension].Equals(other._components[dimension]))
                 {
                     return false;
                 }
@@ -122,7 +122,7 @@ namespace DoTheMath.Linear
         {
             unchecked
             {
-                return 4099 + components.Length * 23;
+                return 4099 + _components.Length * 23;
             }
         }
     }
