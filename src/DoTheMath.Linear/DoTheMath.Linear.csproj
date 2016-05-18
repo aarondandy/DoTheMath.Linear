@@ -46,7 +46,11 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="IMatrixMutable{TElement}.cs" />
     <Compile Include="IMatrix{TElement}.cs" />
+    <Compile Include="IVector2{TComponenet}.cs" />
+    <Compile Include="IVector3{TComponenet}.cs" />
+    <Compile Include="IVector4{TComponenet}.cs" />
     <Compile Include="Utilities\Duplicator.cs" />
     <Compile Include="Utilities\Swapper.cs" />
     <Compile Include="IVector{TComponent}.cs" />

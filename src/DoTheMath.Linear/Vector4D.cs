@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace DoTheMath.Linear
 {
     public struct Vector4D :
-        IVector<double>,
+        IVector4<double>,
         IEquatable<Vector4D>
     {
         public double X;
@@ -47,6 +47,14 @@ namespace DoTheMath.Linear
 #endif
             get { return 3; }
         }
+
+        double IVector4<double>.X { get { return X; } }
+
+        double IVector4<double>.Y { get { return Y; } }
+
+        double IVector4<double>.Z { get { return Z; } }
+
+        double IVector4<double>.W { get { return W; } }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

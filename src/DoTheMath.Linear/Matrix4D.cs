@@ -6,7 +6,7 @@ using static DoTheMath.Linear.Utilities.Swapper;
 namespace DoTheMath.Linear
 {
     public sealed class Matrix4D :
-        IMatrix<double>,
+        IMatrixMutable<double>,
         IEquatable<Matrix4D>
     {
         /// <summary>

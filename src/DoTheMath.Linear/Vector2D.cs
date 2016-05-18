@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace DoTheMath.Linear
 {
     public struct Vector2D :
-        IVector<double>,
+        IVector2<double>,
         IEquatable<Vector2D>
     {
         public double X;
@@ -39,6 +39,10 @@ namespace DoTheMath.Linear
 #endif
             get { return 2; }
         }
+
+        double IVector2<double>.X { get { return X; } }
+
+        double IVector2<double>.Y { get { return Y; } }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -83,6 +87,11 @@ namespace DoTheMath.Linear
         public sealed override int GetHashCode()
         {
             return Dimensions;
+        }
+
+        double IVector<double>.Get(int dimension)
+        {
+            throw new NotImplementedException();
         }
     }
 }

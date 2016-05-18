@@ -7,7 +7,7 @@ using static DoTheMath.Linear.Utilities.Duplicator;
 namespace DoTheMath.Linear
 {
     public sealed class MatrixD :
-        IMatrix<double>,
+        IMatrixMutable<double>,
         IEquatable<MatrixD>
     {
         private double[] _elements;
