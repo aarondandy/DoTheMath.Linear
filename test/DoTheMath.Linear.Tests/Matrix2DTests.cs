@@ -678,6 +678,22 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Trace : Matrix2DTests
+        {
+            [Fact]
+            public void can_get_trace()
+            {
+                var matrix = new Matrix2D(
+                    9, 4,
+                    4, 15);
+                var expected = 9 + 15;
+
+                var actual = matrix.Trace;
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix2D CreateIncremenetalMatrix()
         {
             return new Matrix2D(1, 2, 3, 4);

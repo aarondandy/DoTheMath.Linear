@@ -911,6 +911,24 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Trace : Matrix4DTests
+        {
+            [Fact]
+            public void can_get_trace()
+            {
+                var matrix = new Matrix4D(
+                    9, 4, 3, 2,
+                    4, 15, 1, 6,
+                    3, 1, 99, 14,
+                    2, 6, 14, -2);
+                var expected = 9 + 15 + 99 - 2;
+
+                var actual = matrix.Trace;
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix4D CreateIncremenetalMatrix()
         {
             return new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);

@@ -779,6 +779,23 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Trace : Matrix3DTests
+        {
+            [Fact]
+            public void can_get_trace()
+            {
+                var matrix = new Matrix3D(
+                    9, 4, 7,
+                    4, 15, 0,
+                    1, 2, 3);
+                var expected = 9 + 15 + 3;
+
+                var actual = matrix.Trace;
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix3D CreateIncremenetalMatrix()
         {
             return new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);

@@ -232,6 +232,17 @@ namespace DoTheMath.Linear
             }
         }
 
+        public double Trace
+        {
+#if HAS_CODECONTRACTS
+            [System.Diagnostics.Contracts.Pure]
+#endif
+            get
+            {
+                return E00 + E11 + E22 + E33;
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
