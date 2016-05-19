@@ -859,6 +859,25 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public Matrix4D GetInverse()
+        {
+            var inverter = new GaussJordanInverter<Matrix4D>(
+                new Matrix4D(this),
+                Matrix4D.CreateIdentity());
+
+            if (inverter.Invert())
+            {
+                return inverter.Inverse;
+            }
+            else
+            {
+                throw new NoInverseException();
+            }
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix4D other)
         {
             return object.ReferenceEquals(this, other)

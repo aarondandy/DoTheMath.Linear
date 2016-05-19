@@ -690,6 +690,25 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public Matrix3D GetInverse()
+        {
+            var inverter = new GaussJordanInverter<Matrix3D>(
+                new Matrix3D(this),
+                Matrix3D.CreateIdentity());
+
+            if (inverter.Invert())
+            {
+                return inverter.Inverse;
+            }
+            else
+            {
+                throw new NoInverseException();
+            }
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix3D other)
         {
             return object.ReferenceEquals(this, other)

@@ -929,6 +929,97 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class GetInverse : Matrix4DTests
+        {
+            [Fact]
+            public void identity_matrix_returns_self_for_inverse()
+            {
+                var matrix = Matrix4D.CreateIdentity();
+                var expected = Matrix4D.CreateIdentity();
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void zero_matrix_has_no_inverse()
+            {
+                var matrix = new Matrix4D();
+
+                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+            }
+
+            [Fact]
+            public void all_one_matrix_has_no_inverse()
+            {
+                var matrix = new Matrix4D(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+
+                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+            }
+
+            [Fact]
+            public void matrix_is_not_mutated_by_inverse()
+            {
+                var actual = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+
+                var result = actual.GetInverse();
+
+                Assert.NotEqual(result, actual);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void invert_can_round_trip()
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+
+                var inverse = matrix.GetInverse();
+                var actual = inverse.GetInverse();
+
+                Assert.NotEqual(expected, inverse);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert_example_0()
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+
+                var expected = new Matrix4D(
+                    17.85, -7.7, -4.55, 2.5,
+                    -14.6, 6.2, 3.8, -2,
+                    4.35, -1.7, -1.05, 0.5,
+                    -0.7, 0.4, 0.1, 0);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix4D CreateIncremenetalMatrix()
         {
             return new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);

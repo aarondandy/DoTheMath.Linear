@@ -796,6 +796,91 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class GetInverse : Matrix3DTests
+        {
+            [Fact]
+            public void identity_matrix_returns_self_for_inverse()
+            {
+                var matrix = Matrix3D.CreateIdentity();
+                var expected = Matrix3D.CreateIdentity();
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void zero_matrix_has_no_inverse()
+            {
+                var matrix = new Matrix3D();
+
+                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+            }
+
+            [Fact]
+            public void all_one_matrix_has_no_inverse()
+            {
+                var matrix = new Matrix3D(1, 1, 1, 1, 1, 1, 1, 1, 1);
+
+                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+            }
+
+            [Fact]
+            public void matrix_is_not_mutated_by_inverse()
+            {
+                var actual = new Matrix3D(
+                    1, 1, 2,
+                    1, 2, 4,
+                    2, -1, 0);
+                var expected = new Matrix3D(
+                    1, 1, 2,
+                    1, 2, 4,
+                    2, -1, 0);
+
+                var result = actual.GetInverse();
+
+                Assert.NotEqual(result, actual);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void invert_can_round_trip()
+            {
+                var matrix = new Matrix3D(
+                    1, 1, 2,
+                    1, 2, 4,
+                    2, -1, 0);
+                var expected = new Matrix3D(
+                    1, 1, 2,
+                    1, 2, 4,
+                    2, -1, 0);
+
+                var inverse = matrix.GetInverse();
+                var actual = inverse.GetInverse();
+
+                Assert.NotEqual(expected, inverse);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert_example_0()
+            {
+                var matrix = new Matrix3D(
+                    1, 1, 2,
+                    1, 2, 4,
+                    2, -1, 0);
+
+                var expected = new Matrix3D(
+                    2, -1, 0,
+                    4, -2, -1,
+                    -2.5, 1.5, 0.5);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix3D CreateIncremenetalMatrix()
         {
             return new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);

@@ -694,6 +694,160 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class GetInverse : Matrix2DTests
+        {
+            [Fact]
+            public void identity_matrix_returns_self_for_inverse()
+            {
+                var matrix = Matrix2D.CreateIdentity();
+                var expected = Matrix2D.CreateIdentity();
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void zero_matrix_has_no_inverse()
+            {
+                var matrix = new Matrix2D();
+
+                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+            }
+
+            [Fact]
+            public void all_one_matrix_has_no_inverse()
+            {
+                var matrix = new Matrix2D(1, 1, 1, 1);
+
+                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+            }
+
+            [Fact]
+            public void matrix_is_not_mutated_by_inverse()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = CreateIncremenetalMatrix();
+
+                var result = actual.GetInverse();
+
+                Assert.NotEqual(result, actual);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void invert_can_round_trip()
+            {
+                var matrix = new Matrix2D(
+                    2, -1,
+                    0, 1);
+                var expected = new Matrix2D(
+                    2, -1,
+                    0, 1);
+
+                var inverse = matrix.GetInverse();
+                var actual = inverse.GetInverse();
+
+                Assert.NotEqual(expected, inverse);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void swapped_identity_has_inverse()
+            {
+                var matrix = new Matrix2D(
+                    0, 1,
+                    1, 0);
+                var expected = new Matrix2D(
+                    0, 1,
+                    1, 0);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert_example_0()
+            {
+                var matrix = new Matrix2D(
+                    1, 3,
+                    2, 4);
+
+                var expected = new Matrix2D(
+                    -2, 1.5,
+                    1, -0.5);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert_example_1()
+            {
+                var matrix = new Matrix2D(
+                    2, -1,
+                    -1, 1);
+
+                var expected = new Matrix2D(
+                    1, 1,
+                    1, 2);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert_example_2()
+            {
+                var matrix = new Matrix2D(
+                    2, -1,
+                    0, 1);
+
+                var expected = new Matrix2D(
+                    0.5, 0.5,
+                    0, 1);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert_example_3()
+            {
+                var matrix = new Matrix2D(
+                    0, -1,
+                    2, 1);
+
+                var expected = new Matrix2D(
+                    0.5, 0.5,
+                    -1, 0);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert_example_4()
+            {
+                var matrix = new Matrix2D(
+                    1, -1,
+                    1, 1);
+
+                var expected = new Matrix2D(
+                    0.5, 0.5,
+                    -0.5, 0.5);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix2D CreateIncremenetalMatrix()
         {
             return new Matrix2D(1, 2, 3, 4);

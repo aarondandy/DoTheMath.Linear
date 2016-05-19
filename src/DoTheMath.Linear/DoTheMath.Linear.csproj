@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD_1_3;NET_4_6;HAS_CODECONTRACTS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD_1_3;NET_4_6;HAS_CODECONTRACTS;PRE_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETSTANDARD_1_3;NET_4_6;HAS_CODECONTRACTS</DefineConstants>
+    <DefineConstants>TRACE;NETSTANDARD_1_3;NET_4_6;HAS_CODECONTRACTS;PRE_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -46,11 +46,13 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="GaussJordanInverter.cs" />
     <Compile Include="IMatrixMutable{TElement}.cs" />
     <Compile Include="IMatrix{TElement}.cs" />
     <Compile Include="IVector2{TComponenet}.cs" />
     <Compile Include="IVector3{TComponenet}.cs" />
     <Compile Include="IVector4{TComponenet}.cs" />
+    <Compile Include="NoInverseException.cs" />
     <Compile Include="Utilities\Duplicator.cs" />
     <Compile Include="Utilities\Swapper.cs" />
     <Compile Include="IVector{TComponent}.cs" />

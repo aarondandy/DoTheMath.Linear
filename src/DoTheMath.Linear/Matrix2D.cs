@@ -455,6 +455,25 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public Matrix2D GetInverse()
+        {
+            var inverter = new GaussJordanInverter<Matrix2D>(
+                new Matrix2D(this),
+                Matrix2D.CreateIdentity());
+
+            if (inverter.Invert())
+            {
+                return inverter.Inverse;
+            }
+            else
+            {
+                throw new NoInverseException();
+            }
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public bool Equals(Matrix2D other)
         {
             return object.ReferenceEquals(this, other)

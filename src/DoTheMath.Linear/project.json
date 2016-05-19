@@ -38,17 +38,17 @@
   "frameworks": {
     "net35": {
       "compilationOptions": {
-        "define": [ "PRE_NETSTANDARD", "NET_3_5" ]
+        "define": [ "PRE_NETSTANDARD", "NET_3_5", "PRE_CORE" ]
       }
     },
     "net451": {
       "compilationOptions": {
-        "define": [ "NETSTANDARD_1_2", "NET_4_5_1", "HAS_CODECONTRACTS" ]
+        "define": [ "NETSTANDARD_1_2", "NET_4_5_1", "HAS_CODECONTRACTS", "PRE_CORE" ]
       }
     },
     "net461": {
       "compilationOptions": {
-        "define": [ "NETSTANDARD_1_3", "NET_4_6", "HAS_CODECONTRACTS" ]
+        "define": [ "NETSTANDARD_1_3", "NET_4_6", "HAS_CODECONTRACTS", "PRE_CORE" ]
       }
     },
     "dotnet5.4": {
