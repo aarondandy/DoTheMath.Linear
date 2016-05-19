@@ -1144,7 +1144,14 @@ namespace DoTheMath.Linear.Tests
                 var actual = inverse.GetInverse();
 
                 Assert.NotEqual(expected, inverse);
-                Assert.Equal(expected, actual);
+                for(int r = 0; r < expected.Rows; r++)
+                {
+                    for(int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+
             }
 
             [Fact]
@@ -1164,7 +1171,13 @@ namespace DoTheMath.Linear.Tests
 
                 var actual = matrix.GetInverse();
 
-                Assert.Equal(expected, actual);
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
             }
         }
 
