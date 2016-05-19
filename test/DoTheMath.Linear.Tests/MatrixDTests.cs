@@ -1194,5 +1194,164 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expectedHashCode, actual.GetHashCode());
             }
         }
+
+        public class GetInverse : MatrixDTests
+        {
+            [Fact]
+            public void identity_matrix_returns_self_for_inverse()
+            {
+                var matrix = MatrixD.CreateIdentity(7);
+                var expected = MatrixD.CreateIdentity(7);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void zero_matrix_has_no_inverse()
+            {
+                var matrix = new MatrixD(5, 5);
+
+                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+            }
+
+            [Fact]
+            public void rectangle_matrix_has_no_inverse()
+            {
+                var matrix = new MatrixD(3, 5);
+
+                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+            }
+
+            [Fact]
+            public void all_one_matrix_has_no_inverse()
+            {
+                var matrix = new MatrixD(3, 3);
+                matrix.Set(0, 0, 1);
+                matrix.Set(0, 1, 1);
+                matrix.Set(0, 2, 1);
+                matrix.Set(1, 0, 1);
+                matrix.Set(1, 1, 1);
+                matrix.Set(1, 2, 1);
+                matrix.Set(2, 0, 1);
+                matrix.Set(2, 1, 1);
+                matrix.Set(2, 2, 1);
+
+                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+            }
+
+            [Fact]
+            public void matrix_is_not_mutated_by_inverse()
+            {
+                var actual = new MatrixD(2,2);
+                actual.Set(0, 0, 2);
+                actual.Set(0, 1, -1);
+                actual.Set(1, 0, 0);
+                actual.Set(1, 1, 1);
+                var expected = new MatrixD(actual);
+
+                var result = actual.GetInverse();
+
+                Assert.NotEqual(result, actual);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void invert_can_round_trip()
+            {
+                var matrix = new MatrixD(2, 2);
+                matrix.Set(0, 0, 2);
+                matrix.Set(0, 1, -1);
+                matrix.Set(1, 0, 0);
+                matrix.Set(1, 1, 1);
+                var expected = new MatrixD(matrix);
+
+                var inverse = matrix.GetInverse();
+                var actual = inverse.GetInverse();
+
+                Assert.NotEqual(expected, inverse);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert_example_0()
+            {
+                var matrix = new MatrixD(5, 5);
+                matrix.Set(0, 0, 1);
+                matrix.Set(0, 1, 0);
+                matrix.Set(0, 2, 6);
+                matrix.Set(0, 3, 7);
+                matrix.Set(0, 4, 8);
+
+                matrix.Set(1, 0, 9);
+                matrix.Set(1, 1, 2);
+                matrix.Set(1, 2, 13);
+                matrix.Set(1, 3, 14);
+                matrix.Set(1, 4, 15);
+
+                matrix.Set(2, 0, 18);
+                matrix.Set(2, 1, 12);
+                matrix.Set(2, 2, 3);
+                matrix.Set(2, 3, 16);
+                matrix.Set(2, 4, 17);
+
+                matrix.Set(3, 0, 10);
+                matrix.Set(3, 1, 19);
+                matrix.Set(3, 2, 20);
+                matrix.Set(3, 3, 4);
+                matrix.Set(3, 4, 21);
+
+                matrix.Set(4, 0, 11);
+                matrix.Set(4, 1, 22);
+                matrix.Set(4, 2, 24);
+                matrix.Set(4, 3, 23);
+                matrix.Set(4, 4, 5);
+
+                var expected = new MatrixD(5, 5);
+
+                expected.Set(0, 0, -0.27854210671081375);
+                expected.Set(0, 1, 0.15644380322696155);
+                expected.Set(0, 2, 0.0024547327558916317);
+                expected.Set(0, 3, -0.004930224351156512);
+                expected.Set(0, 4, -0.01130318803875677);
+
+                expected.Set(1, 0, 0.09203258445820205);
+                expected.Set(1, 1, -0.12163987911435856);
+                expected.Set(1, 2, 0.030844175502147603);
+                expected.Set(1, 3, 0.021912684861789416);
+                expected.Set(1, 4, 0.02076402908313395);
+
+                expected.Set(2, 0, -0.10734914810912889);
+                expected.Set(2, 1, 0.09910269916808939);
+                expected.Set(2, 2, -0.0577251425872779);
+                expected.Set(2, 3, 0.01445853162349692);
+                expected.Set(2, 4, 0.009990191448396114);
+
+                expected.Set(3, 0, 0.12960954353042098);
+                expected.Set(3, 1, -0.05121378663718908);
+                expected.Set(3, 2, 0.024960774443100832);
+                expected.Set(3, 3, -0.03885708750023782);
+                expected.Set(3, 4, 0.02459922465734939);
+
+                expected.Set(4, 0, 0.12692127383158003);
+                expected.Set(4, 1, -0.0490704364718968);
+                expected.Set(4, 2, 0.02114633770825874);
+                expected.Set(4, 3, 0.023772330888979974);
+                expected.Set(4, 4, -0.02760406665663321);
+
+                var actual = matrix.GetInverse();
+
+                Assert.Equal(expected.Rows, actual.Rows);
+                Assert.Equal(expected.Columns, actual.Columns);
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
+        }
     }
 }
