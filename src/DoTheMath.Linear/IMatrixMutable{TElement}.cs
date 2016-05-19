@@ -12,6 +12,10 @@
 
         void ScaleColumn(int column, double value);
 
+        void DivideRow(int row, double denominator);
+
+        void DivideColumn(int column, double denominator);
+
         void AddScaledRow(int sourceRow, int targetRow, double scalar);
 
         void AddScaledColumn(int sourceColumn, int targetColumn, double scalar);

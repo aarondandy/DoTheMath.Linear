@@ -308,6 +308,42 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void DivideRow(int row, double denominator)
+        {
+            if (row == 0)
+            {
+                E00 /= denominator;
+                E01 /= denominator;
+            }
+            else if (row == 1)
+            {
+                E10 /= denominator;
+                E11 /= denominator;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(row));
+            }
+        }
+
+        public void DivideColumn(int column, double denominator)
+        {
+            if (column == 0)
+            {
+                E00 /= denominator;
+                E10 /= denominator;
+            }
+            else if (column == 1)
+            {
+                E01 /= denominator;
+                E11 /= denominator;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(column));
+            }
+        }
+
         public void AddScaledRow(int sourceRow, int targetRow, double scalar)
         {
             double e0, e1;

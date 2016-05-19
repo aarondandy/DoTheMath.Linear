@@ -250,6 +250,39 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void DivideRow(int row, double denominator)
+        {
+            if (row < 0 || row >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(row));
+            }
+
+            var elementIndex = Columns * row;
+            var elementIndexUpperBound = Columns + elementIndex;
+
+#if HAS_CODECONTRACTS
+            System.Diagnostics.Contracts.Contract.Assume(elementIndexUpperBound <= _elements.Length);
+#endif
+
+            for (; elementIndex < elementIndexUpperBound; elementIndex++)
+            {
+                _elements[elementIndex] /= denominator;
+            }
+        }
+
+        public void DivideColumn(int column, double denominator)
+        {
+            if (column < 0 || column >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(column));
+            }
+
+            for (var elementIndex = column; elementIndex < _elements.Length; elementIndex += Columns)
+            {
+                _elements[elementIndex] /= denominator;
+            }
+        }
+
         public void AddScaledRow(int sourceRow, int targetRow, double scalar)
         {
             if (sourceRow < 0 || sourceRow >= Rows)

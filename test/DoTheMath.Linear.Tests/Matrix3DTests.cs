@@ -559,6 +559,124 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class DivideRow : Matrix3DTests
+        {
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(-1, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(-100, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(3, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(20, 1));
+            }
+
+            [Fact]
+            public void can_scale_first_row()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideRow(0, 10);
+
+                Assert.Equal(
+                    new Matrix3D(
+                        0.1, 0.2, 0.3,
+                        4, 5, 6,
+                        7, 8, 9),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_second_row()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideRow(1, 10);
+
+                Assert.Equal(
+                    new Matrix3D(
+                        1, 2, 3,
+                        0.4, 0.5, 0.6,
+                        7, 8, 9),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_third_row()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideRow(2, 10);
+
+                Assert.Equal(
+                    new Matrix3D(
+                        1, 2, 3,
+                        4, 5, 6,
+                        0.7, 0.8, 0.9),
+                    m);
+            }
+        }
+
+        public class DivideColumn : Matrix3DTests
+        {
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(-1, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(-100, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(3, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(20, 1));
+            }
+
+            [Fact]
+            public void can_scale_first_column()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideColumn(0, 10);
+
+                Assert.Equal(
+                    new Matrix3D(
+                        0.1, 2, 3,
+                        0.4, 5, 6,
+                        0.7, 8, 9),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_second_column()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideColumn(1, 10);
+
+                Assert.Equal(
+                    new Matrix3D(
+                        1, 0.2, 3,
+                        4, 0.5, 6,
+                        7, 0.8, 9),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_third_column()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideColumn(2, 10);
+
+                Assert.Equal(
+                    new Matrix3D(
+                        1, 2, 0.3,
+                        4, 5, 0.6,
+                        7, 8, 0.9),
+                    m);
+            }
+        }
+
         public class AddScaledRow : Matrix3DTests
         {
             [Fact]

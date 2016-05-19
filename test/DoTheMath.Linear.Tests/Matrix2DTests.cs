@@ -480,6 +480,90 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class DivideRow : Matrix2DTests
+        {
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(-1, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(-100, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(2, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(20, 1));
+            }
+
+            [Fact]
+            public void can_scale_first_row()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideRow(0, 10);
+
+                Assert.Equal(
+                    new Matrix2D(
+                        0.1, 0.2,
+                        3, 4),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_second_row()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideRow(1, 10);
+
+                Assert.Equal(
+                    new Matrix2D(
+                        1, 2,
+                        0.3, 0.4),
+                    m);
+            }
+        }
+
+        public class DivideColumn : Matrix2DTests
+        {
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(-1, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(-100, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(2, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(20, 1));
+            }
+
+            [Fact]
+            public void can_scale_first_column()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideColumn(0, 10);
+
+                Assert.Equal(
+                    new Matrix2D(
+                        0.1, 2,
+                        0.3, 4),
+                    m);
+            }
+
+            [Fact]
+            public void can_scale_second_column()
+            {
+                var m = CreateIncremenetalMatrix();
+
+                m.DivideColumn(1, 10);
+
+                Assert.Equal(
+                    new Matrix2D(
+                        1, 0.2,
+                        3, 0.4),
+                    m);
+            }
+        }
+
         public class AddScaledRow : Matrix2DTests
         {
             [Fact]

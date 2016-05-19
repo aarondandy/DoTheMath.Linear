@@ -497,6 +497,64 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void DivideRow(int row, double denominator)
+        {
+            switch (row)
+            {
+                case 0:
+                    {
+                        E00 /= denominator;
+                        E01 /= denominator;
+                        E02 /= denominator;
+                        break;
+                    }
+                case 1:
+                    {
+                        E10 /= denominator;
+                        E11 /= denominator;
+                        E12 /= denominator;
+                        break;
+                    }
+                case 2:
+                    {
+                        E20 /= denominator;
+                        E21 /= denominator;
+                        E22 /= denominator;
+                        break;
+                    }
+                default: throw new ArgumentOutOfRangeException(nameof(row));
+            }
+        }
+
+        public void DivideColumn(int column, double denominator)
+        {
+            switch (column)
+            {
+                case 0:
+                    {
+                        E00 /= denominator;
+                        E10 /= denominator;
+                        E20 /= denominator;
+                        break;
+                    }
+                case 1:
+                    {
+                        E01 /= denominator;
+                        E11 /= denominator;
+                        E21 /= denominator;
+                        break;
+                    }
+                case 2:
+                    {
+                        E02 /= denominator;
+                        E12 /= denominator;
+                        E22 /= denominator;
+                        break;
+                    }
+                default: throw new ArgumentOutOfRangeException(nameof(column));
+            }
+        }
+
         public void AddScaledRow(int sourceRow, int targetRow, double scalar)
         {
             double e0, e1, e2;

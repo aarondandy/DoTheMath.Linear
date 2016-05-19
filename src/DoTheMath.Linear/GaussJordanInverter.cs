@@ -101,12 +101,10 @@ namespace DoTheMath.Linear
             }
 
             // attempt to find a scalar value that can be applied to the row
-            if (currentElementValue != 0)
+            if (currentElementValue != 0.0)
             {
-                // TODO: consider using division
-                var scalar = 1.0 / currentElementValue;
-                _scratch.ScaleRow(ordinal, scalar);
-                _inverse.ScaleRow(ordinal, scalar);
+                _scratch.DivideRow(ordinal, currentElementValue);
+                _inverse.DivideRow(ordinal, currentElementValue);
                 return true;
             }
 
@@ -142,9 +140,10 @@ namespace DoTheMath.Linear
 
             for (var searchRow = column; searchRow < _scratch.Rows; searchRow++)
             {
-#if HAS_CODECONTRACTS
-                System.Diagnostics.Contracts.Contract.Assume(searchRow != row);
-#endif
+                if(searchRow == row)
+                {
+                    continue;
+                }
 
                 // find a value where currentElementValue + (searchElementValue * factor) == 0
                 var searchElementValue = _scratch.Get(searchRow, column);
@@ -156,6 +155,17 @@ namespace DoTheMath.Linear
                     _inverse.AddScaledRow(searchRow, row, -1.0);
                     return true;
                 }
+            }
+
+            for (var searchRow = column; searchRow < _scratch.Rows; searchRow++)
+            {
+                if (searchRow == row)
+                {
+                    continue;
+                }
+
+                // find a value where currentElementValue + (searchElementValue * factor) == 0
+                var searchElementValue = _scratch.Get(searchRow, column);
 
                 if (searchElementValue != 0.0)
                 {

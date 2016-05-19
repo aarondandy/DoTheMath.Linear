@@ -655,6 +655,154 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class DivideRow : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(-1, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(-100, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(4, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideRow(20, 1));
+            }
+
+            [Fact]
+            public void can_scale_first_row()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    0.1, 0.2, 0.3, 0.4,
+                    5, 6, 7, 8,
+                    9, 10, 11, 12,
+                    13, 14, 15, 16);
+
+                actual.DivideRow(0, 10);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_scale_second_row()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    1, 2, 3, 4,
+                    0.5, 0.6, 0.7, 0.8,
+                    9, 10, 11, 12,
+                    13, 14, 15, 16);
+
+                actual.DivideRow(1, 10);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_scale_third_row()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    1, 2, 3, 4,
+                    5, 6, 7, 8,
+                    0.9, 1.0, 1.1, 1.2,
+                    13, 14, 15, 16);
+
+                actual.DivideRow(2, 10);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_scale_fourth_row()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    1, 2, 3, 4,
+                    5, 6, 7, 8,
+                    9, 10, 11, 12,
+                    1.3, 1.4, 1.5, 1.6);
+
+                actual.DivideRow(3, 10);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class DivideColumn : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(-1, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(-100, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(4, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.DivideColumn(20, 1));
+            }
+
+            [Fact]
+            public void can_scale_first_column()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    0.1, 2, 3, 4,
+                    0.5, 6, 7, 8,
+                    0.9, 10, 11, 12,
+                    1.3, 14, 15, 16);
+
+                actual.DivideColumn(0, 10);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_scale_second_column()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    1, 0.2, 3, 4,
+                    5, 0.6, 7, 8,
+                    9, 1.0, 11, 12,
+                    13, 1.4, 15, 16);
+
+                actual.DivideColumn(1, 10);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_scale_third_column()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    1, 2, 0.3, 4,
+                    5, 6, 0.7, 8,
+                    9, 10, 1.1, 12,
+                    13, 14, 1.5, 16);
+
+                actual.DivideColumn(2, 10);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_scale_fourth_column()
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(
+                    1, 2, 3, 0.4,
+                    5, 6, 7, 0.8,
+                    9, 10, 11, 1.2,
+                    13, 14, 15, 1.6);
+
+                actual.DivideColumn(3, 10);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class AddScaledRow : Matrix4DTests
         {
             [Fact]

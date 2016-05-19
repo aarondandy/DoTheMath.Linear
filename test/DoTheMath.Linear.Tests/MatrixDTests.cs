@@ -739,6 +739,102 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class DivideRow : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_row_throws(int rows)
+            {
+                var m = new MatrixD(rows, 2);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(-1, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(-m.Rows, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(m.Rows, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleRow(m.Rows * 2, 1));
+            }
+
+            [Theory]
+            [InlineData(1, 1, 0, 2)]
+            [InlineData(2, 3, 1, -9.3)]
+            [InlineData(4, 0, 1, -2)]
+            [InlineData(5, 5, 0, 3.3)]
+            [InlineData(5, 5, 4, 3.3)]
+            public void can_divide_rows(int rows, int columns, int row, double denominator)
+            {
+                var actual = new MatrixD(rows, columns);
+                for (var r = 0; r < actual.Rows; r++)
+                {
+                    for (var c = 0; c < actual.Columns; c++)
+                    {
+                        actual.Set(r, c, (r * actual.Columns) + c);
+                    }
+                }
+
+                var expected = new MatrixD(actual);
+
+                for (var c = 0; c < expected.Columns; c++)
+                {
+                    expected.Set(row, c, expected.Get(row, c) / denominator);
+                }
+
+                actual.DivideRow(row, denominator);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class DivideColumn : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_column_throws(int columns)
+            {
+                var m = new MatrixD(2, columns);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(-1, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(-m.Columns, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(m.Columns, 1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.ScaleColumn(m.Columns * 2, 1));
+            }
+
+            [Theory]
+            [InlineData(1, 1, 0, 2)]
+            [InlineData(2, 3, 1, -9.3)]
+            [InlineData(4, 0, 1, -2)]
+            [InlineData(5, 5, 0, 3.3)]
+            [InlineData(5, 5, 4, 3.3)]
+            public void can_scale_rows(int columns, int rows, int column, double denominator)
+            {
+                var actual = new MatrixD(rows, columns);
+                for (var r = 0; r < actual.Rows; r++)
+                {
+                    for (var c = 0; c < actual.Columns; c++)
+                    {
+                        actual.Set(r, c, (r * actual.Columns) + c);
+                    }
+                }
+
+                var expected = new MatrixD(actual);
+
+                for (var r = 0; r < expected.Rows; r++)
+                {
+                    expected.Set(r, column, expected.Get(r, column) / denominator);
+                }
+
+                actual.DivideColumn(column, denominator);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class AddScaledRow : MatrixDTests
         {
             [Theory]

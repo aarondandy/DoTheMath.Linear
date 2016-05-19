@@ -593,6 +593,86 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void DivideRow(int row, double denominator)
+        {
+            switch (row)
+            {
+                case 0:
+                    {
+                        E00 /= denominator;
+                        E01 /= denominator;
+                        E02 /= denominator;
+                        E03 /= denominator;
+                        break;
+                    }
+                case 1:
+                    {
+                        E10 /= denominator;
+                        E11 /= denominator;
+                        E12 /= denominator;
+                        E13 /= denominator;
+                        break;
+                    }
+                case 2:
+                    {
+                        E20 /= denominator;
+                        E21 /= denominator;
+                        E22 /= denominator;
+                        E23 /= denominator;
+                        break;
+                    }
+                case 3:
+                    {
+                        E30 /= denominator;
+                        E31 /= denominator;
+                        E32 /= denominator;
+                        E33 /= denominator;
+                        break;
+                    }
+                default: throw new ArgumentOutOfRangeException(nameof(row));
+            }
+        }
+
+        public void DivideColumn(int column, double denominator)
+        {
+            switch (column)
+            {
+                case 0:
+                    {
+                        E00 /= denominator;
+                        E10 /= denominator;
+                        E20 /= denominator;
+                        E30 /= denominator;
+                        break;
+                    }
+                case 1:
+                    {
+                        E01 /= denominator;
+                        E11 /= denominator;
+                        E21 /= denominator;
+                        E31 /= denominator;
+                        break;
+                    }
+                case 2:
+                    {
+                        E02 /= denominator;
+                        E12 /= denominator;
+                        E22 /= denominator;
+                        E32 /= denominator;
+                        break;
+                    }
+                case 3:
+                    {
+                        E03 /= denominator;
+                        E13 /= denominator;
+                        E23 /= denominator;
+                        E33 /= denominator;
+                        break;
+                    }
+                default: throw new ArgumentOutOfRangeException(nameof(column));
+            }
+        }
+
         public void AddScaledRow(int sourceRow, int targetRow, double scalar)
         {
             double e0, e1, e2, e3;
