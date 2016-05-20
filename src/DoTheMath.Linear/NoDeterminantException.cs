@@ -12,7 +12,7 @@ namespace DoTheMath.Linear
         }
 
 #if PRE_CORE
-        protected NoDeterminantException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        private NoDeterminantException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
         }

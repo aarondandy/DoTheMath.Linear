@@ -4,6 +4,11 @@ using System.Runtime.CompilerServices;
 using static DoTheMath.Linear.Utilities.Swapper;
 using static DoTheMath.Linear.Utilities.Duplicator;
 
+#if HAS_CODECONTRACTS
+using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
+#endif
+
 namespace DoTheMath.Linear
 {
     public sealed class MatrixD :
@@ -52,7 +57,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get { return _rows; }
         }
@@ -60,7 +65,7 @@ namespace DoTheMath.Linear
         public int Columns
         {
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -74,7 +79,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -82,31 +87,28 @@ namespace DoTheMath.Linear
             }
         }
 
-        public bool IsIdentity
-        {
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+        [System.Diagnostics.Contracts.Pure]
 #endif
-            get
+        public bool CheckIdentity()
+        {
+            if (!IsSquare)
             {
-                if (!IsSquare)
-                {
-                    return false;
-                }
+                return false;
+            }
 
-                for (int row = 0; row < Rows; row++)
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int column = 0; column < Columns; column++)
                 {
-                    for (int column = 0; column < Columns; column++)
+                    if (_elements[(Columns * row) + column] != ((row == column) ? 1.0 : 0.0))
                     {
-                        if (_elements[(Columns * row) + column] != ((row == column) ? 1.0 : 0.0))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
-
-                return true;
             }
+
+            return true;
         }
 
         public static MatrixD CreateIdentity(int order)
@@ -131,7 +133,7 @@ namespace DoTheMath.Linear
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public double Get(int row, int column)
         {
@@ -228,7 +230,7 @@ namespace DoTheMath.Linear
             var elementIndexUpperBound = Columns + elementIndex;
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(elementIndexUpperBound <= _elements.Length);
+            Assume(elementIndexUpperBound <= _elements.Length);
 #endif
 
             for (; elementIndex < elementIndexUpperBound; elementIndex++)
@@ -261,7 +263,7 @@ namespace DoTheMath.Linear
             var elementIndexUpperBound = Columns + elementIndex;
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(elementIndexUpperBound <= _elements.Length);
+            Assume(elementIndexUpperBound <= _elements.Length);
 #endif
 
             for (; elementIndex < elementIndexUpperBound; elementIndex++)
@@ -323,7 +325,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public MatrixD Add(MatrixD other)
         {
@@ -339,8 +341,8 @@ namespace DoTheMath.Linear
             var sum = new MatrixD(Rows, Columns);
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(_elements.Length == other._elements.Length);
-            System.Diagnostics.Contracts.Contract.Assume(_elements.Length == sum._elements.Length);
+            Assume(_elements.Length == other._elements.Length);
+            Assume(_elements.Length == sum._elements.Length);
 #endif
 
             for (var elementIndex = 0; elementIndex < sum._elements.Length; elementIndex++)
@@ -352,14 +354,14 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public MatrixD Multiply(double scalar)
         {
             var scaled = new MatrixD(Rows, Columns);
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(_elements.Length == scaled._elements.Length);
+            Assume(_elements.Length == scaled._elements.Length);
 #endif
 
             for (var elementIndex = 0; elementIndex < scaled._elements.Length; elementIndex++)
@@ -371,7 +373,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public MatrixD Multiply(MatrixD right)
         {
@@ -387,9 +389,9 @@ namespace DoTheMath.Linear
             var product = new MatrixD(Rows, right.Columns);
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(Columns == right.Rows);
-            System.Diagnostics.Contracts.Contract.Assume(product.Rows == Rows);
-            System.Diagnostics.Contracts.Contract.Assume(product.Columns == right.Columns);
+            Assume(Columns == right.Rows);
+            Assume(product.Rows == Rows);
+            Assume(product.Columns == right.Columns);
 #endif
 
             for (int row = 0; row < product.Rows; row++)
@@ -413,14 +415,20 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
-        public MatrixD Transposed()
+        public MatrixD GetTranspose()
         {
+#if HAS_CODECONTRACTS
+            Ensures(Result<MatrixD>() != null);
+            Ensures(Result<MatrixD>().Rows == Columns);
+            Ensures(Result<MatrixD>().Columns == Rows);
+#endif
+
             var transposed = new MatrixD(Columns, Rows);
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(transposed._elements.Length == _elements.Length);
+            Assume(transposed._elements.Length == _elements.Length);
 #endif
 
             for (int row = 0; row < Rows; row++)
@@ -434,6 +442,14 @@ namespace DoTheMath.Linear
             }
 
             return transposed;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        IMatrix<double> IMatrix<double>.GetTranspose()
+        {
+            return this.GetTranspose();
         }
 
         public void Transpose()
@@ -452,7 +468,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public double GetDeterminant()
         {
@@ -466,15 +482,15 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public MatrixD GetInverse()
         {
             if (Rows == Columns)
             {
                 var inverter = new GaussJordanInverter<MatrixD>(
-                new MatrixD(this),
-                MatrixD.CreateIdentity(this.Rows));
+                    new MatrixD(this),
+                    CreateIdentity(this.Rows));
 
                 if (inverter.Invert())
                 {
@@ -486,10 +502,32 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
+#endif
+        public double GetTrace()
+        {
+            if (!IsSquare)
+            {
+                throw new NotSquareMatrixException();
+            }
+            
+            double sum = 0.0;
+            for(int ordinal = 0; ordinal < Rows; ordinal++)
+            {
+                sum += Get(ordinal, ordinal);
+            }
+            return sum;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
 #endif
         public bool Equals(MatrixD other)
         {
+#if HAS_CODECONTRACTS
+            Ensures(other != null || !Result<bool>());
+#endif
+
             if (object.ReferenceEquals(this, other))
             {
                 return true;
@@ -504,7 +542,7 @@ namespace DoTheMath.Linear
             }
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(_elements.Length == other._elements.Length);
+            Assume(_elements.Length == other._elements.Length);
 #endif
 
             for (int elementIndex = 0; elementIndex < _elements.Length; elementIndex++)
@@ -519,7 +557,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override bool Equals(object obj)
         {
@@ -527,7 +565,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override int GetHashCode()
         {

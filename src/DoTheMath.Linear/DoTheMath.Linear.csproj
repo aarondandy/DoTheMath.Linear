@@ -55,6 +55,7 @@
     <Compile Include="IVector4{TComponenet}.cs" />
     <Compile Include="NoDeterminantException.cs" />
     <Compile Include="NoInverseException.cs" />
+    <Compile Include="NotSquareMatrixException.cs" />
     <Compile Include="Utilities\Duplicator.cs" />
     <Compile Include="Utilities\Swapper.cs" />
     <Compile Include="IVector{TComponent}.cs" />

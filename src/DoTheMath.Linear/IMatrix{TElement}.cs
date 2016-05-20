@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DoTheMath.Linear
+﻿namespace DoTheMath.Linear
 {
     public interface IMatrix<TElement>
     {
@@ -10,9 +8,8 @@ namespace DoTheMath.Linear
 
         bool IsSquare { get; }
 
-        [Obsolete("This should change to a method.")]
-        bool IsIdentity { get; }
-
         TElement Get(int row, int column);
+
+        IMatrix<TElement> GetTranspose();
     }
 }

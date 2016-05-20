@@ -719,7 +719,7 @@ namespace DoTheMath.Linear.Tests
                     1, 3,
                     2, 4);
 
-                var actual = source.Transposed();
+                var actual = source.GetTranspose();
 
                 Assert.Equal(expected, actual);
             }

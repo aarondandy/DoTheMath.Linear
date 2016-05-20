@@ -78,7 +78,7 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.Equal(4, m.Rows);
                 Assert.Equal(4, m.Columns);
-                Assert.True(m.IsIdentity);
+                Assert.True(m.CheckIdentity());
             }
 
             [Fact]
@@ -88,7 +88,7 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.Equal(0, m.Rows);
                 Assert.Equal(0, m.Columns);
-                Assert.True(m.IsIdentity);
+                Assert.True(m.CheckIdentity());
             }
 
             [Fact]
@@ -99,7 +99,7 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(1, m.Rows);
                 Assert.Equal(1, m.Columns);
                 Assert.Equal(1.0, m.Get(0, 0));
-                Assert.True(m.IsIdentity);
+                Assert.True(m.CheckIdentity());
             }
         }
 
@@ -144,7 +144,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var m = new MatrixD(2, 2);
 
-                Assert.False(m.IsIdentity);
+                Assert.False(m.CheckIdentity());
             }
 
             [Fact]
@@ -168,7 +168,7 @@ namespace DoTheMath.Linear.Tests
                 m.Set(3, 2, 0.0);
                 m.Set(3, 3, 1.0);
 
-                Assert.True(m.IsIdentity);
+                Assert.True(m.CheckIdentity());
             }
 
             [Fact]
@@ -177,7 +177,7 @@ namespace DoTheMath.Linear.Tests
                 var m = new MatrixD(1, 1);
                 m.Set(0, 0, 1.0);
 
-                Assert.True(m.IsIdentity);
+                Assert.True(m.CheckIdentity());
             }
 
             [Fact]
@@ -201,7 +201,7 @@ namespace DoTheMath.Linear.Tests
                 m.Set(3, 2, 5.0);
                 m.Set(3, 3, 6.0);
 
-                Assert.False(m.IsIdentity);
+                Assert.False(m.CheckIdentity());
             }
 
             [Fact]
@@ -225,7 +225,7 @@ namespace DoTheMath.Linear.Tests
                 m.Set(3, 2, 5.0);
                 m.Set(3, 3, 1.0);
 
-                Assert.False(m.IsIdentity);
+                Assert.False(m.CheckIdentity());
             }
 
             [Fact]
@@ -239,7 +239,7 @@ namespace DoTheMath.Linear.Tests
                 m.Set(1, 1, 1.0);
                 m.Set(1, 2, 0.0);
 
-                Assert.False(m.IsIdentity);
+                Assert.False(m.CheckIdentity());
             }
         }
 
@@ -1144,7 +1144,7 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(2, 0, 3);
                 expected.Set(2, 1, 6);
 
-                var actual = source.Transposed();
+                var actual = source.GetTranspose();
 
                 Assert.Equal(expected, actual);
             }

@@ -3,6 +3,11 @@ using System.Runtime.CompilerServices;
 
 using static DoTheMath.Linear.Utilities.Swapper;
 
+#if HAS_CODECONTRACTS
+using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
+#endif
+
 namespace DoTheMath.Linear
 {
     public sealed class Matrix4D :
@@ -165,7 +170,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -179,7 +184,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -193,7 +198,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -204,7 +209,7 @@ namespace DoTheMath.Linear
         public bool IsIdentity
         {
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -219,7 +224,7 @@ namespace DoTheMath.Linear
         public bool IsSymetric
         {
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -234,8 +239,11 @@ namespace DoTheMath.Linear
 
         public double Trace
         {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -246,8 +254,15 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public static Matrix4D CreateIdentity()
         {
+#if HAS_CODECONTRACTS
+            Ensures(Result<Matrix4D>() != null);
+#endif
+
             return new Matrix4D
             {
                 E00 = 1.0,
@@ -261,7 +276,7 @@ namespace DoTheMath.Linear
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public double Get(int row, int column)
         {
@@ -353,9 +368,9 @@ namespace DoTheMath.Linear
             }
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(rowA < rowB);
-            System.Diagnostics.Contracts.Contract.Assume(rowA == 0 || rowA == 1 || rowA == 2);
-            System.Diagnostics.Contracts.Contract.Assume(rowB == 1 || rowB == 2 || rowB == 3);
+            Assume(rowA < rowB);
+            Assume(rowA == 0 || rowA == 1 || rowA == 2);
+            Assume(rowB == 1 || rowB == 2 || rowB == 3);
 #endif
 
             if (rowA == 0)
@@ -388,7 +403,7 @@ namespace DoTheMath.Linear
             else if (rowA == 1)
             {
 #if HAS_CODECONTRACTS
-                System.Diagnostics.Contracts.Contract.Assume(rowB == 2 || rowB == 3);
+                Assume(rowB == 2 || rowB == 3);
 #endif
                 if (rowB == 2)
                 {
@@ -410,7 +425,7 @@ namespace DoTheMath.Linear
             else if (rowA == 2)
             {
 #if HAS_CODECONTRACTS
-                System.Diagnostics.Contracts.Contract.Assume(rowB == 3);
+                Assume(rowB == 3);
 #endif
 
                 SwapPairs(
@@ -443,9 +458,9 @@ namespace DoTheMath.Linear
             }
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(columnA < columnB);
-            System.Diagnostics.Contracts.Contract.Assume(columnA == 0 || columnA == 1 || columnA == 2);
-            System.Diagnostics.Contracts.Contract.Assume(columnB == 1 || columnB == 2 || columnB == 3);
+            Assume(columnA < columnB);
+            Assume(columnA == 0 || columnA == 1 || columnA == 2);
+            Assume(columnB == 1 || columnB == 2 || columnB == 3);
 #endif
 
             if (columnA == 0)
@@ -478,7 +493,7 @@ namespace DoTheMath.Linear
             else if (columnA == 1)
             {
 #if HAS_CODECONTRACTS
-                System.Diagnostics.Contracts.Contract.Assume(columnB == 2 || columnB == 3);
+                Assume(columnB == 2 || columnB == 3);
 #endif
 
                 if (columnB == 2)
@@ -501,7 +516,7 @@ namespace DoTheMath.Linear
             else if (columnA == 2)
             {
 #if HAS_CODECONTRACTS
-                System.Diagnostics.Contracts.Contract.Assume(columnB == 3);
+                Assume(columnB == 3);
 #endif
 
                 SwapPairs(
@@ -808,7 +823,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public Matrix4D Add(Matrix4D other)
         {
@@ -838,7 +853,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public Matrix4D Multiply(double scalar)
         {
@@ -864,7 +879,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public Matrix4D Multiply(Matrix4D right)
         {
@@ -898,9 +913,9 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
-        public Matrix4D Transposed()
+        public Matrix4D GetTranspose()
         {
             return new Matrix4D
             {
@@ -926,6 +941,14 @@ namespace DoTheMath.Linear
             };
         }
 
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        IMatrix<double> IMatrix<double>.GetTranspose()
+        {
+            return this.GetTranspose();
+        }
+
         public void Transpose()
         {
             Swap(ref E01, ref E10);
@@ -937,7 +960,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public double GetDeterminant()
         {
@@ -946,7 +969,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public Matrix4D GetInverse()
         {
@@ -965,7 +988,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public bool Equals(Matrix4D other)
         {
@@ -992,7 +1015,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override bool Equals(object obj)
         {
@@ -1000,7 +1023,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override int GetHashCode()
         {

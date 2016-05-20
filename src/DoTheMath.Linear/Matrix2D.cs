@@ -3,6 +3,11 @@ using System.Runtime.CompilerServices;
 
 using static DoTheMath.Linear.Utilities.Swapper;
 
+#if HAS_CODECONTRACTS
+using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
+#endif
+
 namespace DoTheMath.Linear
 {
     public sealed class Matrix2D :
@@ -79,7 +84,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -93,7 +98,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -107,7 +112,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -117,8 +122,11 @@ namespace DoTheMath.Linear
 
         public bool IsIdentity
         {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -129,6 +137,9 @@ namespace DoTheMath.Linear
 
         public bool IsSymetric
         {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
 #if HAS_CODECONTRACTS
             [System.Diagnostics.Contracts.Pure]
 #endif
@@ -140,8 +151,11 @@ namespace DoTheMath.Linear
 
         public double Trace
         {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {
@@ -151,6 +165,9 @@ namespace DoTheMath.Linear
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
 #endif
         public static Matrix2D CreateIdentity()
         {
@@ -165,7 +182,7 @@ namespace DoTheMath.Linear
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public double Get(int row, int column)
         {
@@ -419,7 +436,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public Matrix2D Add(Matrix2D other)
         {
@@ -437,7 +454,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public Matrix2D Multiply(double scalar)
         {
@@ -451,7 +468,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public Matrix2D Multiply(Matrix2D right)
         {
@@ -470,9 +487,9 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
-        public Matrix2D Transposed()
+        public Matrix2D GetTranspose()
         {
             return new Matrix2D
             {
@@ -483,13 +500,21 @@ namespace DoTheMath.Linear
             };
         }
 
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        IMatrix<double> IMatrix<double>.GetTranspose()
+        {
+            return this.GetTranspose();
+        }
+
         public void Transpose()
         {
             Swap(ref E01, ref E10);
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public double GetDeterminant()
         {
@@ -498,10 +523,13 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public Matrix2D GetInverse()
         {
+#if HAS_CODECONTRACTS
+            Ensures(Result<Matrix2D>() != null);
+#endif
             var inverter = new GaussJordanInverter<Matrix2D>(
                 new Matrix2D(this),
                 Matrix2D.CreateIdentity());
@@ -510,14 +538,12 @@ namespace DoTheMath.Linear
             {
                 return inverter.Inverse;
             }
-            else
-            {
-                throw new NoInverseException();
-            }
+
+            throw new NoInverseException();
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public bool Equals(Matrix2D other)
         {
@@ -532,7 +558,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override bool Equals(object obj)
         {
@@ -540,7 +566,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override int GetHashCode()
         {
