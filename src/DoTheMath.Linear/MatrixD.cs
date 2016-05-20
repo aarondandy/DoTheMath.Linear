@@ -440,13 +440,13 @@ namespace DoTheMath.Linear
         {
             var newElements = new double[_elements.Length];
 
-            for(int elementIndex = 0; elementIndex < _elements.Length; elementIndex++)
+            for (int elementIndex = 0; elementIndex < _elements.Length; elementIndex++)
             {
                 var newIndex = ((elementIndex % Columns) * Rows) + (elementIndex / Columns);
 
                 newElements[newIndex] = _elements[elementIndex];
             }
-            
+
             _elements = newElements;
             Swap(ref _rows, ref _columns);
         }
@@ -454,9 +454,23 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public double GetDeterminant()
+        {
+            if (Rows != Columns)
+            {
+                throw new NoDeterminantException();
+            }
+
+            var evaluator = new DeterminantEvaluator<MatrixD>(new MatrixD(this));
+            return evaluator.Evaluate();
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public MatrixD GetInverse()
         {
-            if(Rows == Columns)
+            if (Rows == Columns)
             {
                 var inverter = new GaussJordanInverter<MatrixD>(
                 new MatrixD(this),

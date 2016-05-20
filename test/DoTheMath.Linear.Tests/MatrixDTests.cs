@@ -1244,7 +1244,7 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void matrix_is_not_mutated_by_inverse()
             {
-                var actual = new MatrixD(2,2);
+                var actual = new MatrixD(2, 2);
                 actual.Set(0, 0, 2);
                 actual.Set(0, 1, -1);
                 actual.Set(1, 0, 0);
@@ -1351,6 +1351,116 @@ namespace DoTheMath.Linear.Tests
                         Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
                     }
                 }
+            }
+        }
+
+        public class GetDeterminant : MatrixDTests
+        {
+            [Fact]
+            public void identity_matrix_returns_one_for_determinant()
+            {
+                var matrix = MatrixD.CreateIdentity(7);
+                var expected = 1.0;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void zero_matrix_has_zero_determinant()
+            {
+                var matrix = new MatrixD(5, 5);
+                var expected = 0.0;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void rectangle_matrix_has_no_determinant()
+            {
+                var matrix = new MatrixD(3, 5);
+
+                Assert.Throws<NoDeterminantException>(() => matrix.GetDeterminant());
+            }
+
+            [Fact]
+            public void all_one_matrix_has_zero_determinant()
+            {
+                var matrix = new MatrixD(3, 3);
+                matrix.Set(0, 0, 1);
+                matrix.Set(0, 1, 1);
+                matrix.Set(0, 2, 1);
+                matrix.Set(1, 0, 1);
+                matrix.Set(1, 1, 1);
+                matrix.Set(1, 2, 1);
+                matrix.Set(2, 0, 1);
+                matrix.Set(2, 1, 1);
+                matrix.Set(2, 2, 1);
+                var expected = 0.0;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void matrix_is_not_mutated_by_determinant_calculations()
+            {
+                var actual = new MatrixD(2, 2);
+                actual.Set(0, 0, 2);
+                actual.Set(0, 1, -1);
+                actual.Set(1, 0, 0);
+                actual.Set(1, 1, 1);
+                var expected = new MatrixD(actual);
+
+                actual.GetDeterminant();
+
+                Assert.Equal(expected, actual);
+            }
+
+
+            [Fact]
+            public void example_0()
+            {
+                var matrix = new MatrixD(5, 5);
+                matrix.Set(0, 0, 1);
+                matrix.Set(0, 1, 0);
+                matrix.Set(0, 2, 6);
+                matrix.Set(0, 3, 7);
+                matrix.Set(0, 4, 8);
+
+                matrix.Set(1, 0, 9);
+                matrix.Set(1, 1, 2);
+                matrix.Set(1, 2, 13);
+                matrix.Set(1, 3, 14);
+                matrix.Set(1, 4, 15);
+
+                matrix.Set(2, 0, 18);
+                matrix.Set(2, 1, 12);
+                matrix.Set(2, 2, 3);
+                matrix.Set(2, 3, 16);
+                matrix.Set(2, 4, 17);
+
+                matrix.Set(3, 0, 10);
+                matrix.Set(3, 1, 19);
+                matrix.Set(3, 2, 20);
+                matrix.Set(3, 3, 4);
+                matrix.Set(3, 4, 21);
+
+                matrix.Set(4, 0, 11);
+                matrix.Set(4, 1, 22);
+                matrix.Set(4, 2, 24);
+                matrix.Set(4, 3, 23);
+                matrix.Set(4, 4, 5);
+
+                var expected = 578067;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual, 8);
             }
         }
     }

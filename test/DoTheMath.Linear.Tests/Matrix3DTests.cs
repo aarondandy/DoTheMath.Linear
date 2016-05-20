@@ -999,6 +999,78 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class GetDeterminant : Matrix3DTests
+        {
+            [Fact]
+            public void example_0()
+            {
+                var matrix = new Matrix3D(
+                    1, 2, -1,
+                    3, 0, 1,
+                    4, 2, 1);
+                var expected = -6;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var matrix = new Matrix3D(
+                    1, 5, 7,
+                    4, 2, 9,
+                    6, 3, 8);
+                var expected = 99;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_2()
+            {
+                var matrix = new Matrix3D(
+                    2, 3, 90,
+                    -4, 5, 7,
+                    13, -2, -1);
+                var expected = -4851;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_3()
+            {
+                var matrix = new Matrix3D(1, 0, 1, 1, 1, 0, 0, 0, 0);
+                var expected = 0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_4()
+            {
+                var matrix = new Matrix3D(2, 0, -7, 3, 0, 1, -4, 0, 9);
+                var expected = 0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_5()
+            {
+                var matrix = new Matrix3D(2, -1, 3, 1, 2, 4, 2, 4, 8);
+                var expected = 0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix3D CreateIncremenetalMatrix()
         {
             return new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);

@@ -133,19 +133,19 @@ namespace DoTheMath.Linear
             System.Diagnostics.Contracts.Contract.Requires(row != column);
 #endif
             var currentElementValue = _scratch.Get(row, column);
-            if (currentElementValue == 0.0)
+            if (currentElementValue.Equals(0.0))
             {
                 return true;
             }
 
             for (var searchRow = column; searchRow < _scratch.Rows; searchRow++)
             {
-                if(searchRow == row)
+                if (searchRow == row)
                 {
                     continue;
                 }
 
-                // find a value where currentElementValue + (searchElementValue * factor) == 0
+                // find a value where currentElementValue - searchElementValue == 0
                 var searchElementValue = _scratch.Get(searchRow, column);
 
                 if (searchElementValue == currentElementValue)
@@ -167,7 +167,7 @@ namespace DoTheMath.Linear
                 // find a value where currentElementValue + (searchElementValue * factor) == 0
                 var searchElementValue = _scratch.Get(searchRow, column);
 
-                if (searchElementValue != 0.0)
+                if (!searchElementValue.Equals(0.0))
                 {
                     var scalar = -currentElementValue / searchElementValue;
                     _scratch.AddScaledRow(searchRow, row, scalar);

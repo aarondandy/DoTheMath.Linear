@@ -1144,9 +1144,9 @@ namespace DoTheMath.Linear.Tests
                 var actual = inverse.GetInverse();
 
                 Assert.NotEqual(expected, inverse);
-                for(int r = 0; r < expected.Rows; r++)
+                for (int r = 0; r < expected.Rows; r++)
                 {
-                    for(int c = 0; c < expected.Columns; c++)
+                    for (int c = 0; c < expected.Columns; c++)
                     {
                         Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
                     }
@@ -1178,6 +1178,71 @@ namespace DoTheMath.Linear.Tests
                         Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
                     }
                 }
+            }
+        }
+
+        public class GetDeterminant : Matrix4DTests
+        {
+            [Fact]
+            public void example_0()
+            {
+                var matrix = new Matrix4D(
+                    2, 1, 0, 4,
+                    0, -1, 0, 2,
+                    7, -2, 3, 5,
+                    0, 1, 0, -3);
+                var expected = 6;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 4,
+                    12, 13, 14, 5,
+                    11, 16, 15, 6,
+                    10, 9, 8, 7);
+                var expected = 660;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_2()
+            {
+                var matrix = new Matrix4D(
+                    1, 5, 9, 13,
+                    2, 6, 10, 14,
+                    3, 7, 11, 15,
+                    4, 8, 12, 16);
+                var expected = 0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_3()
+            {
+                var matrix = new Matrix4D(1, -1, 0, 2, -1, 1, 2, 3, 2, -2, 3, 4, 6, -6, 6, 1);
+                var expected = 0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_4()
+            {
+                var matrix = new Matrix4D(1, 0, 2, 1, 2, -1, 1, 0, 1, 0, 0, 3, -1, 0, 2, 1);
+                var expected = 12;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
             }
         }
 

@@ -939,6 +939,15 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public double GetDeterminant()
+        {
+            var evaluator = new DeterminantEvaluator<Matrix4D>(new Matrix4D(this));
+            return evaluator.Evaluate();
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public Matrix4D GetInverse()
         {
             var inverter = new GaussJordanInverter<Matrix4D>(

@@ -748,6 +748,15 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [System.Diagnostics.Contracts.Pure]
 #endif
+        public double GetDeterminant()
+        {
+            var evaluator = new DeterminantEvaluator<Matrix3D>(new Matrix3D(this));
+            return evaluator.Evaluate();
+        }
+
+#if HAS_CODECONTRACTS
+        [System.Diagnostics.Contracts.Pure]
+#endif
         public Matrix3D GetInverse()
         {
             var inverter = new GaussJordanInverter<Matrix3D>(

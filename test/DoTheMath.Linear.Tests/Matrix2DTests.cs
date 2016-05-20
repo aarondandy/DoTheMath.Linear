@@ -932,6 +932,165 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class GetDeterminant : Matrix2DTests
+        {
+            [Fact]
+            public void identity_has_determinant_of_one()
+            {
+                var matrix = new Matrix2D(
+                    1, 0,
+                    0, 1);
+                var expected = 1.0;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void zero_matrix_has_determinant_of_zero()
+            {
+                var matrix = new Matrix2D();
+                var expected = 0.0;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_0()
+            {
+                var matrix = new Matrix2D(
+                    2, 4,
+                    -3, 1);
+                var expected = 14;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var matrix = new Matrix2D(
+                    0, 1,
+                    2, 3);
+                var expected = -2;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_2()
+            {
+                var matrix = new Matrix2D(
+                    3, 6,
+                    1, 2);
+                var expected = 0.0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_3()
+            {
+                var matrix = new Matrix2D(
+                    5, 4,
+                    -14, 3);
+                var expected = 71.0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_4()
+            {
+                var matrix = new Matrix2D(
+                    3, -8,
+                    5, -2);
+                var expected = 34.0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_5()
+            {
+                var matrix = new Matrix2D(
+                    1, 3,
+                    2, 4);
+                var expected = -2.0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_6()
+            {
+                var matrix = new Matrix2D(
+                    -2, 1.5,
+                    1, -0.5);
+                var expected = -0.5;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_7()
+            {
+                var matrix = new Matrix2D(
+                    0, 2,
+                    1, 3);
+                var expected = -2;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_8()
+            {
+                var matrix = new Matrix2D(
+                    3, 1,
+                    -10, -2);
+                var expected = 4;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_9()
+            {
+                var matrix = new Matrix2D(
+                    2, 3,
+                    -4, 5);
+                var expected = 22;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_10()
+            {
+                var matrix = new Matrix2D(
+                    2, 14,
+                    -12, -40);
+                var expected = 88;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix2D CreateIncremenetalMatrix()
         {
             return new Matrix2D(1, 2, 3, 4);
