@@ -1,35 +1,54 @@
 ﻿{
   "version": "0.0.0-*",
   "description": "A bunch of stuff for Linear Algebra.",
-  "tags": [
-    "linear",
-    "algebra",
-    "math",
-    "vector",
-    "matrix"
-  ],
   "authors": [ "aarondandy" ],
-  "owners": [ "aarondandy" ],
   "copyright": "Copyright (c) 2016 Aaron Dandy",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aarondandy/DoTheMath.Linear"
+  "packOptions": {
+    "tags": [
+      "linear",
+      "algebra",
+      "math",
+      "vector",
+      "matrix"
+    ],
+    "owners": [ "aarondandy" ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/aarondandy/DoTheMath.Linear"
+    },
+    "licenseUrl": "https://github.com/aarondandy/DoTheMath.Linear/blob/master/LICENSE",
+    "projectUrl": "https://github.com/aarondandy/DoTheMath.Linear",
+    "files": {
+      "exclude": [
+        "**/*.targets"
+      ]
+    }
   },
-  "projectUrl": "https://github.com/aarondandy/DoTheMath.Linear",
-  "licenseUrl": "https://github.com/aarondandy/DoTheMath.Linear/blob/master/LICENSE",
-  "compile": [
-    "../../SharedAssemblyInfo.cs"
-  ],
+  "buildOptions": {
+    "compile": {
+      "includeFiles": [
+        "../../SharedAssemblyInfo.cs"
+      ],
+      "excludeFiles": [
+        "DoTheMath.Linear.nuget.targets"
+      ]
+    },
+    "define": [ "TRACE" ],
+    "xmlDoc": true,
+    "nowarn": [
+      "CS1591"
+    ]
+  },
   "configurations": {
     "Debug": {
-      "compilationOptions": {
-        "define": [ "DEBUG", "TRACE" ],
+      "buildOptions": {
+        "define": [ "DEBUG" ],
         "optimize": false
       }
     },
     "Release": {
-      "compilationOptions": {
-        "define": [ "RELEASE", "TRACE" ],
+      "buildOptions": {
+        "define": [ "RELEASE" ],
         "optimize": true,
         "warningsAsErrors": true
       }
@@ -37,29 +56,66 @@
   },
   "frameworks": {
     "net35": {
-      "compilationOptions": {
+      "buildOptions": {
         "define": [ "PRE_NETSTANDARD", "NET_3_5", "PRE_CORE" ]
       }
     },
     "net451": {
-      "compilationOptions": {
+      "buildOptions": {
         "define": [ "NETSTANDARD_1_2", "NET_4_5_1", "HAS_CODECONTRACTS", "PRE_CORE" ]
       }
     },
     "net461": {
-      "compilationOptions": {
-        "define": [ "NETSTANDARD_1_3", "NET_4_6", "HAS_CODECONTRACTS", "PRE_CORE" ]
+      "buildOptions": {
+        "define": [ "NETSTANDARD_1_4", "NET_4_6_1", "HAS_CODECONTRACTS", "PRE_CORE" ]
       }
     },
-    "dotnet5.4": {
-      "compilationOptions": {
-        "define": [ "NETSTANDARD_1_3", "NET_4_6" ]
+    "netstandard1.0": {
+      "buildOptions": {
+        "define": [ "NETSTANDARD_1_0" ]
       },
       "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "System.Collections": "4.0.11-beta-23516",
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Runtime": "4.0.21-beta-23516"
+        "NETStandard.Library": "1.5.0-rc2-24027"
+      }
+    },
+    "netstandard1.1": {
+      "buildOptions": {
+        "define": [ "NETSTANDARD_1_1" ]
+      },
+      "dependencies": {
+        "NETStandard.Library": "1.5.0-rc2-24027"
+      }
+    },
+    "netstandard1.2": {
+      "buildOptions": {
+        "define": [ "NETSTANDARD_1_2" ]
+      },
+      "dependencies": {
+        "NETStandard.Library": "1.5.0-rc2-24027"
+      }
+    },
+    "netstandard1.3": {
+      "buildOptions": {
+        "define": [ "NETSTANDARD_1_3" ]
+      },
+      "dependencies": {
+        "NETStandard.Library": "1.5.0-rc2-24027"
+      }
+    },
+    "netstandard1.4": {
+      "buildOptions": {
+        "define": [ "NETSTANDARD_1_4" ]
+      },
+      "dependencies": {
+        "NETStandard.Library": "1.5.0-rc2-24027"
+      }
+    },
+    "netstandard1.5": {
+      "buildOptions": {
+        "define": [ "NETSTANDARD_1_5" ]
+      },
+      "dependencies": {
+        "NETStandard.Library": "1.5.0-rc2-24027"
       }
     }
   }

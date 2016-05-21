@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoTheMath.Linear.Tests", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoTheMath.Linear", "src\DoTheMath.Linear\DoTheMath.Linear.csproj", "{F20516D4-E531-4764-8AF4-94D52882C17F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DoTheMath.Linear.DnxBuild", "src\DoTheMath.Linear\DoTheMath.Linear.DnxBuild.xproj", "{93F341D0-67FA-4B1A-B141-DD0352BD8160}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DoTheMath.Linear.DotNetCoreBuild", "src\DoTheMath.Linear\DoTheMath.Linear.DotNetCoreBuild.xproj", "{93F341D0-67FA-4B1A-B141-DD0352BD8160}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

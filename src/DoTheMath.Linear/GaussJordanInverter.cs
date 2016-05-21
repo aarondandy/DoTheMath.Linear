@@ -11,7 +11,7 @@ namespace DoTheMath.Linear
         /// <summary>
         /// Sets up the inverter.
         /// </summary>
-        /// <param name="scratch">A scratch space used to calculate the inverse. Must be populated with the matrix to be inverted. The data will be destroyed.</param>
+        /// <param name="scratch">A scratch space used to calculate the inverse. Must be populated with the matrix to be inverted. The matrix will be destroyed.</param>
         /// <param name="inverse">An identity matrix that will be converted into the inverse if successful.</param>
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
