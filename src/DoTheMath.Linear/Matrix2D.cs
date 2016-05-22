@@ -141,7 +141,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get
             {

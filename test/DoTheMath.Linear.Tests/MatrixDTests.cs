@@ -137,7 +137,7 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
-        public class IsIdentity : MatrixDTests
+        public class CheckIdentity : MatrixDTests
         {
             [Fact]
             public void default_square_matrix_is_not_identity()
@@ -238,6 +238,21 @@ namespace DoTheMath.Linear.Tests
                 m.Set(1, 0, 0.0);
                 m.Set(1, 1, 1.0);
                 m.Set(1, 2, 0.0);
+
+                Assert.False(m.CheckIdentity());
+            }
+
+            [Theory]
+            [InlineData(3, 0, 1)]
+            [InlineData(3, 0, 2)]
+            [InlineData(3, 1, 0)]
+            [InlineData(3, 1, 2)]
+            [InlineData(3, 2, 0)]
+            [InlineData(3, 2, 1)]
+            public void each_non_diagonal_element_is_checked(int size, int row, int col)
+            {
+                var m = MatrixD.CreateIdentity(size);
+                m.Set(row, col, 9);
 
                 Assert.False(m.CheckIdentity());
             }
@@ -1221,7 +1236,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var matrix = new MatrixD(3, 5);
 
-                Assert.Throws<NoInverseException>(() => matrix.GetInverse());
+                Assert.Throws<NotSquareMatrixException>(() => matrix.GetInverse());
             }
 
             [Fact]
@@ -1461,6 +1476,37 @@ namespace DoTheMath.Linear.Tests
                 var actual = matrix.GetDeterminant();
 
                 Assert.Equal(expected, actual, 8);
+            }
+        }
+
+        public class GetTraceTests : MatrixDTests
+        {
+            [Fact]
+            public void rectangle_matrix_throws()
+            {
+                var actual = new MatrixD(2, 3);
+
+                Assert.Throws<NotSquareMatrixException>(() => actual.GetTrace());
+            }
+
+            [Fact]
+            public void can_get_trance()
+            {
+                var sut = new MatrixD(3, 3);
+                sut.Set(0, 0, 2);
+                sut.Set(1, 1, 3);
+                sut.Set(2, 2, 4);
+                sut.Set(0, 1, 99);
+                sut.Set(0, 2, 99);
+                sut.Set(1, 0, 99);
+                sut.Set(1, 2, 99);
+                sut.Set(2, 0, 99);
+                sut.Set(2, 1, 99);
+                var expected = 9;
+
+                var actual = sut.GetTrace();
+
+                Assert.Equal(expected, actual);
             }
         }
     }

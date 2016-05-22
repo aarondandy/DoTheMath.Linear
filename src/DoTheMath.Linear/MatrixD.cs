@@ -88,7 +88,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public bool CheckIdentity()
         {
@@ -97,11 +97,25 @@ namespace DoTheMath.Linear
                 return false;
             }
 
-            for (int row = 0; row < Rows; row++)
+            for (var row = 0; row < Rows; row++)
             {
-                for (int column = 0; column < Columns; column++)
+                var rowOffset = (Columns * row);
+                if (_elements[rowOffset + row] != 1.0)
                 {
-                    if (_elements[(Columns * row) + column] != ((row == column) ? 1.0 : 0.0))
+                    return false;
+                }
+
+#if HAS_CODECONTRACTS
+                Assume(row < Columns);
+#endif
+
+                for (var column = 0; column < row; column++)
+                {
+                    if (_elements[rowOffset + column] != 0.0)
+                    {
+                        return false;
+                    }
+                    if (_elements[(Columns * column) + row] != 0.0)
                     {
                         return false;
                     }
@@ -394,20 +408,24 @@ namespace DoTheMath.Linear
             Assume(product.Columns == right.Columns);
 #endif
 
-            for (int row = 0; row < product.Rows; row++)
-            {
-                int leftRowOffset = Columns * row;
-                int productRowOffset = product.Columns * row;
+            var rightElements = right._elements;
+            var rightColumns = right.Columns;
+            var productElements = product._elements;
 
-                for (int column = 0; column < product.Columns; column++)
+            for (var row = 0; row < product.Rows; row++)
+            {
+                var leftRowOffset = Columns * row;
+                var productRowOffset = product.Columns * row;
+
+                for (var column = 0; column < product.Columns; column++)
                 {
-                    double sum = 0.0;
-                    for (int innerIndex = 0; innerIndex < Columns; innerIndex++)
+                    double sum = _elements[leftRowOffset] * rightElements[column];
+                    for (var innerIndex = 1; innerIndex < Columns; innerIndex++)
                     {
-                        sum += _elements[leftRowOffset + innerIndex] * right.Get(innerIndex, column);
+                        sum += _elements[leftRowOffset + innerIndex] * rightElements[(rightColumns * innerIndex) + column];
                     }
 
-                    product._elements[productRowOffset + column] = sum;
+                    productElements[productRowOffset + column] = sum;
                 }
             }
 
@@ -426,9 +444,11 @@ namespace DoTheMath.Linear
 #endif
 
             var transposed = new MatrixD(Columns, Rows);
+            var transposedElements = transposed._elements;
 
 #if HAS_CODECONTRACTS
             Assume(transposed._elements.Length == _elements.Length);
+            Assume(transposedElements.Length == _elements.Length);
 #endif
 
             for (int row = 0; row < Rows; row++)
@@ -437,7 +457,7 @@ namespace DoTheMath.Linear
 
                 for (int column = 0; column < Columns; column++)
                 {
-                    transposed._elements[(column * Rows) + row] = _elements[selfRowOffset + column];
+                    transposedElements[(column * Rows) + row] = _elements[selfRowOffset + column];
                 }
             }
 
@@ -449,18 +469,21 @@ namespace DoTheMath.Linear
 #endif
         IMatrix<double> IMatrix<double>.GetTranspose()
         {
-            return this.GetTranspose();
+            return GetTranspose();
         }
 
         public void Transpose()
         {
             var newElements = new double[_elements.Length];
 
-            for (int elementIndex = 0; elementIndex < _elements.Length; elementIndex++)
+            for (var row = 0; row < Rows; row++)
             {
-                var newIndex = ((elementIndex % Columns) * Rows) + (elementIndex / Columns);
+                var oldRowOffset = Columns * row;
 
-                newElements[newIndex] = _elements[elementIndex];
+                for (var column = 0; column < Columns; column++)
+                {
+                    newElements[(Rows * column) + row] = _elements[oldRowOffset + column];
+                }
             }
 
             _elements = newElements;
@@ -486,16 +509,18 @@ namespace DoTheMath.Linear
 #endif
         public MatrixD GetInverse()
         {
-            if (Rows == Columns)
+            if (!IsSquare)
             {
-                var inverter = new GaussJordanInverter<MatrixD>(
-                    new MatrixD(this),
-                    CreateIdentity(this.Rows));
+                throw new NotSquareMatrixException();
+            }
 
-                if (inverter.Invert())
-                {
-                    return inverter.Inverse;
-                }
+            var inverter = new GaussJordanInverter<MatrixD>(
+                new MatrixD(this),
+                CreateIdentity(this.Rows));
+
+            if (inverter.Invert())
+            {
+                return inverter.Inverse;
             }
 
             throw new NoInverseException();
@@ -510,11 +535,11 @@ namespace DoTheMath.Linear
             {
                 throw new NotSquareMatrixException();
             }
-            
-            double sum = 0.0;
-            for(int ordinal = 0; ordinal < Rows; ordinal++)
+
+            var sum = _elements[0];
+            for (int ordinal = 1; ordinal < Rows; ordinal++)
             {
-                sum += Get(ordinal, ordinal);
+                sum += _elements[(Columns * ordinal) + ordinal];
             }
             return sum;
         }
