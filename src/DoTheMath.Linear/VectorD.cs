@@ -3,6 +3,11 @@ using System.Runtime.CompilerServices;
 
 using static DoTheMath.Linear.Utilities.Duplicator;
 
+#if HAS_CODECONTRACTS
+using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
+#endif
+
 namespace DoTheMath.Linear
 {
     public sealed class VectorD :
@@ -40,7 +45,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get { return _components.Length; }
         }
@@ -49,7 +54,7 @@ namespace DoTheMath.Linear
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public double Get(int dimension)
         {
@@ -75,7 +80,76 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
+#endif
+        public VectorD Add(VectorD right)
+        {
+            if(right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+            if(_components.Length != right._components.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(right));
+            }
+
+            var sum = new VectorD(_components.Length);
+            var sumComponents = sum._components;
+            var rightComponents = right._components;
+
+            for(int i = 0; i < _components.Length; i++)
+            {
+                sumComponents[i] = _components[i] + rightComponents[i];
+            }
+
+            return sum;
+        }
+
+        public void AddTo(VectorD right)
+        {
+            if (right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+            if (_components.Length != right._components.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(right));
+            }
+
+            var rightComponents = right._components;
+
+            for (int i = 0; i < _components.Length; i++)
+            {
+                _components[i] += rightComponents[i];
+            }
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public VectorD GetScaled(double scalar)
+        {
+            var scaled = new VectorD(_components.Length);
+            var scaledComponents = scaled._components;
+
+            for(int i = 0; i < scaledComponents.Length; i++)
+            {
+                scaledComponents[i] = _components[i] * scalar;
+            }
+
+            return scaled;
+        }
+
+        public void Scale(double scalar)
+        {
+            for(int i = 0; i < _components.Length; i++)
+            {
+                _components[i] *= scalar;
+            }
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
 #endif
         public bool Equals(VectorD other)
         {
@@ -87,18 +161,20 @@ namespace DoTheMath.Linear
             {
                 return false;
             }
-            if (_components.Length != other._components.Length)
+
+            var otherComponents = other._components;
+            if (_components.Length != otherComponents.Length)
             {
                 return false;
             }
 
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Assume(_components.Length == other._components.Length);
+            Assume(_components.Length == otherComponents.Length);
 #endif
 
             for (int dimension = 0; dimension < _components.Length; dimension++)
             {
-                if (!_components[dimension].Equals(other._components[dimension]))
+                if (!_components[dimension].Equals(otherComponents[dimension]))
                 {
                     return false;
                 }
@@ -108,7 +184,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override bool Equals(object obj)
         {
@@ -116,7 +192,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override int GetHashCode()
         {

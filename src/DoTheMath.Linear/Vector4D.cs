@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+#if HAS_CODECONTRACTS
+using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
+#endif
+
 namespace DoTheMath.Linear
 {
     public struct Vector4D :
@@ -43,7 +48,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get { return 3; }
         }
@@ -60,7 +65,7 @@ namespace DoTheMath.Linear
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public double Get(int dimension)
         {
@@ -84,8 +89,64 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException(nameof(dimension));
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
+#endif
+        public Vector4D Add(Vector4D right)
+        {
+            return new Vector4D
+            {
+                X = X + right.X,
+                Y = Y + right.Y,
+                Z = Z + right.Z,
+                W = W + right.W
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void AddTo(Vector4D right)
+        {
+            X += right.X;
+            Y += right.Y;
+            Z += right.Z;
+            W += right.W;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector4D GetScaled(double scalar)
+        {
+            return new Vector4D
+            {
+                X = X * scalar,
+                Y = Y * scalar,
+                Z = Z * scalar,
+                W = W * scalar
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Scale(double scalar)
+        {
+            X *= scalar;
+            Y *= scalar;
+            Z *= scalar;
+            W *= scalar;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
 #endif
         public bool Equals(Vector4D other)
         {
@@ -96,7 +157,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override bool Equals(object obj)
         {
@@ -104,7 +165,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override int GetHashCode()
         {

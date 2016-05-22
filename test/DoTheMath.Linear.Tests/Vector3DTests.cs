@@ -180,5 +180,100 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expectedHashCode, m.GetHashCode());
             }
         }
+
+        public class AddTests : Vector3DTests
+        {
+            [Fact]
+            public void adding_vector_produces_sum_vector()
+            {
+                var left = new Vector3D(1, 2, 10);
+                var right = new Vector3D(3, 4, 11);
+                var expected = new Vector3D(4, 6, 21);
+
+                var actual = left.Add(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void adding_vectors_leaves_operands_unchanged()
+            {
+                var left = new Vector3D(1, 2, 10);
+                var expectedLeft = new Vector3D(left);
+                var right = new Vector3D(3, 4, 11);
+                var expectedRight = new Vector3D(right);
+
+                var result = left.Add(right);
+
+                Assert.Equal(expectedLeft, left);
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class AddToTests : Vector3DTests
+        {
+            [Fact]
+            public void adding_vector_adds_to_components()
+            {
+                var actual = new Vector3D(1, 2, 10);
+                var right = new Vector3D(3, 4, 11);
+                var expected = new Vector3D(4, 6, 21);
+
+                actual.AddTo(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void adding_vectors_leaves_right_unchanged()
+            {
+                var left = new Vector3D(1, 2, 10);
+                var right = new Vector3D(3, 4, 11);
+                var expectedRight = new Vector3D(right);
+
+                left.AddTo(right);
+
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class GetScaledTests : Vector3DTests
+        {
+            [Fact]
+            public void can_get_scaled_vector()
+            {
+                var source = new Vector3D(1, -2, 4);
+                var expected = new Vector3D(3, -6, 12);
+
+                var actual = source.GetScaled(3);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void source_vector_is_unchanged()
+            {
+                var actual = new Vector3D(1, 2, 4);
+                var expected = new Vector3D(actual);
+
+                var result = actual.GetScaled(2);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class ScaleTests : Vector3DTests
+        {
+            [Fact]
+            public void can_get_scaled_vector()
+            {
+                var actual = new Vector3D(1, -2, 4);
+                var expected = new Vector3D(3, -6, 12);
+
+                actual.Scale(3);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

@@ -184,5 +184,100 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expectedHashCode, m.GetHashCode());
             }
         }
+
+        public class AddTests : Vector4DTests
+        {
+            [Fact]
+            public void adding_vector_produces_sum_vector()
+            {
+                var left = new Vector4D(1, 2, 10, -4);
+                var right = new Vector4D(3, 4, 11, 1);
+                var expected = new Vector4D(4, 6, 21, -3);
+
+                var actual = left.Add(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void adding_vectors_leaves_operands_unchanged()
+            {
+                var left = new Vector4D(1, 2, 10, -4);
+                var expectedLeft = new Vector4D(left);
+                var right = new Vector4D(3, 4, 11, 1);
+                var expectedRight = new Vector4D(right);
+
+                var result = left.Add(right);
+
+                Assert.Equal(expectedLeft, left);
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class AddToTests : Vector4DTests
+        {
+            [Fact]
+            public void adding_vector_adds_to_components()
+            {
+                var actual = new Vector4D(1, 2, 10, -4);
+                var right = new Vector4D(3, 4, 11, 1);
+                var expected = new Vector4D(4, 6, 21, -3);
+
+                actual.AddTo(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void adding_vectors_leaves_right_unchanged()
+            {
+                var left = new Vector4D(1, 2, 10, -4);
+                var right = new Vector4D(3, 4, 11, 1);
+                var expectedRight = new Vector4D(right);
+
+                left.AddTo(right);
+
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class GetScaledTests : Vector4DTests
+        {
+            [Fact]
+            public void can_get_scaled_vector()
+            {
+                var source = new Vector4D(1, -2, 4, -9);
+                var expected = new Vector4D(3, -6, 12, -27);
+
+                var actual = source.GetScaled(3);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void source_vector_is_unchanged()
+            {
+                var actual = new Vector4D(1, 2, 4, -9);
+                var expected = new Vector4D(actual);
+
+                var result = actual.GetScaled(2);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class ScaleTests : Vector4DTests
+        {
+            [Fact]
+            public void can_get_scaled_vector()
+            {
+                var actual = new Vector4D(1, -2, 4, -9);
+                var expected = new Vector4D(3, -6, 12, -27);
+
+                actual.Scale(3);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

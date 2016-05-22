@@ -24,7 +24,7 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(1.0, v.X);
                 Assert.Equal(-5.0, v.Y);
             }
-            
+
             [Fact]
             public void copy_constructor_copies_all_componenets()
             {
@@ -174,6 +174,101 @@ namespace DoTheMath.Linear.Tests
                 m.Y = 100.2;
 
                 Assert.Equal(expectedHashCode, m.GetHashCode());
+            }
+        }
+
+        public class AddTests : Vector2DTests
+        {
+            [Fact]
+            public void adding_vector_produces_sum_vector()
+            {
+                var left = new Vector2D(1, 2);
+                var right = new Vector2D(3, 4);
+                var expected = new Vector2D(4, 6);
+
+                var actual = left.Add(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void adding_vectors_leaves_operands_unchanged()
+            {
+                var left = new Vector2D(1, 2);
+                var expectedLeft = new Vector2D(left);
+                var right = new Vector2D(3, 4);
+                var expectedRight = new Vector2D(right);
+
+                var result = left.Add(right);
+
+                Assert.Equal(expectedLeft, left);
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class AddToTests : Vector2DTests
+        {
+            [Fact]
+            public void adding_vector_adds_to_components()
+            {
+                var actual = new Vector2D(1, 2);
+                var right = new Vector2D(3, 4);
+                var expected = new Vector2D(4, 6);
+
+                actual.AddTo(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void adding_vectors_leaves_right_unchanged()
+            {
+                var left = new Vector2D(1, 2);
+                var right = new Vector2D(3, 4);
+                var expectedRight = new Vector2D(right);
+
+                left.AddTo(right);
+
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class GetScaledTests : Vector2DTests
+        {
+            [Fact]
+            public void can_get_scaled_vector()
+            {
+                var source = new Vector2D(1, -2);
+                var expected = new Vector2D(3, -6);
+
+                var actual = source.GetScaled(3);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void source_vector_is_unchanged()
+            {
+                var actual = new Vector2D(1, 2);
+                var expected = new Vector2D(actual);
+
+                var result = actual.GetScaled(2);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class ScaleTests : Vector2DTests
+        {
+            [Fact]
+            public void can_get_scaled_vector()
+            {
+                var actual = new Vector2D(1, -2);
+                var expected = new Vector2D(3, -6);
+
+                actual.Scale(3);
+
+                Assert.Equal(expected, actual);
             }
         }
     }

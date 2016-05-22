@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+#if HAS_CODECONTRACTS
+using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
+#endif
+
 namespace DoTheMath.Linear
 {
     public struct Vector2D :
@@ -48,7 +53,7 @@ namespace DoTheMath.Linear
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public double Get(int dimension)
         {
@@ -65,7 +70,63 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
+#endif
+        double IVector<double>.Get(int dimension)
+        {
+            return this.Get(dimension);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector2D Add(Vector2D right)
+        {
+            return new Vector2D
+            {
+                X = X + right.X,
+                Y = Y + right.Y
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void AddTo(Vector2D right)
+        {
+            X += right.X;
+            Y += right.Y;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector2D GetScaled(double scalar)
+        {
+            return new Vector2D
+            {
+                X = X * scalar,
+                Y = Y * scalar
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Scale(double scalar)
+        {
+            X *= scalar;
+            Y *= scalar;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
 #endif
         public bool Equals(Vector2D other)
         {
@@ -74,7 +135,7 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override bool Equals(object obj)
         {
@@ -82,16 +143,11 @@ namespace DoTheMath.Linear
         }
 
 #if HAS_CODECONTRACTS
-        [System.Diagnostics.Contracts.Pure]
+        [Pure]
 #endif
         public sealed override int GetHashCode()
         {
             return Dimensions;
-        }
-
-        double IVector<double>.Get(int dimension)
-        {
-            throw new NotImplementedException();
         }
     }
 }

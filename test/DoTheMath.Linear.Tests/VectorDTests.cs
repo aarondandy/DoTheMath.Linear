@@ -274,5 +274,165 @@ namespace DoTheMath.Linear.Tests
                 Assert.NotEqual(new VectorD(2).GetHashCode(), new VectorD(10).GetHashCode());
             }
         }
+
+        public class AddTests : VectorDTests
+        {
+            [Fact]
+            public void adding_vectors_of_different_size_throws()
+            {
+                var left = new VectorD(3);
+                var right = new VectorD(4);
+                Assert.NotEqual(left.Dimensions, right.Dimensions);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.Add(right));
+            }
+
+            [Fact]
+            public void adding_null_vector_throws()
+            {
+                var left = new VectorD(3);
+                VectorD right = null;
+
+                Assert.Throws<ArgumentNullException>(() => left.Add(right));
+            }
+
+            [Fact]
+            public void adding_vectors_does_not_mutate_operands()
+            {
+                var left = new VectorD(3);
+                left.Set(0, 1);
+                left.Set(1, 3);
+                left.Set(2, -4);
+                var expectedLeft = new VectorD(left);
+                var right = new VectorD(3);
+                right.Set(0, -10);
+                right.Set(1, 4);
+                right.Set(2, -20);
+                var expectedRight = new VectorD(right);
+                
+                left.Add(right);
+
+                Assert.Equal(expectedRight, right);
+                Assert.Equal(expectedLeft, left);
+            }
+
+            [Fact]
+            public void can_add_vectors_of_same_size()
+            {
+                var left = new VectorD(3);
+                left.Set(0, 1);
+                left.Set(1, 3);
+                left.Set(2, -4);
+                var right = new VectorD(3);
+                right.Set(0, -10);
+                right.Set(1, 4);
+                right.Set(2, -20);
+                var expected = new VectorD(3);
+                expected.Set(0, -9);
+                expected.Set(1, 7);
+                expected.Set(2, -24);
+
+                var actual = left.Add(right);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class AddToTests : VectorDTests
+        {
+            [Fact]
+            public void adding_vectors_of_different_size_throws()
+            {
+                var left = new VectorD(3);
+                var right = new VectorD(4);
+                Assert.NotEqual(left.Dimensions, right.Dimensions);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.AddTo(right));
+            }
+
+            [Fact]
+            public void adding_null_vector_throws()
+            {
+                var left = new VectorD(3);
+                VectorD right = null;
+
+                Assert.Throws<ArgumentNullException>(() => left.AddTo(right));
+            }
+
+            [Fact]
+            public void can_add_vectors_of_same_size()
+            {
+                var actual = new VectorD(3);
+                actual.Set(0, 1);
+                actual.Set(1, 3);
+                actual.Set(2, -4);
+                var right = new VectorD(3);
+                right.Set(0, -10);
+                right.Set(1, 4);
+                right.Set(2, -20);
+                var expected = new VectorD(3);
+                expected.Set(0, -9);
+                expected.Set(1, 7);
+                expected.Set(2, -24);
+
+                actual.AddTo(right);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetScaledTests : VectorDTests
+        {
+            [Fact]
+            public void can_get_scaled_vector()
+            {
+                var source = new VectorD(3);
+                source.Set(0, 1);
+                source.Set(1, 2);
+                source.Set(2, -4);
+                var expected = new VectorD(3);
+                expected.Set(0, 3);
+                expected.Set(1, 6);
+                expected.Set(2, -12);
+
+                var actual = source.GetScaled(3);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void source_vector_is_unchanged()
+            {
+                var actual = new VectorD(3);
+                actual.Set(0, 1);
+                actual.Set(1, 2);
+                actual.Set(2, -4);
+                var expected = new VectorD(actual);
+
+                var result = actual.GetScaled(2);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class ScaleTests : VectorDTests
+        {
+            [Fact]
+            public void can_get_scaled_vector()
+            {
+                var actual = new VectorD(3);
+                actual.Set(0, 1);
+                actual.Set(1, 2);
+                actual.Set(2, -4);
+                var expected = new VectorD(3);
+                expected.Set(0, 3);
+                expected.Set(1, 6);
+                expected.Set(2, -12);
+
+                actual.Scale(3);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }
