@@ -1089,6 +1089,42 @@ namespace DoTheMath.Linear.Tests
                 var actual = matrix.GetDeterminant();
                 Assert.Equal(expected, actual);
             }
+
+            [Fact]
+            public void example_11()
+            {
+                var matrix = new Matrix2D(
+                    1, 1,
+                    1, 1);
+                var expected = 0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_12()
+            {
+                var matrix = new Matrix2D(
+                    1, 1,
+                    1, 1.1);
+                var expected = 0.1;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void example_13()
+            {
+                var matrix = new Matrix2D(
+                    0, 1,
+                    1, 2);
+                var expected = -1;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
         }
 
         protected Matrix2D CreateIncremenetalMatrix()

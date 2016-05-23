@@ -1069,6 +1069,30 @@ namespace DoTheMath.Linear.Tests
                 var actual = matrix.GetDeterminant();
                 Assert.Equal(expected, actual);
             }
+
+            [Fact]
+            public void example_6()
+            {
+                var matrix = Matrix3D.CreateIdentity();
+                matrix.Set(1, 1, 0);
+                var expected = 0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_7()
+            {
+                var matrix = new Matrix3D(
+                    0, 1, 0,
+                    1, 0, 1,
+                    0, 1, 0);
+                var expected = 0;
+
+                var actual = matrix.GetDeterminant();
+                Assert.Equal(expected, actual);
+            }
         }
 
         protected Matrix3D CreateIncremenetalMatrix()

@@ -1372,6 +1372,17 @@ namespace DoTheMath.Linear.Tests
         public class GetDeterminant : MatrixDTests
         {
             [Fact]
+            public void zero_size_matrix_has_zero_determinant()
+            {
+                var matrix = MatrixD.CreateIdentity(0);
+                var expected = 0.0;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
             public void identity_matrix_returns_one_for_determinant()
             {
                 var matrix = MatrixD.CreateIdentity(7);

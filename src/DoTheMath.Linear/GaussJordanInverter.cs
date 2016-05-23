@@ -1,5 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 
+#if HAS_CODECONTRACTS
+using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
+#endif
+
 namespace DoTheMath.Linear
 {
     internal struct GaussJordanInverter<TMatrix> where TMatrix : IMatrixMutable<double>
@@ -19,11 +24,11 @@ namespace DoTheMath.Linear
         public GaussJordanInverter(TMatrix scratch, TMatrix inverse)
         {
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Requires(scratch != null);
-            System.Diagnostics.Contracts.Contract.Requires(inverse != null);
-            System.Diagnostics.Contracts.Contract.Requires(scratch.Rows == scratch.Columns);
-            System.Diagnostics.Contracts.Contract.Requires(scratch.Rows == inverse.Rows);
-            System.Diagnostics.Contracts.Contract.Requires(scratch.Columns == inverse.Columns);
+            Requires(scratch != null);
+            Requires(inverse != null);
+            Requires(scratch.Rows == scratch.Columns);
+            Requires(inverse.Rows == inverse.Columns);
+            Requires(scratch.Rows == inverse.Rows && scratch.Columns == inverse.Columns);
 #endif
 
             _scratch = scratch;
@@ -34,6 +39,9 @@ namespace DoTheMath.Linear
         {
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
 #endif
             get
             {
@@ -70,58 +78,58 @@ namespace DoTheMath.Linear
             return true;
         }
 
-
         private bool ForceDiagonalToOne(int ordinal)
         {
             var currentElementValue = _scratch.Get(ordinal, ordinal);
-            if (currentElementValue == 1.0)
+            if (currentElementValue.Equals(1.0))
             {
                 return true;
             }
 
             int rowIndexSearch;
+            var rowSearchStart = ordinal + 1;
 
             // attempt to find a row after this one that already has a 1.0 value
-            rowIndexSearch = LocateNextRowFromDiagonalWithValueOne(ordinal);
-            if (rowIndexSearch > ordinal)
+            for(rowIndexSearch = rowSearchStart; rowIndexSearch < _scratch.Rows; rowIndexSearch++)
             {
-                _scratch.SwapRows(ordinal, rowIndexSearch);
-                _inverse.SwapRows(ordinal, rowIndexSearch);
-                return true;
+                if (_scratch.Get(rowIndexSearch, ordinal).Equals(1.0))
+                {
+                    SwapRows(ordinal, rowIndexSearch);
+                    return true;
+                }
             }
-
-            // attempt to find an additive value from the next rows that can give us a 1.0 value here
-            rowIndexSearch = LocateNextRowFromDiagonalThatCanSumToOne(ordinal, currentElementValue);
-            if (rowIndexSearch > ordinal)
+            
+            for (rowIndexSearch = rowSearchStart; rowIndexSearch < _scratch.Rows; rowIndexSearch++)
             {
-                // TODO: optimize to avoid the multiplication
-                _scratch.AddScaledRow(rowIndexSearch, ordinal, 1.0);
-                _inverse.AddScaledRow(rowIndexSearch, ordinal, 1.0);
-                return true;
+                if ((_scratch.Get(rowIndexSearch, ordinal) + currentElementValue).Equals(1.0))
+                {
+                    // TODO: optimize to avoid the multiplication
+                    AddScaledRow(rowIndexSearch, ordinal, 1.0);
+                    return true;
+                }
+                else if ((_scratch.Get(rowIndexSearch, ordinal) - currentElementValue).Equals(1.0))
+                {
+                    // TODO: optimize to avoid the multiplication
+                    AddScaledRow(rowIndexSearch, ordinal, -1.0);
+                    return true;
+                }
             }
 
             // attempt to find a scalar value that can be applied to the row
-            if (currentElementValue != 0.0)
+            if (!currentElementValue.Equals(0.0))
             {
-                _scratch.DivideRow(ordinal, currentElementValue);
-                _inverse.DivideRow(ordinal, currentElementValue);
+                DivideRow(ordinal, currentElementValue);
                 return true;
             }
 
             // if the current element is zero and we still have not found a way to get it to a 1 value
-            // we need to try something else
-            rowIndexSearch = LocateNextRowFromDiagonalWithNonZeroValue(ordinal);
-            if (rowIndexSearch > ordinal)
+            for (rowIndexSearch = rowSearchStart; rowIndexSearch < _scratch.Rows; rowIndexSearch++)
             {
-#if HAS_CODECONTRACTS
-                // it is really important that this value not be 0.0 or it will cause an infinite loop
-                System.Diagnostics.Contracts.Contract.Assume(_scratch.Get(rowIndexSearch, ordinal) != 0.0);
-#endif
-
-                _scratch.SwapRows(ordinal, rowIndexSearch);
-                _inverse.SwapRows(ordinal, rowIndexSearch);
-
-                return ForceDiagonalToOne(ordinal); // this should only ever be called recusively once
+                if (!_scratch.Get(rowIndexSearch, ordinal).Equals(0.0))
+                {
+                    SwapRows(ordinal, rowIndexSearch);
+                    return ForceDiagonalToOne(ordinal); // this should only ever be called recusively once
+                }
             }
 
             return false;
@@ -130,7 +138,7 @@ namespace DoTheMath.Linear
         private bool ForceColumnElementToZero(int row, int column)
         {
 #if HAS_CODECONTRACTS
-            System.Diagnostics.Contracts.Contract.Requires(row != column);
+            Requires(row != column);
 #endif
             var currentElementValue = _scratch.Get(row, column);
             if (currentElementValue.Equals(0.0))
@@ -145,14 +153,22 @@ namespace DoTheMath.Linear
                     continue;
                 }
 
-                // find a value where currentElementValue - searchElementValue == 0
                 var searchElementValue = _scratch.Get(searchRow, column);
 
-                if (searchElementValue == currentElementValue)
+                if ((searchElementValue + currentElementValue).Equals(0.0))
                 {
+                    // find a value where currentElementValue + searchElementValue == 0
+
                     // TODO: optimize to avoid the multiplication
-                    _scratch.AddScaledRow(searchRow, row, -1.0);
-                    _inverse.AddScaledRow(searchRow, row, -1.0);
+                    AddScaledRow(searchRow, row, 1.0);
+                    return true;
+                }
+                else if ((searchElementValue - currentElementValue).Equals(0.0))
+                {
+                    // find a value where currentElementValue - searchElementValue == 0
+
+                    // TODO: optimize to avoid the multiplication
+                    AddScaledRow(searchRow, row, -1.0);
                     return true;
                 }
             }
@@ -166,12 +182,9 @@ namespace DoTheMath.Linear
 
                 // find a value where currentElementValue + (searchElementValue * factor) == 0
                 var searchElementValue = _scratch.Get(searchRow, column);
-
                 if (!searchElementValue.Equals(0.0))
                 {
-                    var scalar = -currentElementValue / searchElementValue;
-                    _scratch.AddScaledRow(searchRow, row, scalar);
-                    _inverse.AddScaledRow(searchRow, row, scalar);
+                    AddScaledRow(searchRow, row, -currentElementValue / searchElementValue);
                     return true;
                 }
             }
@@ -179,43 +192,31 @@ namespace DoTheMath.Linear
             return false;
         }
 
-        private int LocateNextRowFromDiagonalWithValueOne(int ordinal)
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void AddScaledRow(int sourceRow, int targetRow, double scalar)
         {
-            for (var row = ordinal + 1; row < _scratch.Rows; row++)
-            {
-                if (_scratch.Get(row, ordinal) == 1.0)
-                {
-                    return row;
-                }
-            }
-
-            return -1;
+            _scratch.AddScaledRow(sourceRow, targetRow, scalar);
+            _inverse.AddScaledRow(sourceRow, targetRow, scalar);
         }
 
-        private int LocateNextRowFromDiagonalWithNonZeroValue(int ordinal)
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void SwapRows(int rowA, int rowB)
         {
-            for (var row = ordinal + 1; row < _scratch.Rows; row++)
-            {
-                if (_scratch.Get(row, ordinal) != 0.0)
-                {
-                    return row;
-                }
-            }
-
-            return -1;
+#if HAS_CODECONTRACTS
+            Requires(rowA != rowB);
+#endif
+            _scratch.SwapRows(rowA, rowB);
+            _inverse.SwapRows(rowA, rowB);
         }
 
-        private int LocateNextRowFromDiagonalThatCanSumToOne(int ordinal, double value)
+        private void DivideRow(int row, double denominator)
         {
-            for (var row = ordinal + 1; row < _scratch.Rows; row++)
-            {
-                if (_scratch.Get(row, ordinal) + value == 1.0)
-                {
-                    return row;
-                }
-            }
-
-            return -1;
+            _scratch.DivideRow(row, denominator);
+            _inverse.DivideRow(row, denominator);
         }
     }
 }
