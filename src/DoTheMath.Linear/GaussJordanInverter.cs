@@ -58,6 +58,10 @@ namespace DoTheMath.Linear
                     return false;
                 }
 
+#if HAS_CODECONTRACTS
+                Assume(column <= _scratch.Rows);
+#endif
+
                 for (int row = 0; row < column; row++)
                 {
                     if (!ForceColumnElementToZero(row, column))
@@ -103,14 +107,12 @@ namespace DoTheMath.Linear
             {
                 if ((_scratch.Get(rowIndexSearch, ordinal) + currentElementValue).Equals(1.0))
                 {
-                    // TODO: optimize to avoid the multiplication
-                    AddScaledRow(rowIndexSearch, ordinal, 1.0);
+                    AddRow(rowIndexSearch, ordinal);
                     return true;
                 }
                 else if ((_scratch.Get(rowIndexSearch, ordinal) - currentElementValue).Equals(1.0))
                 {
-                    // TODO: optimize to avoid the multiplication
-                    AddScaledRow(rowIndexSearch, ordinal, -1.0);
+                    SubtractRow(rowIndexSearch, ordinal);
                     return true;
                 }
             }
@@ -158,17 +160,13 @@ namespace DoTheMath.Linear
                 if ((searchElementValue + currentElementValue).Equals(0.0))
                 {
                     // find a value where currentElementValue + searchElementValue == 0
-
-                    // TODO: optimize to avoid the multiplication
-                    AddScaledRow(searchRow, row, 1.0);
+                    AddRow(searchRow, row);
                     return true;
                 }
                 else if ((searchElementValue - currentElementValue).Equals(0.0))
                 {
                     // find a value where currentElementValue - searchElementValue == 0
-
-                    // TODO: optimize to avoid the multiplication
-                    AddScaledRow(searchRow, row, -1.0);
+                    SubtractRow(searchRow, row);
                     return true;
                 }
             }
@@ -190,6 +188,24 @@ namespace DoTheMath.Linear
             }
 
             return false;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void AddRow(int sourceRow, int targetRow)
+        {
+            _scratch.AddRow(sourceRow, targetRow);
+            _inverse.AddRow(sourceRow, targetRow);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void SubtractRow(int sourceRow, int targetRow)
+        {
+            _scratch.SubtractRow(sourceRow, targetRow);
+            _inverse.SubtractRow(sourceRow, targetRow);
         }
 
 #if !PRE_NETSTANDARD

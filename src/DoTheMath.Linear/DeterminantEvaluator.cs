@@ -148,8 +148,7 @@ namespace DoTheMath.Linear
                         // find a value where currentElementValue + searchElementValue == 0
                         if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))
                         {
-                            // TODO: optimize to avoid the multiplication
-                            _scratch.AddScaledRow(searchRow, row, 1.0);
+                            _scratch.AddRow(searchRow, row);
                             return true;
                         }
                     }
@@ -158,8 +157,7 @@ namespace DoTheMath.Linear
                         // find a value where currentElementValue - searchElementValue == 0
                         if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))
                         {
-                            // TODO: optimize to avoid the multiplication
-                            _scratch.AddScaledRow(searchRow, row, -1.0);
+                            _scratch.SubtractRow(searchRow, row);
                             return true;
                         }
                     }
@@ -175,7 +173,6 @@ namespace DoTheMath.Linear
 
                 // find a value where currentElementValue + (searchElementValue * factor) == 0
                 var searchElementValue = _scratch.Get(searchRow, ordinal);
-
                 if (!searchElementValue.Equals(0.0))
                 {
                     if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))

@@ -850,6 +850,108 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class AddRow : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_rows_throw(int rows)
+            {
+                var m = new MatrixD(rows, 2);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(-m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(m.Rows * 2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(0, -m.Rows));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(0, m.Rows));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(0, m.Rows * 2));
+            }
+
+            [Theory]
+            [InlineData(1, 1, 0, 0)]
+            [InlineData(2, 3, 1, 0)]
+            [InlineData(4, 0, 1, 3)]
+            [InlineData(5, 5, 0, 2)]
+            [InlineData(5, 5, 4, 3)]
+            public void can_add_row(int rows, int columns, int sourceRow, int targetRow)
+            {
+                var actual = new MatrixD(rows, columns);
+                for (var r = 0; r < actual.Rows; r++)
+                {
+                    for (var c = 0; c < actual.Columns; c++)
+                    {
+                        actual.Set(r, c, (r * actual.Columns) + c);
+                    }
+                }
+
+                var expected = new MatrixD(actual);
+                for (var c = 0; c < expected.Columns; c++)
+                {
+                    expected.Set(targetRow, c, expected.Get(targetRow, c) + actual.Get(sourceRow, c));
+                }
+
+                actual.AddRow(sourceRow, targetRow);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class SubtractRow : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_rows_throw(int rows)
+            {
+                var m = new MatrixD(rows, 2);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(-m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(m.Rows, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(m.Rows * 2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(0, -m.Rows));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(0, m.Rows));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(0, m.Rows * 2));
+            }
+
+            [Theory]
+            [InlineData(1, 1, 0, 0)]
+            [InlineData(2, 3, 1, 0)]
+            [InlineData(4, 0, 1, 3)]
+            [InlineData(5, 5, 0, 2)]
+            [InlineData(5, 5, 4, 3)]
+            public void can_subtract_row(int rows, int columns, int sourceRow, int targetRow)
+            {
+                var actual = new MatrixD(rows, columns);
+                for (var r = 0; r < actual.Rows; r++)
+                {
+                    for (var c = 0; c < actual.Columns; c++)
+                    {
+                        actual.Set(r, c, (r * actual.Columns) + c);
+                    }
+                }
+
+                var expected = new MatrixD(actual);
+                for (var c = 0; c < expected.Columns; c++)
+                {
+                    expected.Set(targetRow, c, expected.Get(targetRow, c) - actual.Get(sourceRow, c));
+                }
+
+                actual.SubtractRow(sourceRow, targetRow);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class AddScaledRow : MatrixDTests
         {
             [Theory]
@@ -896,6 +998,108 @@ namespace DoTheMath.Linear.Tests
                 }
 
                 actual.AddScaledRow(sourceRow, targetRow, scalar);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class AddColumn : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_columns_throw(int columns)
+            {
+                var m = new MatrixD(2, columns);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(-m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(m.Columns * 2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(0, -m.Columns));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(0, m.Columns));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(0, m.Columns * 2));
+            }
+
+            [Theory]
+            [InlineData(1, 1, 0, 0)]
+            [InlineData(2, 3, 1, 0)]
+            [InlineData(4, 0, 1, 3)]
+            [InlineData(5, 5, 0, 2)]
+            [InlineData(5, 5, 4, 3)]
+            public void can_add_column(int columns, int rows, int sourceColumn, int targetColumn)
+            {
+                var actual = new MatrixD(rows, columns);
+                for (var r = 0; r < actual.Rows; r++)
+                {
+                    for (var c = 0; c < actual.Columns; c++)
+                    {
+                        actual.Set(r, c, (r * actual.Columns) + c);
+                    }
+                }
+
+                var expected = new MatrixD(actual);
+                for (var r = 0; r < expected.Rows; r++)
+                {
+                    expected.Set(r, targetColumn, expected.Get(r, targetColumn) + actual.Get(r, sourceColumn));
+                }
+
+                actual.AddColumn(sourceColumn, targetColumn);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class SubtractColumn : MatrixDTests
+        {
+            [Theory]
+            [InlineData(0)]
+            [InlineData(1)]
+            [InlineData(2)]
+            [InlineData(3)]
+            [InlineData(10)]
+            public void invaid_columns_throw(int columns)
+            {
+                var m = new MatrixD(2, columns);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(-m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(m.Columns, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(m.Columns * 2, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(0, -m.Columns));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(0, m.Columns));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(0, m.Columns * 2));
+            }
+
+            [Theory]
+            [InlineData(1, 1, 0, 0)]
+            [InlineData(2, 3, 1, 0)]
+            [InlineData(4, 0, 1, 3)]
+            [InlineData(5, 5, 0, 2)]
+            [InlineData(5, 5, 4, 3)]
+            public void can_subtract_column(int columns, int rows, int sourceColumn, int targetColumn)
+            {
+                var actual = new MatrixD(rows, columns);
+                for (var r = 0; r < actual.Rows; r++)
+                {
+                    for (var c = 0; c < actual.Columns; c++)
+                    {
+                        actual.Set(r, c, (r * actual.Columns) + c);
+                    }
+                }
+
+                var expected = new MatrixD(actual);
+                for (var r = 0; r < expected.Rows; r++)
+                {
+                    expected.Set(r, targetColumn, expected.Get(r, targetColumn) - actual.Get(r, sourceColumn));
+                }
+
+                actual.SubtractColumn(sourceColumn, targetColumn);
 
                 Assert.Equal(expected, actual);
             }

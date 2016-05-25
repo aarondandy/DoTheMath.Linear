@@ -803,6 +803,104 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class AddRow : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_rows_throws()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(4, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(0, 4));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddRow(0, 99));
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void can_add_row(int sourceRow, int targetRow)
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(actual);
+
+                for (int c = 0; c < actual.Columns; c++)
+                {
+                    var value = expected.Get(sourceRow, c);
+                    expected.Set(targetRow, c, expected.Get(targetRow, c) + value);
+                }
+
+                actual.AddRow(sourceRow, targetRow);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class SubtractRow : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_rows_throws()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(4, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(0, 4));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractRow(0, 99));
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void can_subtract_row(int sourceRow, int targetRow)
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(actual);
+
+                for (int c = 0; c < actual.Columns; c++)
+                {
+                    var value = expected.Get(sourceRow, c);
+                    expected.Set(targetRow, c, expected.Get(targetRow, c) - value);
+                }
+
+                actual.SubtractRow(sourceRow, targetRow);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class AddScaledRow : Matrix4DTests
         {
             [Fact]
@@ -847,6 +945,104 @@ namespace DoTheMath.Linear.Tests
                 }
 
                 actual.AddScaledRow(sourceRow, targetRow, scalar);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class AddColumn : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_columns_throws()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(4, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(0, 4));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.AddColumn(0, 99));
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void can_add_column(int sourceColumn, int targetColumn)
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(actual);
+
+                for (int r = 0; r < actual.Rows; r++)
+                {
+                    var value = expected.Get(r, sourceColumn);
+                    expected.Set(r, targetColumn, expected.Get(r, targetColumn) + value);
+                }
+
+                actual.AddColumn(sourceColumn, targetColumn);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class SubtractColumn : Matrix4DTests
+        {
+            [Fact]
+            public void invalid_columns_throws()
+            {
+                var m = new Matrix4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(4, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(99, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(0, -1));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(0, 4));
+                Assert.Throws<ArgumentOutOfRangeException>(() => m.SubtractColumn(0, 99));
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void can_subtract_column(int sourceColumn, int targetColumn)
+            {
+                var actual = CreateIncremenetalMatrix();
+                var expected = new Matrix4D(actual);
+
+                for (int r = 0; r < actual.Rows; r++)
+                {
+                    var value = expected.Get(r, sourceColumn);
+                    expected.Set(r, targetColumn, expected.Get(r, targetColumn) - value);
+                }
+
+                actual.SubtractColumn(sourceColumn, targetColumn);
 
                 Assert.Equal(expected, actual);
             }

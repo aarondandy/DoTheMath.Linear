@@ -16,7 +16,15 @@
 
         void DivideColumn(int column, double denominator);
 
+        void AddRow(int sourceRow, int targetRow);
+
+        void SubtractRow(int sourceRow, int targetRow);
+
         void AddScaledRow(int sourceRow, int targetRow, double scalar);
+
+        void AddColumn(int sourceColumn, int targetColumn);
+
+        void SubtractColumn(int sourceColumn, int targetColumn);
 
         void AddScaledColumn(int sourceColumn, int targetColumn, double scalar);
 

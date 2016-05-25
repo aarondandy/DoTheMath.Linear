@@ -299,6 +299,46 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void AddRow(int sourceRow, int targetRow)
+        {
+            if (sourceRow < 0 || sourceRow >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceRow));
+            }
+            if (targetRow < 0 || targetRow >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetRow));
+            }
+
+            var sourceRowOffset = Columns * sourceRow;
+            var targetRowOffset = Columns * targetRow;
+            for (int column = 0; column < Columns; column++)
+            {
+                var targetIndex = targetRowOffset + column;
+                _elements[targetIndex] = _elements[sourceRowOffset + column] + _elements[targetIndex];
+            }
+        }
+
+        public void SubtractRow(int sourceRow, int targetRow)
+        {
+            if (sourceRow < 0 || sourceRow >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceRow));
+            }
+            if (targetRow < 0 || targetRow >= Rows)
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetRow));
+            }
+
+            var sourceRowOffset = Columns * sourceRow;
+            var targetRowOffset = Columns * targetRow;
+            for (int column = 0; column < Columns; column++)
+            {
+                var targetIndex = targetRowOffset + column;
+                _elements[targetIndex] = _elements[targetIndex] - _elements[sourceRowOffset + column];
+            }
+        }
+
         public void AddScaledRow(int sourceRow, int targetRow, double scalar)
         {
             if (sourceRow < 0 || sourceRow >= Rows)
@@ -316,6 +356,44 @@ namespace DoTheMath.Linear
             {
                 var targetIndex = targetRowOffset + column;
                 _elements[targetIndex] = (_elements[sourceRowOffset + column] * scalar) + _elements[targetIndex];
+            }
+        }
+
+        public void AddColumn(int sourceColumn, int targetColumn)
+        {
+            if (sourceColumn < 0 || sourceColumn >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceColumn));
+            }
+            if (targetColumn < 0 || targetColumn >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetColumn));
+            }
+
+            for (int row = 0; row < Rows; row++)
+            {
+                var rowOffset = (Columns * row);
+                var targetIndex = rowOffset + targetColumn;
+                _elements[targetIndex] = _elements[rowOffset + sourceColumn] + _elements[targetIndex];
+            }
+        }
+
+        public void SubtractColumn(int sourceColumn, int targetColumn)
+        {
+            if (sourceColumn < 0 || sourceColumn >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceColumn));
+            }
+            if (targetColumn < 0 || targetColumn >= Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetColumn));
+            }
+
+            for (int row = 0; row < Rows; row++)
+            {
+                var rowOffset = (Columns * row);
+                var targetIndex = rowOffset + targetColumn;
+                _elements[targetIndex] = _elements[targetIndex] - _elements[rowOffset + sourceColumn];
             }
         }
 

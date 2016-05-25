@@ -573,6 +573,94 @@ namespace DoTheMath.Linear
             }
         }
 
+        public void AddRow(int sourceRow, int targetRow)
+        {
+            double e0, e1, e2;
+            switch (sourceRow)
+            {
+                case 0:
+                    e0 = E00;
+                    e1 = E01;
+                    e2 = E02;
+                    break;
+                case 1:
+                    e0 = E10;
+                    e1 = E11;
+                    e2 = E12;
+                    break;
+                case 2:
+                    e0 = E20;
+                    e1 = E21;
+                    e2 = E22;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(sourceRow));
+            }
+
+            switch (targetRow)
+            {
+                case 0:
+                    E00 += e0;
+                    E01 += e1;
+                    E02 += e2;
+                    break;
+                case 1:
+                    E10 += e0;
+                    E11 += e1;
+                    E12 += e2;
+                    break;
+                case 2:
+                    E20 += e0;
+                    E21 += e1;
+                    E22 += e2;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(targetRow));
+            }
+        }
+
+        public void SubtractRow(int sourceRow, int targetRow)
+        {
+            double e0, e1, e2;
+            switch (sourceRow)
+            {
+                case 0:
+                    e0 = E00;
+                    e1 = E01;
+                    e2 = E02;
+                    break;
+                case 1:
+                    e0 = E10;
+                    e1 = E11;
+                    e2 = E12;
+                    break;
+                case 2:
+                    e0 = E20;
+                    e1 = E21;
+                    e2 = E22;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(sourceRow));
+            }
+
+            switch (targetRow)
+            {
+                case 0:
+                    E00 -= e0;
+                    E01 -= e1;
+                    E02 -= e2;
+                    break;
+                case 1:
+                    E10 -= e0;
+                    E11 -= e1;
+                    E12 -= e2;
+                    break;
+                case 2:
+                    E20 -= e0;
+                    E21 -= e1;
+                    E22 -= e2;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(targetRow));
+            }
+        }
+
         public void AddScaledRow(int sourceRow, int targetRow, double scalar)
         {
             double e0, e1, e2;
@@ -618,6 +706,94 @@ namespace DoTheMath.Linear
                     E22 += e2;
                     break;
                 default: throw new ArgumentOutOfRangeException(nameof(targetRow));
+            }
+        }
+
+        public void AddColumn(int sourceColumn, int targetColumn)
+        {
+            double e0, e1, e2;
+            switch (sourceColumn)
+            {
+                case 0:
+                    e0 = E00;
+                    e1 = E10;
+                    e2 = E20;
+                    break;
+                case 1:
+                    e0 = E01;
+                    e1 = E11;
+                    e2 = E21;
+                    break;
+                case 2:
+                    e0 = E02;
+                    e1 = E12;
+                    e2 = E22;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(sourceColumn));
+            }
+
+            switch (targetColumn)
+            {
+                case 0:
+                    E00 += e0;
+                    E10 += e1;
+                    E20 += e2;
+                    break;
+                case 1:
+                    E01 += e0;
+                    E11 += e1;
+                    E21 += e2;
+                    break;
+                case 2:
+                    E02 += e0;
+                    E12 += e1;
+                    E22 += e2;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(targetColumn));
+            }
+        }
+
+        public void SubtractColumn(int sourceColumn, int targetColumn)
+        {
+            double e0, e1, e2;
+            switch (sourceColumn)
+            {
+                case 0:
+                    e0 = E00;
+                    e1 = E10;
+                    e2 = E20;
+                    break;
+                case 1:
+                    e0 = E01;
+                    e1 = E11;
+                    e2 = E21;
+                    break;
+                case 2:
+                    e0 = E02;
+                    e1 = E12;
+                    e2 = E22;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(sourceColumn));
+            }
+
+            switch (targetColumn)
+            {
+                case 0:
+                    E00 -= e0;
+                    E10 -= e1;
+                    E20 -= e2;
+                    break;
+                case 1:
+                    E01 -= e0;
+                    E11 -= e1;
+                    E21 -= e2;
+                    break;
+                case 2:
+                    E02 -= e0;
+                    E12 -= e1;
+                    E22 -= e2;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(targetColumn));
             }
         }
 
