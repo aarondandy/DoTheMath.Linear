@@ -233,6 +233,62 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class SubtractTests : Vector2DTests
+        {
+            [Fact]
+            public void subtracting_vector_produces_diff_vector()
+            {
+                var left = new Vector2D(1, 15);
+                var right = new Vector2D(3, 2);
+                var expected = new Vector2D(-2, 13);
+
+                var actual = left.Subtract(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void subtracting_vectors_leaves_operands_unchanged()
+            {
+                var left = new Vector2D(1, 2);
+                var expectedLeft = new Vector2D(left);
+                var right = new Vector2D(3, 4);
+                var expectedRight = new Vector2D(right);
+
+                var result = left.Subtract(right);
+
+                Assert.Equal(expectedLeft, left);
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class SubtractFromTests : Vector2DTests
+        {
+            [Fact]
+            public void subtracting_vector_subtracts_from_components()
+            {
+                var actual = new Vector2D(1, 15);
+                var right = new Vector2D(3, 4);
+                var expected = new Vector2D(-2, 11);
+
+                actual.SubtractFrom(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void subtracting_vectors_leaves_right_unchanged()
+            {
+                var left = new Vector2D(1, 2);
+                var right = new Vector2D(3, 4);
+                var expectedRight = new Vector2D(right);
+
+                left.SubtractFrom(right);
+
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
         public class GetScaledTests : Vector2DTests
         {
             [Fact]

@@ -237,6 +237,62 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class SubtractTests : Vector3DTests
+        {
+            [Fact]
+            public void subtracting_vector_produces_diff_vector()
+            {
+                var left = new Vector3D(1, 15, 5);
+                var right = new Vector3D(3, 2, 10);
+                var expected = new Vector3D(-2, 13, -5);
+
+                var actual = left.Subtract(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void subtracting_vectors_leaves_operands_unchanged()
+            {
+                var left = new Vector3D(1, 2, 3);
+                var expectedLeft = new Vector3D(left);
+                var right = new Vector3D(3, 4, 5);
+                var expectedRight = new Vector3D(right);
+
+                var result = left.Subtract(right);
+
+                Assert.Equal(expectedLeft, left);
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class SubtractFromTests : Vector3DTests
+        {
+            [Fact]
+            public void subtracting_vector_subtracts_from_components()
+            {
+                var actual = new Vector3D(1, 15, 5);
+                var right = new Vector3D(3, 4, 10);
+                var expected = new Vector3D(-2, 11, -5);
+
+                actual.SubtractFrom(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void subtracting_vectors_leaves_right_unchanged()
+            {
+                var left = new Vector3D(1, 2, 3);
+                var right = new Vector3D(3, 4, 5);
+                var expectedRight = new Vector3D(right);
+
+                left.SubtractFrom(right);
+
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
         public class GetScaledTests : Vector3DTests
         {
             [Fact]

@@ -127,6 +127,51 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public VectorD Subtract(VectorD right)
+        {
+            if (right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+            if (_components.Length != right._components.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(right));
+            }
+
+            var difference = new VectorD(_components.Length);
+            var diffComponents = difference._components;
+            var rightComponents = right._components;
+
+            for (int i = 0; i < _components.Length; i++)
+            {
+                diffComponents[i] = _components[i] - rightComponents[i];
+            }
+
+            return difference;
+        }
+
+        public void SubtractFrom(VectorD right)
+        {
+            if (right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+            if (_components.Length != right._components.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(right));
+            }
+
+            var rightComponents = right._components;
+
+            for (int i = 0; i < _components.Length; i++)
+            {
+                _components[i] -= rightComponents[i];
+            }
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public VectorD GetScaled(double scalar)
         {
             var scaled = new VectorD(_components.Length);

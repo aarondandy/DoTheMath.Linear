@@ -123,6 +123,34 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public Vector4D Subtract(Vector4D right)
+        {
+            return new Vector4D
+            {
+                X = X - right.X,
+                Y = Y - right.Y,
+                Z = Z - right.Z,
+                W = W - right.W
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void SubtractFrom(Vector4D right)
+        {
+            X -= right.X;
+            Y -= right.Y;
+            Z -= right.Z;
+            W -= right.W;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public Vector4D GetScaled(double scalar)
         {
             return new Vector4D

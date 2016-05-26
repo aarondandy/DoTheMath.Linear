@@ -111,6 +111,32 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public Vector3D Subtract(Vector3D right)
+        {
+            return new Vector3D
+            {
+                X = X - right.X,
+                Y = Y - right.Y,
+                Z = Z - right.Z
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void SubtractFrom(Vector3D right)
+        {
+            X -= right.X;
+            Y -= right.Y;
+            Z -= right.Z;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public Vector3D GetScaled(double scalar)
         {
             return new Vector3D

@@ -107,6 +107,30 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public Vector2D Subtract(Vector2D right)
+        {
+            return new Vector2D
+            {
+                X = X - right.X,
+                Y = Y - right.Y
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void SubtractFrom(Vector2D right)
+        {
+            X -= right.X;
+            Y -= right.Y;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public Vector2D GetScaled(double scalar)
         {
             return new Vector2D

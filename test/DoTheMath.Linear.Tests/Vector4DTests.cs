@@ -241,6 +241,62 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class SubtractTests : Vector4DTests
+        {
+            [Fact]
+            public void subtracting_vector_produces_diff_vector()
+            {
+                var left = new Vector4D(1, 15, 5, 3);
+                var right = new Vector4D(3, 2, 10, 1);
+                var expected = new Vector4D(-2, 13, -5, 2);
+
+                var actual = left.Subtract(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void subtracting_vectors_leaves_operands_unchanged()
+            {
+                var left = new Vector4D(1, 2, 3, 4);
+                var expectedLeft = new Vector4D(left);
+                var right = new Vector4D(3, 4, 5, 6);
+                var expectedRight = new Vector4D(right);
+
+                var result = left.Subtract(right);
+
+                Assert.Equal(expectedLeft, left);
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class SubtractFromTests : Vector4DTests
+        {
+            [Fact]
+            public void subtracting_vector_subtracts_from_components()
+            {
+                var actual = new Vector4D(1, 15, 5, 3);
+                var right = new Vector4D(3, 4, 10, 1);
+                var expected = new Vector4D(-2, 11, -5, 2);
+
+                actual.SubtractFrom(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void subtracting_vectors_leaves_right_unchanged()
+            {
+                var left = new Vector4D(1, 2, 3, 4);
+                var right = new Vector4D(3, 4, 5, 6);
+                var expectedRight = new Vector4D(right);
+
+                left.SubtractFrom(right);
+
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
         public class GetScaledTests : Vector4DTests
         {
             [Fact]

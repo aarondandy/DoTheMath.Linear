@@ -381,6 +381,92 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class SubtractTests : VectorDTests
+        {
+            [Fact]
+            public void subtracting_vector_produces_diff_vector()
+            {
+                var left = new VectorD(3);
+                left.Set(0, 1);
+                left.Set(1, 10);
+                left.Set(2, 6);
+                var right = new VectorD(3);
+                right.Set(0, 10);
+                right.Set(1, 3);
+                right.Set(2, 1);
+                var expected = new VectorD(3);
+                expected.Set(0, -9);
+                expected.Set(1, 7);
+                expected.Set(2, 5);
+
+                var actual = left.Subtract(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void subtracting_vectors_leaves_operands_unchanged()
+            {
+                var left = new VectorD(3);
+                left.Set(0, 1);
+                left.Set(1, 10);
+                left.Set(2, 6);
+                var expectedLeft = new VectorD(left);
+                var right = new VectorD(3);
+                right.Set(0, 10);
+                right.Set(1, 3);
+                right.Set(2, 1);
+                var expectedRight = new VectorD(right);
+
+                var result = left.Subtract(right);
+
+                Assert.Equal(expectedLeft, left);
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class SubtractFromTests : VectorDTests
+        {
+            [Fact]
+            public void subtracting_vector_subtracts_from_components()
+            {
+                var actual = new VectorD(3);
+                actual.Set(0, 1);
+                actual.Set(1, 10);
+                actual.Set(2, 6);
+                var right = new VectorD(3);
+                right.Set(0, 10);
+                right.Set(1, 3);
+                right.Set(2, 1);
+                var expected = new VectorD(3);
+                expected.Set(0, -9);
+                expected.Set(1, 7);
+                expected.Set(2, 5);
+
+                actual.SubtractFrom(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void subtracting_vectors_leaves_right_unchanged()
+            {
+                var left = new VectorD(3);
+                left.Set(0, 1);
+                left.Set(1, 10);
+                left.Set(2, 6);
+                var right = new VectorD(3);
+                right.Set(0, 10);
+                right.Set(1, 3);
+                right.Set(2, 1);
+                var expectedRight = new VectorD(right);
+
+                left.SubtractFrom(right);
+
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
         public class GetScaledTests : VectorDTests
         {
             [Fact]
