@@ -7,5 +7,7 @@
         void Scale(TComponenet scalar);
 
         void Divide(TComponenet divisor);
+
+        void Negate();
     }
 }

@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using static DoTheMath.Linear.Utilities.Duplicator;
+using DoTheMath.Linear.Utilities;
 
 #if HAS_CODECONTRACTS
 using System.Diagnostics.Contracts;
@@ -216,6 +217,30 @@ namespace DoTheMath.Linear
             }
 
             return quotient;
+        }
+
+        public void Negate()
+        {
+            for(var i = 0; i < _components.Length; i++)
+            {
+                MathEx.Negate(ref _components[i]);
+            }
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public VectorD GetNegative()
+        {
+            var negated = new VectorD(_components.Length);
+
+            var negatedComponents = negated._components;
+            for(var i = 0; i < _components.Length; i++)
+            {
+                negatedComponents[i] = -_components[i];
+            }
+
+            return negated;
         }
 
 #if HAS_CODECONTRACTS

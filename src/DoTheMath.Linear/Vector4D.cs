@@ -229,6 +229,34 @@ namespace DoTheMath.Linear
             };
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Negate()
+        {
+            X = -X;
+            Y = -Y;
+            Z = -Z;
+            W = -W;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector4D GetNegative()
+        {
+            return new Vector4D
+            {
+                X = -X,
+                Y = -Y,
+                Z = -Z,
+                W = -W
+            };
+        }
+
 #if HAS_CODECONTRACTS
         [Pure]
 #endif

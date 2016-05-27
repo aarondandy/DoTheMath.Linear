@@ -399,5 +399,33 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class GetNegative : Vector2DTests
+        {
+            [Fact]
+            public void can_get_negative_vector()
+            {
+                var source = new Vector2D(-2, 5);
+                var expected = new Vector2D(2, -5);
+
+                var actual = source.GetNegative();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Negate : Vector2DTests
+        {
+            [Fact]
+            public void can_negate()
+            {
+                var actual = new Vector2D(9, -3);
+                var expected = new Vector2D(-9, 3);
+
+                actual.Negate();
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

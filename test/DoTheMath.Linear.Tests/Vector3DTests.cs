@@ -405,5 +405,33 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class GetNegative : Vector3DTests
+        {
+            [Fact]
+            public void can_get_negative_vector()
+            {
+                var source = new Vector3D(-2, 5, -12);
+                var expected = new Vector3D(2, -5, 12);
+
+                var actual = source.GetNegative();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Negate : Vector3DTests
+        {
+            [Fact]
+            public void can_negate()
+            {
+                var actual = new Vector3D(9, -3, 17);
+                var expected = new Vector3D(-9, 3, -17);
+
+                actual.Negate();
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

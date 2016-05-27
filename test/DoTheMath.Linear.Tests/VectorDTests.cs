@@ -309,7 +309,7 @@ namespace DoTheMath.Linear.Tests
                 right.Set(1, 4);
                 right.Set(2, -20);
                 var expectedRight = new VectorD(right);
-                
+
                 left.Add(right);
 
                 Assert.Equal(expectedRight, right);
@@ -384,6 +384,25 @@ namespace DoTheMath.Linear.Tests
         public class SubtractTests : VectorDTests
         {
             [Fact]
+            public void subtracting_vectors_of_different_size_throws()
+            {
+                var left = new VectorD(3);
+                var right = new VectorD(4);
+                Assert.NotEqual(left.Dimensions, right.Dimensions);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.Subtract(right));
+            }
+
+            [Fact]
+            public void subtracting_null_vector_throws()
+            {
+                var left = new VectorD(3);
+                VectorD right = null;
+
+                Assert.Throws<ArgumentNullException>(() => left.Subtract(right));
+            }
+
+            [Fact]
             public void subtracting_vector_produces_diff_vector()
             {
                 var left = new VectorD(3);
@@ -427,6 +446,25 @@ namespace DoTheMath.Linear.Tests
 
         public class SubtractFromTests : VectorDTests
         {
+            [Fact]
+            public void subtracting_vectors_of_different_size_throws()
+            {
+                var left = new VectorD(3);
+                var right = new VectorD(4);
+                Assert.NotEqual(left.Dimensions, right.Dimensions);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.SubtractFrom(right));
+            }
+
+            [Fact]
+            public void subtracting_null_vector_throws()
+            {
+                var left = new VectorD(3);
+                VectorD right = null;
+
+                Assert.Throws<ArgumentNullException>(() => left.SubtractFrom(right));
+            }
+
             [Fact]
             public void subtracting_vector_subtracts_from_components()
             {
@@ -565,6 +603,42 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(1, 888 / 4.0);
 
                 actual.Divide(4);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetNegative : VectorDTests
+        {
+            [Fact]
+            public void can_get_negative_vector()
+            {
+                var source = new VectorD(2);
+                source.Set(0, 1.5);
+                source.Set(1, -6);
+                var expected = new VectorD(2);
+                expected.Set(0, -1.5);
+                expected.Set(1, 6);
+
+                var actual = source.GetNegative();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Negate : VectorDTests
+        {
+            [Fact]
+            public void can_negate()
+            {
+                var actual = new VectorD(2);
+                actual.Set(0, -8.8);
+                actual.Set(1, 6.1);
+                var expected = new VectorD(2);
+                expected.Set(0, 8.8);
+                expected.Set(1, -6.1);
+
+                actual.Negate();
 
                 Assert.Equal(expected, actual);
             }

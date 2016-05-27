@@ -185,6 +185,30 @@ namespace DoTheMath.Linear
             };
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Negate()
+        {
+            X = -X;
+            Y = -Y;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector2D GetNegative()
+        {
+            return new Vector2D
+            {
+                X = -X,
+                Y = -Y
+            };
+        }
+
 #if HAS_CODECONTRACTS
         [Pure]
 #endif

@@ -62,6 +62,7 @@
     <Compile Include="NoInverseException.cs" />
     <Compile Include="NotSquareMatrixException.cs" />
     <Compile Include="Utilities\Duplicator.cs" />
+    <Compile Include="Utilities\MathEx.cs" />
     <Compile Include="Utilities\Swapper.cs" />
     <Compile Include="IVector{TComponent}.cs" />
     <Compile Include="Matrix2D.cs" />

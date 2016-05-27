@@ -398,7 +398,7 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
-        public class DivideTests : Vector3DTests
+        public class DivideTests : Vector4DTests
         {
             [Fact]
             public void can_divide_vector()
@@ -407,6 +407,34 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Vector4D(3.0 / 4.0, -2 / 4.0, 8 / 4.0, 1.5 / 4.0);
 
                 actual.Divide(4);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetNegative : Vector4DTests
+        {
+            [Fact]
+            public void can_get_negative_vector()
+            {
+                var source = new Vector4D(-2, 5, -12, 3);
+                var expected = new Vector4D(2, -5, 12, -3);
+
+                var actual = source.GetNegative();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Negate : Vector4DTests
+        {
+            [Fact]
+            public void can_negate()
+            {
+                var actual = new Vector4D(9, -3, 17, -6);
+                var expected = new Vector4D(-9, 3, -17, 6);
+
+                actual.Negate();
 
                 Assert.Equal(expected, actual);
             }
