@@ -520,5 +520,54 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class GetQuotientTests : VectorDTests
+        {
+            [Fact]
+            public void can_get_quotient_vector()
+            {
+                var source = new VectorD(2);
+                source.Set(0, 4.5);
+                source.Set(1, 888);
+                var expected = new VectorD(2);
+                expected.Set(0, 4.5 / 4.0);
+                expected.Set(1, 888 / 4.0);
+
+                var actual = source.GetQuotient(4);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void source_vector_is_unchanged()
+            {
+                var actual = new VectorD(2);
+                actual.Set(0, 4.5);
+                actual.Set(1, 888);
+                var expected = new VectorD(actual);
+
+                var result = actual.GetQuotient(2);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class DivideTests : VectorDTests
+        {
+            [Fact]
+            public void can_divide_vector()
+            {
+                var actual = new VectorD(2);
+                actual.Set(0, 4.5);
+                actual.Set(1, 888);
+                var expected = new VectorD(2);
+                expected.Set(0, 4.5 / 4.0);
+                expected.Set(1, 888 / 4.0);
+
+                actual.Divide(4);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

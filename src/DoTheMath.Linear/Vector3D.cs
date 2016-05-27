@@ -10,6 +10,7 @@ namespace DoTheMath.Linear
 {
     public struct Vector3D :
         IVector3<double>,
+        IVectorMutable<double>,
         IEquatable<Vector3D>
     {
         public double X;
@@ -77,6 +78,29 @@ namespace DoTheMath.Linear
             }
 
             throw new ArgumentOutOfRangeException(nameof(dimension));
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Set(int dimension, double value)
+        {
+            if (dimension == 0)
+            {
+                X = value;
+            }
+            else if (dimension == 1)
+            {
+                Y = value;
+            }
+            else if (dimension == 2)
+            {
+                Z = value;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(dimension));
+            }
         }
 
 #if !PRE_NETSTANDARD
@@ -155,6 +179,32 @@ namespace DoTheMath.Linear
             X *= scalar;
             Y *= scalar;
             Z *= scalar;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Divide(double divisor)
+        {
+            X /= divisor;
+            Y /= divisor;
+            Z /= divisor;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector3D GetQuotient(double divisor)
+        {
+            return new Vector3D
+            {
+                X = X / divisor,
+                Y = Y / divisor,
+                Z = Z / divisor
+            };
         }
 
 #if HAS_CODECONTRACTS

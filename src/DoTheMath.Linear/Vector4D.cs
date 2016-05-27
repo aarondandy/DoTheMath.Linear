@@ -10,6 +10,7 @@ namespace DoTheMath.Linear
 {
     public struct Vector4D :
         IVector4<double>,
+        IVectorMutable<double>,
         IEquatable<Vector4D>
     {
         public double X;
@@ -87,6 +88,33 @@ namespace DoTheMath.Linear
             }
 
             throw new ArgumentOutOfRangeException(nameof(dimension));
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Set(int dimension, double value)
+        {
+            if (dimension == 0)
+            {
+                X = value;
+            }
+            else if (dimension == 1)
+            {
+                Y = value;
+            }
+            else if (dimension == 2)
+            {
+                Z = value;
+            }
+            else if (dimension == 3)
+            {
+                W = value;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(dimension));
+            }
         }
 
 #if !PRE_NETSTANDARD
@@ -171,6 +199,34 @@ namespace DoTheMath.Linear
             Y *= scalar;
             Z *= scalar;
             W *= scalar;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Divide(double divisor)
+        {
+            X /= divisor;
+            Y /= divisor;
+            Z /= divisor;
+            W /= divisor;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector4D GetQuotient(double divisor)
+        {
+            return new Vector4D
+            {
+                X = X / divisor,
+                Y = Y / divisor,
+                Z = Z / divisor,
+                W = W / divisor
+            };
         }
 
 #if HAS_CODECONTRACTS

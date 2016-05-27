@@ -10,6 +10,7 @@ namespace DoTheMath.Linear
 {
     public struct Vector2D :
         IVector2<double>,
+        IVectorMutable<double>,
         IEquatable<Vector2D>
     {
         public double X;
@@ -40,7 +41,7 @@ namespace DoTheMath.Linear
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
-            [System.Diagnostics.Contracts.Pure]
+            [Pure]
 #endif
             get { return 2; }
         }
@@ -69,12 +70,23 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException(nameof(dimension));
         }
 
-#if HAS_CODECONTRACTS
-        [Pure]
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        double IVector<double>.Get(int dimension)
+        public void Set(int dimension, double value)
         {
-            return this.Get(dimension);
+            if (dimension == 0)
+            {
+                X = value;
+            }
+            else if (dimension == 1)
+            {
+                Y = value;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(dimension));
+            }
         }
 
 #if !PRE_NETSTANDARD
@@ -147,6 +159,30 @@ namespace DoTheMath.Linear
         {
             X *= scalar;
             Y *= scalar;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Divide(double divisor)
+        {
+            X /= divisor;
+            Y /= divisor;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector2D GetQuotient(double divisor)
+        {
+            return new Vector2D
+            {
+                X = X / divisor,
+                Y = Y / divisor
+            };
         }
 
 #if HAS_CODECONTRACTS

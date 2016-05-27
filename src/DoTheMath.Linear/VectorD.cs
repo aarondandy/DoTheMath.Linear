@@ -12,6 +12,7 @@ namespace DoTheMath.Linear
 {
     public sealed class VectorD :
         IVector<double>,
+        IVectorMutable<double>,
         IEquatable<VectorD>
     {
         private double[] _components;
@@ -84,11 +85,11 @@ namespace DoTheMath.Linear
 #endif
         public VectorD Add(VectorD right)
         {
-            if(right == null)
+            if (right == null)
             {
                 throw new ArgumentNullException(nameof(right));
             }
-            if(_components.Length != right._components.Length)
+            if (_components.Length != right._components.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(right));
             }
@@ -97,7 +98,7 @@ namespace DoTheMath.Linear
             var sumComponents = sum._components;
             var rightComponents = right._components;
 
-            for(int i = 0; i < _components.Length; i++)
+            for (int i = 0; i < _components.Length; i++)
             {
                 sumComponents[i] = _components[i] + rightComponents[i];
             }
@@ -177,7 +178,7 @@ namespace DoTheMath.Linear
             var scaled = new VectorD(_components.Length);
             var scaledComponents = scaled._components;
 
-            for(int i = 0; i < scaledComponents.Length; i++)
+            for (int i = 0; i < scaledComponents.Length; i++)
             {
                 scaledComponents[i] = _components[i] * scalar;
             }
@@ -187,10 +188,34 @@ namespace DoTheMath.Linear
 
         public void Scale(double scalar)
         {
-            for(int i = 0; i < _components.Length; i++)
+            for (int i = 0; i < _components.Length; i++)
             {
                 _components[i] *= scalar;
             }
+        }
+
+        public void Divide(double divisor)
+        {
+            for (int i = 0; i < _components.Length; i++)
+            {
+                _components[i] /= divisor;
+            }
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public VectorD GetQuotient(double divisor)
+        {
+            var quotient = new VectorD(_components.Length);
+
+            var quotientComponents = quotient._components;
+            for (int i = 0; i < _components.Length; i++)
+            {
+                quotientComponents[i] = _components[i] / divisor;
+            }
+
+            return quotient;
         }
 
 #if HAS_CODECONTRACTS

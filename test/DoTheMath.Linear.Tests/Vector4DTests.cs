@@ -73,6 +73,43 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Set : Vector4DTests
+        {
+            [Fact]
+            public void can_set_all_componenets()
+            {
+                var v = new Vector4D(1, 2, 3, 4);
+
+                v.Set(0, -1.0);
+                v.Set(1, 5.0);
+                v.Set(2, -0.5);
+                v.Set(3, 0.1);
+
+                Assert.Equal(-1.0, v.Get(0));
+                Assert.Equal(5.0, v.Get(1));
+                Assert.Equal(-0.5, v.Get(2));
+                Assert.Equal(0.1, v.Get(3));
+            }
+
+            [Fact]
+            public void negative_dimension_throws()
+            {
+                var v = new Vector4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(-1, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(int.MinValue, 0));
+            }
+
+            [Fact]
+            public void large_dimension_throws()
+            {
+                var v = new Vector4D();
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(4, 0));
+                Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(int.MaxValue, 0));
+            }
+        }
+
         public class IEquatable_Self_Equals : Vector4DTests
         {
             [Fact]
@@ -331,6 +368,45 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Vector4D(3, -6, 12, -27);
 
                 actual.Scale(3);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetQuotientTests : Vector4DTests
+        {
+            [Fact]
+            public void can_get_quotient_vector()
+            {
+                var source = new Vector4D(3, -2, 8, 1.5);
+                var expected = new Vector4D(3.0 / 4.0, -2 / 4.0, 8 / 4.0, 1.5 / 4.0);
+
+                var actual = source.GetQuotient(4);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void source_vector_is_unchanged()
+            {
+                var actual = new Vector4D(1, 2, 3, 4);
+                var expected = new Vector4D(actual);
+
+                var result = actual.GetQuotient(2);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class DivideTests : Vector3DTests
+        {
+            [Fact]
+            public void can_divide_vector()
+            {
+                var actual = new Vector4D(3, -2, 8, 1.5);
+                var expected = new Vector4D(3.0 / 4.0, -2 / 4.0, 8 / 4.0, 1.5 / 4.0);
+
+                actual.Divide(4);
 
                 Assert.Equal(expected, actual);
             }
