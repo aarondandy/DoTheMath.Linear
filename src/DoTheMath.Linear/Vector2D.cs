@@ -209,6 +209,17 @@ namespace DoTheMath.Linear
             };
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double Dot(Vector2D right)
+        {
+            return (X * right.X) + (Y * right.Y);
+        }
+
 #if HAS_CODECONTRACTS
         [Pure]
 #endif

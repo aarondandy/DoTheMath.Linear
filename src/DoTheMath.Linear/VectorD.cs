@@ -221,7 +221,7 @@ namespace DoTheMath.Linear
 
         public void Negate()
         {
-            for(var i = 0; i < _components.Length; i++)
+            for (var i = 0; i < _components.Length; i++)
             {
                 MathEx.Negate(ref _components[i]);
             }
@@ -235,12 +235,45 @@ namespace DoTheMath.Linear
             var negated = new VectorD(_components.Length);
 
             var negatedComponents = negated._components;
-            for(var i = 0; i < _components.Length; i++)
+            for (var i = 0; i < _components.Length; i++)
             {
                 negatedComponents[i] = -_components[i];
             }
 
             return negated;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double Dot(VectorD right)
+        {
+            if (right == null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+
+            var rightComponents = right._components;
+            if (_components.Length != rightComponents.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(right));
+            }
+
+            if (_components.Length == 0)
+            {
+                return 0.0;
+            }
+
+            var sum = _components[0] * rightComponents[0];
+            for (int i = 1; i < _components.Length; i++)
+            {
+                sum += _components[i] * rightComponents[i];
+            }
+
+            return sum;
         }
 
 #if HAS_CODECONTRACTS

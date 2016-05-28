@@ -433,5 +433,20 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class Dot : Vector3DTests
+        {
+            [Fact]
+            public void can_get_dot()
+            {
+                var left = new Vector3D(9, 1.2, 3.5);
+                var right = new Vector3D(-0.3, 3, -0.9);
+                var expected = (9 * -0.3) + (1.2 * 3) + (3.5 * -0.9);
+
+                var actual = left.Dot(right);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

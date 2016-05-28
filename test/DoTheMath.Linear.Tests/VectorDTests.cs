@@ -643,5 +643,55 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class Dot : Vector4DTests
+        {
+            [Fact]
+            public void null_vector_throws()
+            {
+                var left = new VectorD(5);
+
+                Assert.Throws<ArgumentNullException>(() => left.Dot((VectorD)null));
+            }
+
+            [Fact]
+            public void different_sizes_throws()
+            {
+                var left = new VectorD(5);
+                var right = new VectorD(3);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.Dot(right));
+            }
+
+            [Fact]
+            public void zero_size_returns_zero()
+            {
+                var left = new VectorD(0);
+                var right = new VectorD(0);
+                var expected = 0.0;
+
+                var actual = left.Dot(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_get_dot()
+            {
+                var left = new VectorD(3);
+                left.Set(0, 1.2);
+                left.Set(1, 3.0);
+                left.Set(2, -9.0);
+                var right = new VectorD(3);
+                right.Set(0, -1.1);
+                right.Set(1, 6.7);
+                right.Set(2, 3.3);
+                var expected = (1.2 * -1.1) + (3.0 * 6.7) + (-9.0 * 3.3);
+
+                var actual = left.Dot(right);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }
