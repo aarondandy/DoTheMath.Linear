@@ -243,9 +243,6 @@ namespace DoTheMath.Linear
             return negated;
         }
 
-#if !PRE_NETSTANDARD
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
@@ -271,6 +268,33 @@ namespace DoTheMath.Linear
             for (int i = 1; i < _components.Length; i++)
             {
                 sum += _components[i] * rightComponents[i];
+            }
+
+            return sum;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double GetMagnitude()
+        {
+            return Math.Sqrt(GetMagnitudeSquared());
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double GetMagnitudeSquared()
+        {
+            if (_components.Length == 0)
+            {
+                return 0.0;
+            }
+
+            var sum = MathEx.Double(_components[0]);
+            for (int i = 1; i < _components.Length; i++)
+            {
+                sum += MathEx.Double(_components[i]);
             }
 
             return sum;

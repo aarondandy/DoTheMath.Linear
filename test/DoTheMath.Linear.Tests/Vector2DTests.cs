@@ -442,5 +442,55 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class GetMagnitude : Vector2DTests
+        {
+            [Fact]
+            public void can_get_magnitude()
+            {
+                var vector = new Vector2D(3, 4);
+                var expected = 5.0;
+
+                var actual = vector.GetMagnitude();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void negative_values_produce_same_magnitude()
+            {
+                var vector = new Vector2D(3, 4);
+                var expected = vector.GetMagnitude();
+
+                var actual = vector.GetNegative().GetMagnitude();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetMagnitudeSquared : Vector2DTests
+        {
+            [Fact]
+            public void can_get_magnitude_squared()
+            {
+                var vector = new Vector2D(3, 4);
+                var expected = 25.0;
+
+                var actual = vector.GetMagnitudeSquared();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void negative_values_produce_same_magnitude_squared()
+            {
+                var vector = new Vector2D(3, 4);
+                var expected = vector.GetMagnitudeSquared();
+
+                var actual = vector.GetNegative().GetMagnitudeSquared();
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

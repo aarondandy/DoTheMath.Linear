@@ -440,7 +440,7 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
-        public class Dot : Vector4DTests
+        public class Dot : VectorDTests
         {
             [Fact]
             public void can_get_dot()
@@ -450,6 +450,56 @@ namespace DoTheMath.Linear.Tests
                 var expected = (9 * -0.3) + (1.2 * 3) + (3.5 * -0.9) + (0.1 * 2.1);
 
                 var actual = left.Dot(right);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetMagnitude : Vector4DTests
+        {
+            [Fact]
+            public void can_get_magnitude()
+            {
+                var vector = new Vector4D(3, 4, 5, 6);
+                var expected = Math.Sqrt(86.0);
+
+                var actual = vector.GetMagnitude();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void negative_values_produce_same_magnitude()
+            {
+                var vector = new Vector4D(0.1, 2, 3, -4);
+                var expected = vector.GetMagnitude();
+
+                var actual = vector.GetNegative().GetMagnitude();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetMagnitudeSquared : Vector4DTests
+        {
+            [Fact]
+            public void can_get_magnitude_squared()
+            {
+                var vector = new Vector4D(3, 4, 5, 6);
+                var expected = 86.0;
+
+                var actual = vector.GetMagnitudeSquared();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void negative_values_produce_same_magnitude_squared()
+            {
+                var vector = new Vector4D(0.1, 2, 3, -4);
+                var expected = vector.GetMagnitudeSquared();
+
+                var actual = vector.GetNegative().GetMagnitudeSquared();
 
                 Assert.Equal(expected, actual);
             }

@@ -46,9 +46,27 @@ namespace DoTheMath.Linear
             get { return 2; }
         }
 
-        double IVector2<double>.X { get { return X; } }
+        double IVector2<double>.X
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get { return X; }
+        }
 
-        double IVector2<double>.Y { get { return Y; } }
+        double IVector2<double>.Y
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get { return Y; }
+        }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -218,6 +236,28 @@ namespace DoTheMath.Linear
         public double Dot(Vector2D right)
         {
             return (X * right.X) + (Y * right.Y);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double GetMagnitude()
+        {
+            return Math.Sqrt((X * X) + (Y * Y));
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double GetMagnitudeSquared()
+        {
+            return (X * X) + (Y * Y);
         }
 
 #if HAS_CODECONTRACTS

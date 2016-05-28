@@ -54,13 +54,49 @@ namespace DoTheMath.Linear
             get { return 3; }
         }
 
-        double IVector4<double>.X { get { return X; } }
+        double IVector4<double>.X
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get { return X; }
+        }
 
-        double IVector4<double>.Y { get { return Y; } }
+        double IVector4<double>.Y
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get { return Y; }
+        }
 
-        double IVector4<double>.Z { get { return Z; } }
+        double IVector4<double>.Z
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get { return Z; }
+        }
 
-        double IVector4<double>.W { get { return W; } }
+        double IVector4<double>.W
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get { return W; }
+        }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -266,6 +302,28 @@ namespace DoTheMath.Linear
         public double Dot(Vector4D right)
         {
             return (X * right.X) + (Y * right.Y) + (Z * right.Z) + (W * right.W);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double GetMagnitude()
+        {
+            return Math.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double GetMagnitudeSquared()
+        {
+            return (X * X) + (Y * Y) + (Z * Z) + (W * W);
         }
 
 #if HAS_CODECONTRACTS
