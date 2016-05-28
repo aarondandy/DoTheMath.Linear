@@ -260,6 +260,19 @@ namespace DoTheMath.Linear
             return (X * X) + (Y * Y);
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double GetAngleBetween(Vector2D other)
+        {
+            return Math.Acos(
+                Dot(other)
+                    / Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
+        }
+
 #if HAS_CODECONTRACTS
         [Pure]
 #endif

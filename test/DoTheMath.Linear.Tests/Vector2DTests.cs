@@ -492,5 +492,55 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class GetAngleBetween : Vector2DTests
+        {
+            [Fact]
+            public void self_angle_is_zero()
+            {
+                var vector = new Vector2D(10, 57);
+                var expected = 0.0;
+
+                var actual = vector.GetAngleBetween(vector);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void right_angle_is_half_pi()
+            {
+                var left = new Vector2D(1, 1);
+                var right = new Vector2D(-1, 1);
+                var expected = Math.PI / 2.0;
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void opposite_vector_angle_is_pi()
+            {
+                var left = new Vector2D(14, 98);
+                var right = left.GetNegative();
+                var expected = Math.PI;
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var left = new Vector2D(1, 3);
+                var right = new Vector2D(-2, 5.6);
+                var expected = 0.6647744948173457;
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+        }
     }
 }

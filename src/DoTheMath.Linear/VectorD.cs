@@ -41,6 +41,16 @@ namespace DoTheMath.Linear
             _components = Clone(source._components);
         }
 
+        public VectorD(double[] components)
+        {
+            if (components == null)
+            {
+                throw new ArgumentNullException(nameof(components));
+            }
+
+            _components = Clone(components);
+        }
+
         public int Dimensions
         {
 #if !PRE_NETSTANDARD
@@ -298,6 +308,28 @@ namespace DoTheMath.Linear
             }
 
             return sum;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double GetAngleBetween(VectorD other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+            if (other._components.Length != _components.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(other));
+            }
+
+            return Math.Acos(
+                Dot(other)
+                    / Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
         }
 
 #if HAS_CODECONTRACTS

@@ -498,5 +498,67 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class GetAngleBetween : Vector3DTests
+        {
+            [Fact]
+            public void self_angle_is_zero()
+            {
+                var vector = new Vector3D(10, 57, -9);
+                var expected = 0.0;
+
+                var actual = vector.GetAngleBetween(vector);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void right_angle_is_half_pi()
+            {
+                var left = new Vector3D(1, 0, 1);
+                var right = new Vector3D(0, 1, 0);
+                var expected = Math.PI / 2.0;
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void opposite_vector_angle_is_pi()
+            {
+                var left = new Vector3D(14, 98, -19);
+                var right = left.GetNegative();
+                var expected = Math.PI;
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var left = new Vector3D(1, 0, 0);
+                var right = new Vector3D(1, 0, 1);
+                var expected = Math.Acos(1.0 / Math.Sqrt(2.0));
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void example_2()
+            {
+                var left = new Vector3D(1, 3, 4);
+                var right = new Vector3D(-2, 5.6, -9);
+                var expected = 1.9664718552074198;
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+        }
     }
 }

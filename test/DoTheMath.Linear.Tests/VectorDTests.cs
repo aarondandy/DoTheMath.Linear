@@ -57,6 +57,45 @@ namespace DoTheMath.Linear.Tests
                 Assert.NotSame(expected, actual);
                 Assert.Equal(expected, actual);
             }
+
+            [Fact]
+            public void null_componenets_array_constructor_throws()
+            {
+                Assert.Throws<ArgumentNullException>(() => new VectorD((double[])null));
+            }
+
+            [Fact]
+            public void array_constructor_assigns_componenets_and_length()
+            {
+                var components = new double[] { 4, 5, 6, 7 };
+                var expected = new VectorD(4);
+                expected.Set(0, 4);
+                expected.Set(1, 5);
+                expected.Set(2, 6);
+                expected.Set(3, 7);
+
+                var actual = new VectorD(components);
+
+                Assert.Equal(components.Length, actual.Dimensions);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void array_constructor_copies_all_componenets()
+            {
+                var arrayValues = new[] { 1.0, 2.0, 3.0 };
+                var expected = new VectorD(3);
+                expected.Set(0, 1.0);
+                expected.Set(1, 2.0);
+                expected.Set(2, 3.0);
+
+                var actual = new VectorD(arrayValues);
+                arrayValues[0] = -99.0;
+                arrayValues[1] = -99.0;
+                arrayValues[2] = -99.0;
+
+                Assert.Equal(expected, actual);
+            }
         }
 
         public class Get : VectorDTests
@@ -776,6 +815,103 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.Equal(expected, actual);
             }
+        }
+
+        public class GetAngleBetween : VectorDTests
+        {
+            [Fact]
+            public void null_argument_throws()
+            {
+                var vector = CreateIncremenetal(5);
+
+                Assert.Throws<ArgumentNullException>(() => vector.GetAngleBetween((VectorD)null));
+            }
+
+            [Fact]
+            public void wrong_vector_size_throws()
+            {
+                var left = CreateIncremenetal(3);
+                var right = CreateIncremenetal(5);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.GetAngleBetween(right));
+            }
+
+            [Fact]
+            public void self_angle_is_zero()
+            {
+                var vector = CreateIncremenetal(5);
+                var expected = 0.0;
+
+                var actual = vector.GetAngleBetween(vector);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void right_angle_is_half_pi()
+            {
+                var left = new VectorD(4);
+                left.Set(0, 1);
+                left.Set(2, 1);
+                var right = new VectorD(4);
+                right.Set(1, 1);
+                right.Set(3, 1);
+                var expected = Math.PI / 2.0;
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void opposite_vector_angle_is_pi()
+            {
+                var left = CreateIncremenetal(6);
+                var right = left.GetNegative();
+                var expected = Math.PI;
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var left = new VectorD(5);
+                left.Set(0, 1);
+                var right = new VectorD(5);
+                right.Set(0, 1);
+                right.Set(2, 1);
+                var expected = Math.Acos(1.0 / Math.Sqrt(2.0));
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void example_2()
+            {
+                var left = new VectorD(new[] { 1.0, 3, 4, 9, -13 });
+                var right = new VectorD(new[] { -2, 5.6, -9, 0.1, 5 });
+                var expected = 2.017320409990204;
+
+                var actual = left.GetAngleBetween(right);
+
+                Assert.Equal(expected, actual, 10);
+            }
+        }
+
+        protected VectorD CreateIncremenetal(int dimension)
+        {
+            var vector = new VectorD(dimension);
+            for (int i = 0; i < dimension; i++)
+            {
+                vector.Set(i, i + 1);
+            }
+
+            return vector;
         }
     }
 }
