@@ -23,7 +23,7 @@ namespace DoTheMath.Linear.Utilities
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static double Double(double value)
+        public static double Square(double value)
         {
             return value * value;
         }

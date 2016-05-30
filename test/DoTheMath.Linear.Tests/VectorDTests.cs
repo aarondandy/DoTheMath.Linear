@@ -903,6 +903,144 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class DistanceTests : VectorDTests
+        {
+            [Fact]
+            public void null_vector_throws()
+            {
+                var a = new VectorD(5);
+
+                Assert.Throws<ArgumentNullException>(() => a.GetDistance((VectorD)null));
+            }
+
+            [Fact]
+            public void wrong_size_throws()
+            {
+                var a = new VectorD(5);
+                var b = new VectorD(3);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => a.GetDistance(b));
+            }
+
+            [Fact]
+            public void zero_lengths_have_zero_distance()
+            {
+                var a = new VectorD(0);
+                var b = new VectorD(0);
+                var expected = 0.0;
+
+                var actual = a.GetDistance(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_find_distance()
+            {
+                var a = new VectorD(5);
+                a.Set(0, 1);
+                a.Set(1, 2);
+                a.Set(2, 3);
+                var b = new VectorD(5);
+                b.Set(1, -9);
+                b.Set(2, 5);
+                b.Set(3, 2);
+                b.Set(4, 3);
+                var expected = Math.Sqrt(139.0);
+
+                var actual = a.GetDistance(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_find_distance_in_both_directions()
+            {
+                var a = new VectorD(5);
+                a.Set(0, 1);
+                a.Set(1, 2);
+                a.Set(2, 3);
+                var b = new VectorD(5);
+                b.Set(1, -9);
+                b.Set(2, 5);
+                b.Set(4, 3);
+                var expected = a.GetDistance(b);
+
+                var actual = b.GetDistance(a);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class DistanceSquaredTests : VectorDTests
+        {
+            [Fact]
+            public void null_vector_throws()
+            {
+                var a = new VectorD(5);
+
+                Assert.Throws<ArgumentNullException>(() => a.GetDistanceSquared((VectorD)null));
+            }
+
+            [Fact]
+            public void wrong_size_throws()
+            {
+                var a = new VectorD(5);
+                var b = new VectorD(3);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => a.GetDistanceSquared(b));
+            }
+
+            [Fact]
+            public void zero_lengths_have_zero_distance()
+            {
+                var a = new VectorD(0);
+                var b = new VectorD(0);
+                var expected = 0.0;
+
+                var actual = a.GetDistanceSquared(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_find_distance()
+            {
+                var a = new VectorD(5);
+                a.Set(0, 1);
+                a.Set(1, 2);
+                a.Set(2, 3);
+                var b = new VectorD(5);
+                b.Set(1, -9);
+                b.Set(2, 5);
+                b.Set(3, 2);
+                b.Set(4, 3);
+                var expected = 139.0;
+
+                var actual = a.GetDistanceSquared(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_find_distance_in_both_directions()
+            {
+                var a = new VectorD(5);
+                a.Set(0, 1);
+                a.Set(1, 2);
+                a.Set(2, 3);
+                var b = new VectorD(5);
+                b.Set(1, -9);
+                b.Set(2, 5);
+                b.Set(4, 3);
+                var expected = a.GetDistanceSquared(b);
+
+                var actual = b.GetDistanceSquared(a);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected VectorD CreateIncremenetal(int dimension)
         {
             var vector = new VectorD(dimension);

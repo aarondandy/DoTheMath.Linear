@@ -286,6 +286,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public double GetMagnitude()
         {
             return Math.Sqrt(GetMagnitudeSquared());
@@ -301,10 +304,10 @@ namespace DoTheMath.Linear
                 return 0.0;
             }
 
-            var sum = MathEx.Double(_components[0]);
+            var sum = MathEx.Square(_components[0]);
             for (int i = 1; i < _components.Length; i++)
             {
-                sum += MathEx.Double(_components[i]);
+                sum += MathEx.Square(_components[i]);
             }
 
             return sum;
@@ -330,6 +333,47 @@ namespace DoTheMath.Linear
             return Math.Acos(
                 Dot(other)
                     / Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double GetDistance(VectorD other)
+        {
+            return Math.Sqrt(GetDistanceSquared(other));
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public double GetDistanceSquared(VectorD other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            var otherComponenets = other._components;
+            if (otherComponenets.Length != _components.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(other));
+            }
+
+            if (_components.Length == 0)
+            {
+                return 0.0;
+            }
+
+            var sum = MathEx.Square(_components[0] - otherComponenets[0]);
+            for (var i = 1; i < _components.Length; i++)
+            {
+                sum += MathEx.Square(_components[i] - otherComponenets[i]);
+            }
+
+            return sum;
         }
 
 #if HAS_CODECONTRACTS

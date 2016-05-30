@@ -542,5 +542,59 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual, 10);
             }
         }
+
+        public class DistanceTests : Vector2DTests
+        {
+            [Fact]
+            public void can_find_distance()
+            {
+                var a = new Vector2D(1, 2);
+                var b = new Vector2D(3, 5);
+                var expected = Math.Sqrt(13);
+
+                var actual = a.GetDistance(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_find_distance_in_both_directions()
+            {
+                var a = new Vector2D(1, 2);
+                var b = new Vector2D(3, 5);
+                var expected = a.GetDistance(b);
+
+                var actual = b.GetDistance(a);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class DistanceSquareTests : Vector2DTests
+        {
+            [Fact]
+            public void can_find_distance()
+            {
+                var a = new Vector2D(1, 2);
+                var b = new Vector2D(3, 5);
+                var expected = 13.0;
+
+                var actual = a.GetDistanceSquared(b);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_find_distance_in_both_directions()
+            {
+                var a = new Vector2D(1, 2);
+                var b = new Vector2D(3, 5);
+                var expected = a.GetDistanceSquared(b);
+
+                var actual = b.GetDistanceSquared(a);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }
