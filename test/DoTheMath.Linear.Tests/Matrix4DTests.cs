@@ -58,14 +58,6 @@ namespace DoTheMath.Linear.Tests
             }
 
             [Fact]
-            public void identity_factory_constructs_identity_matrix()
-            {
-                var m = Matrix4D.CreateIdentity();
-
-                Assert.True(m.IsIdentity);
-            }
-
-            [Fact]
             public void copy_constructor_throws_for_null()
             {
                 Assert.Throws<ArgumentNullException>(() => new Matrix4D((Matrix4D)null));
@@ -79,6 +71,117 @@ namespace DoTheMath.Linear.Tests
                 var actual = new Matrix4D(expected);
 
                 Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Factories : Matrix4DTests
+        {
+            [Fact]
+            public void identity_factory_constructs_identity_matrix()
+            {
+                var m = Matrix4D.CreateIdentity();
+
+                Assert.True(m.IsIdentity);
+            }
+
+            [Fact]
+            public void x_rotation_factory_creates_matrix()
+            {
+                var radians = 1.0;
+                var expected = new Matrix4D
+                {
+                    E00 = 1.0,
+                    E11 = Math.Cos(radians),
+                    E12 = -Math.Sin(radians),
+                    E21 = Math.Sin(radians),
+                    E22 = Math.Cos(radians),
+                    E33 = 1.0
+                };
+
+                var actual = Matrix4D.CreateRotationX(radians);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void y_rotation_factory_creates_matrix()
+            {
+                var radians = 1.0;
+                var expected = new Matrix4D
+                {
+                    E00 = Math.Cos(radians),
+                    E02 = Math.Sin(radians),
+                    E11 = 1.0,
+                    E20 = -Math.Sin(radians),
+                    E22 = Math.Cos(radians),
+                    E33 = 1.0
+                };
+
+                var actual = Matrix4D.CreateRotationY(radians);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void z_rotation_factory_creates_matrix()
+            {
+                var radians = 1.0;
+                var expected = new Matrix4D
+                {
+                    E00 = Math.Cos(radians),
+                    E01 = -Math.Sin(radians),
+                    E10 = Math.Sin(radians),
+                    E11 = Math.Cos(radians),
+                    E22 = 1.0,
+                    E33 = 1.0
+                };
+
+                var actual = Matrix4D.CreateRotationZ(radians);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_create_scaling_matrix3()
+            {
+                var factors = new Vector3D(2, -3, 4);
+                var expected = Matrix4D.CreateIdentity();
+                expected.E00 = factors.X;
+                expected.E11 = factors.Y;
+                expected.E22 = factors.Z;
+
+                var actual = Matrix4D.CreateScaled(factors);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_create_scaling_matrix4()
+            {
+                var factors = new Vector4D(2, -3, 4, -5);
+                var expected = Matrix4D.CreateIdentity();
+                expected.E00 = factors.X;
+                expected.E11 = factors.Y;
+                expected.E22 = factors.Z;
+                expected.E33 = factors.W;
+
+                var actual = Matrix4D.CreateScaled(factors);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_create_translation()
+            {
+                var delta = new Vector3D(2, -3, 4.3);
+                var expected = Matrix4D.CreateIdentity();
+                expected.E03 = delta.X;
+                expected.E13 = delta.Y;
+                expected.E23 = delta.Z;
+
+                var actual = Matrix4D.CreateTranslation(delta);
+
                 Assert.Equal(expected, actual);
             }
         }

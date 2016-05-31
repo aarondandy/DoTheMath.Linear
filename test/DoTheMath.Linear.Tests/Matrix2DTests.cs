@@ -30,14 +30,6 @@ namespace DoTheMath.Linear.Tests
             }
 
             [Fact]
-            public void identity_factory_constructs_identity_matrix()
-            {
-                var m = Matrix2D.CreateIdentity();
-
-                Assert.True(m.IsIdentity);
-            }
-
-            [Fact]
             public void copy_constructor_throws_for_null()
             {
                 Assert.Throws<ArgumentNullException>(() => new Matrix2D((Matrix2D)null));
@@ -51,6 +43,87 @@ namespace DoTheMath.Linear.Tests
                 var actual = new Matrix2D(expected);
 
                 Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Factories : Matrix2DTests
+        {
+            [Fact]
+            public void identity_factory_constructs_identity_matrix()
+            {
+                var m = Matrix2D.CreateIdentity();
+
+                Assert.True(m.IsIdentity);
+            }
+
+            [Fact]
+            public void rotation_factory_creates_ccw_rotation_matrix()
+            {
+                var rotation = Math.PI / 2.0;
+                var expected = new Matrix2D
+                {
+                    E00 = 0,
+                    E01 = -1,
+                    E10 = 1,
+                    E11 = 0
+                };
+
+                var actual = Matrix2D.CreateRotation(rotation);
+
+                Assert.Equal(expected.E00, actual.E00, 10);
+                Assert.Equal(expected.E01, actual.E01, 10);
+                Assert.Equal(expected.E10, actual.E10, 10);
+                Assert.Equal(expected.E11, actual.E11, 10);
+            }
+
+            [Fact]
+            public void rotation_factory_creates_cw_rotation_matrix()
+            {
+                var rotation = -Math.PI / 2.0;
+                var expected = new Matrix2D
+                {
+                    E00 = 0,
+                    E01 = 1,
+                    E10 = -1,
+                    E11 = 0
+                };
+
+                var actual = Matrix2D.CreateRotation(rotation);
+
+                Assert.Equal(expected.E00, actual.E00, 10);
+                Assert.Equal(expected.E01, actual.E01, 10);
+                Assert.Equal(expected.E10, actual.E10, 10);
+                Assert.Equal(expected.E11, actual.E11, 10);
+            }
+
+            [Fact]
+            public void rotation_factory_creates_rotation_matrix()
+            {
+                var rotation = Math.Sqrt(2) / 2.0;
+                var expected = new Matrix2D
+                {
+                    E00 = Math.Cos(rotation),
+                    E01 = -Math.Sin(rotation),
+                    E10 = Math.Sin(rotation),
+                    E11 = Math.Cos(rotation)
+                };
+
+                var actual = Matrix2D.CreateRotation(rotation);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_create_scaling_matrix()
+            {
+                var factors = new Vector2D(2, -3);
+                var expected = Matrix2D.CreateIdentity();
+                expected.E00 = factors.X;
+                expected.E11 = factors.Y;
+
+                var actual = Matrix2D.CreateScaled(factors);
+
                 Assert.Equal(expected, actual);
             }
         }

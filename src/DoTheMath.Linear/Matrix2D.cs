@@ -178,6 +178,45 @@ namespace DoTheMath.Linear
             };
         }
 
+        /// <summary>
+        /// Creates a clock-wise rotation matrix based on the given <paramref name="radians"/>.
+        /// </summary>
+        /// <param name="radians">The number of radians to create a rotation matrix for.</param>
+        /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix2D CreateRotation(double radians)
+        {
+            var result = new Matrix2D
+            {
+                E00 = Math.Cos(radians),
+                E10 = Math.Sin(radians)
+            };
+            result.E01 = -result.E10;
+            result.E11 = result.E00;
+
+            return result;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix2D CreateScaled(Vector2D factors)
+        {
+            return new Matrix2D
+            {
+                E00 = factors.X,
+                E11 = factors.Y
+            };
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

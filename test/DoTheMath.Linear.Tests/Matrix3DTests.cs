@@ -43,14 +43,6 @@ namespace DoTheMath.Linear.Tests
             }
 
             [Fact]
-            public void identity_factory_constructs_identity_matrix()
-            {
-                var m = Matrix3D.CreateIdentity();
-
-                Assert.True(m.IsIdentity);
-            }
-
-            [Fact]
             public void copy_constructor_throws_for_null()
             {
                 Assert.Throws<ArgumentNullException>(() => new Matrix3D((Matrix3D)null));
@@ -64,6 +56,111 @@ namespace DoTheMath.Linear.Tests
                 var actual = new Matrix3D(expected);
 
                 Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Factories : Matrix3DTests
+        {
+            [Fact]
+            public void identity_factory_constructs_identity_matrix()
+            {
+                var m = Matrix3D.CreateIdentity();
+
+                Assert.True(m.IsIdentity);
+            }
+
+            [Fact]
+            public void x_rotation_factory_creates_matrix()
+            {
+                var radians = 1.0;
+                var expected = new Matrix3D
+                {
+                    E00 = 1.0,
+                    E11 = Math.Cos(radians),
+                    E12 = -Math.Sin(radians),
+                    E21 = Math.Sin(radians),
+                    E22 = Math.Cos(radians)
+                };
+
+                var actual = Matrix3D.CreateRotationX(radians);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void y_rotation_factory_creates_matrix()
+            {
+                var radians = 1.0;
+                var expected = new Matrix3D
+                {
+                    E00 = Math.Cos(radians),
+                    E02 = Math.Sin(radians),
+                    E11 = 1.0,
+                    E20 = -Math.Sin(radians),
+                    E22 = Math.Cos(radians)
+                };
+
+                var actual = Matrix3D.CreateRotationY(radians);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void z_rotation_factory_creates_matrix()
+            {
+                var radians = 1.0;
+                var expected = new Matrix3D
+                {
+                    E00 = Math.Cos(radians),
+                    E01 = -Math.Sin(radians),
+                    E10 = Math.Sin(radians),
+                    E11 = Math.Cos(radians),
+                    E22 = 1.0
+                };
+
+                var actual = Matrix3D.CreateRotationZ(radians);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_create_scaling_matrix2()
+            {
+                var factors = new Vector2D(2, -3);
+                var expected = Matrix3D.CreateIdentity();
+                expected.E00 = factors.X;
+                expected.E11 = factors.Y;
+
+                var actual = Matrix3D.CreateScaled(factors);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_create_scaling_matrix3()
+            {
+                var factors = new Vector3D(2, -3, 4);
+                var expected = Matrix3D.CreateIdentity();
+                expected.E00 = factors.X;
+                expected.E11 = factors.Y;
+                expected.E22 = factors.Z;
+
+                var actual = Matrix3D.CreateScaled(factors);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_create_translation()
+            {
+                var delta = new Vector2D(2, -3);
+                var expected = Matrix3D.CreateIdentity();
+                expected.E02 = delta.X;
+                expected.E12 = delta.Y;
+
+                var actual = Matrix3D.CreateTranslation(delta);
+
                 Assert.Equal(expected, actual);
             }
         }
@@ -827,7 +924,7 @@ namespace DoTheMath.Linear.Tests
             [InlineData(1, 2)]
             [InlineData(2, 0)]
             [InlineData(2, 1)]
-            [InlineData(2, 2)]  
+            [InlineData(2, 2)]
             public void can_add_column(int sourceColumn, int targetColumn)
             {
                 var actual = CreateIncremenetalMatrix();

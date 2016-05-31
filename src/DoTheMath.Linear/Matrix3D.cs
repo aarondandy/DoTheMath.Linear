@@ -220,6 +220,131 @@ namespace DoTheMath.Linear
             };
         }
 
+        /// <summary>
+        /// Creates a rotation matrix for the given rotation <paramref name="radians"/> around the X axis.
+        /// </summary>
+        /// <param name="radians">The number of radians to create a rotation matrix for.</param>
+        /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D CreateRotationX(double radians)
+        {
+            var result = new Matrix3D
+            {
+                E00 = 1.0,
+                E11 = Math.Cos(radians),
+                E21 = Math.Sin(radians)
+            };
+            result.E12 = -result.E21;
+            result.E22 = result.E11;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a rotation matrix for the given rotation <paramref name="radians"/> around the Y axis.
+        /// </summary>
+        /// <param name="radians">The number of radians to create a rotation matrix for.</param>
+        /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D CreateRotationY(double radians)
+        {
+            var result = new Matrix3D
+            {
+                E11 = 1.0,
+                E00 = Math.Cos(radians),
+                E02 = Math.Sin(radians)
+            };
+            result.E20 = -result.E02;
+            result.E22 = result.E00;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a rotation matrix for the given rotation <paramref name="radians"/> around the Z axis.
+        /// </summary>
+        /// <param name="radians">The number of radians to create a rotation matrix for.</param>
+        /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D CreateRotationZ(double radians)
+        {
+            var result = new Matrix3D
+            {
+                E22 = 1.0,
+                E00 = Math.Cos(radians),
+                E10 = Math.Sin(radians)
+            };
+            result.E01 = -result.E10;
+            result.E11 = result.E00;
+
+            return result;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D CreateScaled(Vector2D factors)
+        {
+            return new Matrix3D
+            {
+                E00 = factors.X,
+                E11 = factors.Y,
+                E22 = 1.0
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D CreateScaled(Vector3D factors)
+        {
+            return new Matrix3D
+            {
+                E00 = factors.X,
+                E11 = factors.Y,
+                E22 = factors.Z
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D CreateTranslation(Vector2D delta)
+        {
+            return new Matrix3D
+            {
+                E00 = 1.0,
+                E11 = 1.0,
+                E22 = 1.0,
+                E02 = delta.X,
+                E12 = delta.Y
+            };
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
