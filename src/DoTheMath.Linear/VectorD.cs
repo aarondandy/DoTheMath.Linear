@@ -401,6 +401,22 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public VectorD GetProjected(VectorD other)
+        {
+            if (other.Dimensions != Dimensions)
+            {
+                throw new ArgumentOutOfRangeException(nameof(other));
+            }
+
+            var scalarDenominator = GetMagnitudeSquared();
+            return scalarDenominator == 0.0
+                ? other
+                : GetScaled((Dot(other)) / scalarDenominator);
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public bool Equals(VectorD other)
         {
             if (object.ReferenceEquals(this, other))

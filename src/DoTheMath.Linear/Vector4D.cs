@@ -418,6 +418,20 @@ namespace DoTheMath.Linear
             return MathEx.Square(X - other.X) + MathEx.Square(Y - other.Y) + MathEx.Square(Z - other.Z) + MathEx.Square(W - other.W);
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector4D GetProjected(Vector4D other)
+        {
+            var scalarDenominator = GetMagnitudeSquared();
+            return scalarDenominator == 0.0
+                ? other
+                : GetScaled((Dot(other)) / scalarDenominator);
+        }
+
 #if HAS_CODECONTRACTS
         [Pure]
 #endif

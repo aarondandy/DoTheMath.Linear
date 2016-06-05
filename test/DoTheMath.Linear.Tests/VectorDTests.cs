@@ -1080,6 +1080,102 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class ProtectedTests : VectorDTests
+        {
+            [Fact]
+            public void projecting_different_dimensions_throws()
+            {
+                var u = new VectorD(5);
+                var v = new VectorD(3);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => u.GetProjected(v));
+            }
+
+            [Fact]
+            public void projecting_zero_size_returns_zero_vector()
+            {
+                var u = new VectorD(0);
+                var v = new VectorD(0);
+                var expected = new VectorD(v);
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projecting_against_zero_results_in_same_vector()
+            {
+                var u = new VectorD(4);
+                var v = new VectorD(new[] { -3.0, 8, 5, -10 });
+                var expected = new VectorD(v);
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projecting_zero_against_another_vector_results_in_zero()
+            {
+                var u = new VectorD(new[] { 3.0, -17, 5, -6 });
+                var v = new VectorD(4);
+                var expected = new VectorD(4);
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projection_example_1()
+            {
+                var u = new VectorD(new[] { -1.0, 2, 1, 3 });
+                var v = new VectorD(new[] { 2.0, -1, 3, 1 });
+                var expected = new VectorD(new[] { -2.0 / 15.0, 4.0 / 15.0, 2.0 / 15.0, 2.0 / 5.0 });
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projection_example_2()
+            {
+                var u = new VectorD(new[] { 1.0, 2, 0 });
+                var v = new VectorD(new[] { 1.0, 2, 3 });
+                var expected = new VectorD(u);
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projection_example_3()
+            {
+                var u = new VectorD(new[] { 1.0, 4 });
+                var v = new VectorD(new[] { 6.0, 7 });
+                var expected = new VectorD(new[] { 2.0, 8 });
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projection_example_4()
+            {
+                var u = new VectorD(new[] { 1.0 });
+                var v = new VectorD(new[] { 6.0 });
+                var expected = new VectorD(v);
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected VectorD CreateIncremenetal(int dimension)
         {
             var vector = new VectorD(dimension);

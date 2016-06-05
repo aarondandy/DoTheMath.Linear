@@ -663,5 +663,44 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class ProtectedTests : Vector4DTests
+        {
+            [Fact]
+            public void projecting_against_zero_results_in_same_vector()
+            {
+                var u = new Vector4D();
+                var v = new Vector4D(-3, 8, 5, -10);
+                var expected = new Vector4D(v);
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projecting_zero_against_another_vector_results_in_zero()
+            {
+                var u = new Vector4D(3, -17, 5, -6);
+                var v = new Vector4D();
+                var expected = new Vector4D();
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projection_example_1()
+            {
+                var u = new Vector4D(-1, 2, 1, 3);
+                var v = new Vector4D(2, -1, 3, 1);
+                var expected = new Vector4D(-2.0 / 15.0, 4.0 / 15.0, 2.0 / 15.0, 2.0 / 5.0);
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

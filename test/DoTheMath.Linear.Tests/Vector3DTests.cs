@@ -647,5 +647,44 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class ProtectedTests : Vector3DTests
+        {
+            [Fact]
+            public void projecting_against_zero_results_in_same_vector()
+            {
+                var u = new Vector3D();
+                var v = new Vector3D(3, 4, 5);
+                var expected = new Vector3D(v);
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projecting_zero_against_another_vector_results_in_zero()
+            {
+                var u = new Vector3D(3, 4, 5);
+                var v = new Vector3D();
+                var expected = new Vector3D();
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void projection_example_1()
+            {
+                var u = new Vector3D(1, 2, 0);
+                var v = new Vector3D(1, 2, 3);
+                var expected = new Vector3D(u);
+
+                var actual = u.GetProjected(v);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }
