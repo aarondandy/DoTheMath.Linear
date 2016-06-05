@@ -41,6 +41,49 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Factories : Vector4DTests
+        {
+            [Fact]
+            public void create_x_unit()
+            {
+                var expected = new Vector4D(1, 0, 0, 0);
+
+                var actual = Vector4D.CreateXUnit();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void create_y_unit()
+            {
+                var expected = new Vector4D(0, 1, 0, 0);
+
+                var actual = Vector4D.CreateYUnit();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void create_z_unit()
+            {
+                var expected = new Vector4D(0, 0, 1, 0);
+
+                var actual = Vector4D.CreateZUnit();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void create_w_unit()
+            {
+                var expected = new Vector4D(0, 0, 0, 1);
+
+                var actual = Vector4D.CreateWUnit();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class Get : Vector4DTests
         {
             [Fact]

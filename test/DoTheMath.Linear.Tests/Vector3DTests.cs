@@ -39,6 +39,39 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Factories : Vector3DTests
+        {
+            [Fact]
+            public void create_x_unit()
+            {
+                var expected = new Vector3D(1, 0, 0);
+
+                var actual = Vector3D.CreateXUnit();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void create_y_unit()
+            {
+                var expected = new Vector3D(0, 1, 0);
+
+                var actual = Vector3D.CreateYUnit();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void create_z_unit()
+            {
+                var expected = new Vector3D(0, 0, 1);
+
+                var actual = Vector3D.CreateZUnit();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class Get : Vector3DTests
         {
             [Fact]

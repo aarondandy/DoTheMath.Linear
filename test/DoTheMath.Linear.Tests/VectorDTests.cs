@@ -29,7 +29,7 @@ namespace DoTheMath.Linear.Tests
             }
 
             [Fact]
-            public void negative_size_throws()
+            public void negative_size_constructor_throws()
             {
                 Assert.Throws<ArgumentOutOfRangeException>(() => new VectorD(-1));
                 Assert.Throws<ArgumentOutOfRangeException>(() => new VectorD(-40));
@@ -95,6 +95,45 @@ namespace DoTheMath.Linear.Tests
                 arrayValues[2] = -99.0;
 
                 Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Factories : VectorDTests
+        {
+            [Theory]
+            [InlineData(1, 0)]
+            [InlineData(3, 0)]
+            [InlineData(3, 2)]
+            [InlineData(3, 1)]
+            public void can_create_axis_unit_vector(int size, int dimension)
+            {
+                var expected = new VectorD(size);
+                expected.Set(dimension, 1.0);
+
+                var actual = VectorD.CreateUnit(size, dimension);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Theory]
+            [InlineData(1, -1)]
+            [InlineData(1, 1)]
+            [InlineData(3, -3)]
+            [InlineData(3, 3)]
+            [InlineData(5, -10)]
+            [InlineData(5, 10)]
+            public void create_axis_unit_vector_with_bad_dimension_throws(int size, int dimension)
+            {
+                Assert.Throws<ArgumentOutOfRangeException>(() => VectorD.CreateUnit(size, dimension));
+            }
+
+            [Theory]
+            [InlineData(0)]
+            [InlineData(-1)]
+            [InlineData(-6)]
+            public void create_axis_unit_vector_with_bad_size_throws(int size)
+            {
+                Assert.Throws<ArgumentOutOfRangeException>(() => VectorD.CreateUnit(size, 0));
             }
         }
 

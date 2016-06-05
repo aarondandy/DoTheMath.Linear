@@ -37,6 +37,29 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class Factories : Vector2DTests
+        {
+            [Fact]
+            public void create_x_unit()
+            {
+                var expected = new Vector2D(1, 0);
+
+                var actual = Vector2D.CreateXUnit();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void create_y_unit()
+            {
+                var expected = new Vector2D(0, 1);
+
+                var actual = Vector2D.CreateYUnit();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class Get : Vector2DTests
         {
             [Fact]

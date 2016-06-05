@@ -68,6 +68,28 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public static VectorD CreateUnit(int size, int dimension)
+        {
+            if (size <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(size));
+            }
+            if (dimension >= size)
+            {
+                throw new ArgumentOutOfRangeException(nameof(dimension));
+            }
+
+            var result = new VectorD(size);
+            result.Set(dimension, 1.0);
+            return result;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public double Get(int dimension)
         {
             if (dimension < 0 || dimension >= _components.Length)

@@ -90,6 +90,48 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public static Vector3D CreateXUnit()
+        {
+            return new Vector3D
+            {
+                X = 1.0
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector3D CreateYUnit()
+        {
+            return new Vector3D
+            {
+                Y = 1.0
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector3D CreateZUnit()
+        {
+            return new Vector3D
+            {
+                Z = 1.0
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public double Get(int dimension)
         {
             if (dimension == 0)

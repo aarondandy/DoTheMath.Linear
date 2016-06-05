@@ -105,6 +105,62 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public static Vector4D CreateXUnit()
+        {
+            return new Vector4D
+            {
+                X = 1.0
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector4D CreateYUnit()
+        {
+            return new Vector4D
+            {
+                Y = 1.0
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector4D CreateZUnit()
+        {
+            return new Vector4D
+            {
+                Z = 1.0
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector4D CreateWUnit()
+        {
+            return new Vector4D
+            {
+                W = 1.0
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public double Get(int dimension)
         {
             if (dimension == 0)
