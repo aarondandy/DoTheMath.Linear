@@ -295,6 +295,34 @@ namespace DoTheMath.Linear
             return result;
         }
 
+        /// <summary>
+        /// Creates a rotation matrix for the given rotation <paramref name="radians"/> around the given <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="origin">The origin to rotate around.</param>
+        /// <param name="radians">The number of radians to create a rotation matrix for.</param>
+        /// <returns>A matrix that rotates around the <paramref name="origin"/>.</returns>
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D CreateRotation(Vector2D origin, double radians)
+        {
+            var result = new Matrix3D
+            {
+                E22 = 1.0,
+                E00 = Math.Cos(radians),
+                E10 = Math.Sin(radians)
+            };
+            result.E01 = -result.E10;
+            result.E11 = result.E00;
+            result.E02 = origin.X - (result.E00 * origin.X) + (result.E10 * origin.Y);
+            result.E12 = origin.Y - (result.E10 * origin.X) - (result.E00 * origin.Y);
+
+            return result;
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

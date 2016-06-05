@@ -163,6 +163,27 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.Equal(expected, actual);
             }
+
+            [Fact]
+            public void create_rotation_around_non_zero_origin()
+            {
+                var origin = new Vector2D(5, 4);
+                var theta = Math.PI / 2.0;
+                var expected = new Matrix3D(
+                    0, -1, 9,
+                    1, 0, -1,
+                    0, 0, 1);
+
+                var actual = Matrix3D.CreateRotation(origin, theta);
+
+                for (var r = 0; r < expected.Rows; r++)
+                {
+                    for (var c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
         }
 
         public class Properties : Matrix3DTests
