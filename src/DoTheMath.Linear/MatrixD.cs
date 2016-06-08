@@ -448,20 +448,70 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public MatrixD Subtract(MatrixD other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+            if (other.Rows != Rows || other.Columns != Columns)
+            {
+                throw new ArgumentOutOfRangeException(nameof(other));
+            }
+
+            var sum = new MatrixD(Rows, Columns);
+
+#if HAS_CODECONTRACTS
+            Assume(_elements.Length == other._elements.Length);
+            Assume(_elements.Length == sum._elements.Length);
+#endif
+
+            for (var elementIndex = 0; elementIndex < sum._elements.Length; elementIndex++)
+            {
+                sum._elements[elementIndex] = _elements[elementIndex] - other._elements[elementIndex];
+            }
+
+            return sum;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public MatrixD Multiply(double scalar)
         {
             var scaled = new MatrixD(Rows, Columns);
+            var scaledElements = scaled._elements;
 
 #if HAS_CODECONTRACTS
-            Assume(_elements.Length == scaled._elements.Length);
+            Assume(_elements.Length == scaledElements.Length);
 #endif
 
-            for (var elementIndex = 0; elementIndex < scaled._elements.Length; elementIndex++)
+            for (var elementIndex = 0; elementIndex < scaledElements.Length; elementIndex++)
             {
-                scaled._elements[elementIndex] = _elements[elementIndex] * scalar;
+                scaledElements[elementIndex] = _elements[elementIndex] * scalar;
             }
 
             return scaled;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public MatrixD Divide(double denominator)
+        {
+            var divided = new MatrixD(Rows, Columns);
+            var dividedElements = divided._elements;
+
+#if HAS_CODECONTRACTS
+            Assume(_elements.Length == dividedElements.Length);
+#endif
+
+            for (var elementIndex = 0; elementIndex < dividedElements.Length; elementIndex++)
+            {
+                dividedElements[elementIndex] = _elements[elementIndex] / denominator;
+            }
+
+            return divided;
         }
 
 #if HAS_CODECONTRACTS

@@ -206,6 +206,97 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public static Matrix3D operator +(Matrix3D left, Matrix3D right)
+        {
+            if (left == null || right == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return left.Add(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D operator -(Matrix3D left, Matrix3D right)
+        {
+            if (left == null || right == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return left.Subtract(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D operator *(Matrix3D left, Matrix3D right)
+        {
+            if (left == null || right == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return left.Multiply(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D operator *(Matrix3D matrix, double scalar)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return matrix.Multiply(scalar);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D operator *(double scalar, Matrix3D matrix)
+        {
+            return matrix * scalar;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix3D operator /(Matrix3D matrix, double denominator)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return matrix.Divide(denominator);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public static Matrix3D CreateIdentity()
         {
 #if HAS_CODECONTRACTS
@@ -1007,6 +1098,7 @@ namespace DoTheMath.Linear
             {
                 throw new ArgumentNullException(nameof(other));
             }
+
             return new Matrix3D
             {
                 E00 = other.E00 + E00,
@@ -1018,6 +1110,30 @@ namespace DoTheMath.Linear
                 E20 = other.E20 + E20,
                 E21 = other.E21 + E21,
                 E22 = other.E22 + E22
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Matrix3D Subtract(Matrix3D other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            return new Matrix3D
+            {
+                E00 = E00 - other.E00,
+                E01 = E01 - other.E01,
+                E02 = E02 - other.E02,
+                E10 = E10 - other.E10,
+                E11 = E11 - other.E11,
+                E12 = E12 - other.E12,
+                E20 = E20 - other.E20,
+                E21 = E21 - other.E21,
+                E22 = E22 - other.E22
             };
         }
 
@@ -1037,6 +1153,25 @@ namespace DoTheMath.Linear
                 E20 = E20 * scalar,
                 E21 = E21 * scalar,
                 E22 = E22 * scalar,
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Matrix3D Divide(double denominator)
+        {
+            return new Matrix3D
+            {
+                E00 = E00 / denominator,
+                E01 = E01 / denominator,
+                E02 = E02 / denominator,
+                E10 = E10 / denominator,
+                E11 = E11 / denominator,
+                E12 = E12 / denominator,
+                E20 = E20 / denominator,
+                E21 = E21 / denominator,
+                E22 = E22 / denominator,
             };
         }
 

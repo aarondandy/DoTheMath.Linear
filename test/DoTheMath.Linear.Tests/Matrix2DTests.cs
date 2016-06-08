@@ -128,6 +128,130 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class OperatorOverloads : Matrix2DTests
+        {
+            [Fact]
+            public void op_addition_mimics_add()
+            {
+                var left = CreateIncremenetalMatrix();
+                var right = new Matrix2D(4.4, 3.3, 2.2, 1.1);
+                var expected = left.Add(right);
+
+                var actual = left + right;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_addition_null_operand_throws()
+            {
+                var matrix = CreateIncremenetalMatrix();
+                var @null = (Matrix2D)null;
+
+                Assert.Throws<ArgumentNullException>(() => matrix + @null);
+                Assert.Throws<ArgumentNullException>(() => @null + matrix);
+            }
+
+            [Fact]
+            public void op_subtraction_mimics_subtract()
+            {
+                var left = CreateIncremenetalMatrix();
+                var right = new Matrix2D(4.4, 3.3, 2.2, 1.1);
+                var expected = left.Subtract(right);
+
+                var actual = left - right;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_subtract_null_operand_throws()
+            {
+                var matrix = CreateIncremenetalMatrix();
+                var @null = (Matrix2D)null;
+
+                Assert.Throws<ArgumentNullException>(() => matrix - @null);
+                Assert.Throws<ArgumentNullException>(() => @null - matrix);
+            }
+
+            [Fact]
+            public void op_multiply_mimics_multiply_matrix()
+            {
+                var left = CreateIncremenetalMatrix();
+                var right = new Matrix2D(4.4, 3.3, 2.2, 1.1);
+                var expected = left.Multiply(right);
+
+                var actual = left * right;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_multiply_null_operand_throws()
+            {
+                var matrix = CreateIncremenetalMatrix();
+                var @null = (Matrix2D)null;
+
+                Assert.Throws<ArgumentNullException>(() => matrix * @null);
+                Assert.Throws<ArgumentNullException>(() => @null * matrix);
+            }
+
+            [Fact]
+            public void op_multiply_mimics_multiply_scalar()
+            {
+                var matrix = CreateIncremenetalMatrix();
+                var scalar = -9.5;
+                var expected = matrix.Multiply(scalar);
+
+                var actual = matrix * scalar;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_multiply_mimics_multiply_prefix_scalar()
+            {
+                var matrix = CreateIncremenetalMatrix();
+                var scalar = -13.5;
+                var expected = matrix.Multiply(scalar);
+
+                var actual = scalar * matrix;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_multiply_scalars_null_matrix_throws()
+            {
+                var @null = (Matrix2D)null;
+                var scalar = 1.0;
+
+                Assert.Throws<ArgumentNullException>(() => scalar * @null);
+                Assert.Throws<ArgumentNullException>(() => @null * scalar);
+            }
+
+            [Fact]
+            public void op_division_mimics_divide_denominator()
+            {
+                var matrix = CreateIncremenetalMatrix();
+                var scalar = -1.3;
+                var expected = matrix.Divide(scalar);
+
+                var actual = matrix / scalar;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_division_null_matrix_throws()
+            {
+                var @null = (Matrix2D)null;
+                var denominator = 1.0;
+
+                Assert.Throws<ArgumentNullException>(() => @null * denominator);
+            }
+        }
+
         public class Properties : Matrix2DTests
         {
             [Fact]
@@ -882,6 +1006,29 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class SubtractMatrix : Matrix2DTests
+        {
+            [Fact]
+            public void null_matrix_throws()
+            {
+                var m = new Matrix2D();
+
+                Assert.Throws<ArgumentNullException>(() => m.Subtract((Matrix2D)null));
+            }
+
+            [Fact]
+            public void can_subtract_all_elements()
+            {
+                var a = CreateIncremenetalMatrix();
+                var b = new Matrix2D(4.4, 3.3, 2.2, 1.1);
+                var expected = new Matrix2D(1 - 4.4, 2 - 3.3, 3 - 2.2, 4 - 1.1);
+
+                var actual = a.Subtract(b);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class MultiplyScalar : Matrix2DTests
         {
             [Fact]
@@ -891,6 +1038,20 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Matrix2D(1 * 1.1, 2 * 1.1, 3 * 1.1, 4 * 1.1);
 
                 var actual = a.Multiply(1.1);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class DivideDenominator : Matrix2DTests
+        {
+            [Fact]
+            public void all_elements_get_scaled()
+            {
+                var a = CreateIncremenetalMatrix();
+                var expected = new Matrix2D(1 / 1.1, 2 / 1.1, 3 / 1.1, 4 / 1.1);
+
+                var actual = a.Divide(1.1);
 
                 Assert.Equal(expected, actual);
             }

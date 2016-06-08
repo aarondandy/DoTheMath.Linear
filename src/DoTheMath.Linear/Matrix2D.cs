@@ -169,6 +169,127 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public static Matrix2D operator +(Matrix2D left, Matrix2D right)
+        {
+            if (left == null || right == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new Matrix2D
+            {
+                E00 = left.E00 + right.E00,
+                E01 = left.E01 + right.E01,
+                E10 = left.E10 + right.E10,
+                E11 = left.E11 + right.E11
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix2D operator -(Matrix2D left, Matrix2D right)
+        {
+            if (left == null || right == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new Matrix2D
+            {
+                E00 = left.E00 - right.E00,
+                E01 = left.E01 - right.E01,
+                E10 = left.E10 - right.E10,
+                E11 = left.E11 - right.E11
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix2D operator *(Matrix2D left, Matrix2D right)
+        {
+            if (left == null || right == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new Matrix2D
+            {
+                E00 = (left.E00 * right.E00) + (left.E01 * right.E10),
+                E01 = (left.E00 * right.E01) + (left.E01 * right.E11),
+                E10 = (left.E10 * right.E00) + (left.E11 * right.E10),
+                E11 = (left.E10 * right.E01) + (left.E11 * right.E11)
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix2D operator *(Matrix2D matrix, double scalar)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new Matrix2D
+            {
+                E00 = matrix.E00 * scalar,
+                E01 = matrix.E01 * scalar,
+                E10 = matrix.E10 * scalar,
+                E11 = matrix.E11 * scalar
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix2D operator *(double scalar, Matrix2D matrix)
+        {
+            return matrix * scalar;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix2D operator /(Matrix2D matrix, double denominator)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new Matrix2D
+            {
+                E00 = matrix.E00 / denominator,
+                E01 = matrix.E01 / denominator,
+                E10 = matrix.E10 / denominator,
+                E11 = matrix.E11 / denominator
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public static Matrix2D CreateIdentity()
         {
             return new Matrix2D
@@ -613,12 +734,16 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public Matrix2D Add(Matrix2D other)
         {
             if (other == null)
             {
                 throw new ArgumentNullException(nameof(other));
             }
+
             return new Matrix2D
             {
                 E00 = other.E00 + E00,
@@ -630,6 +755,31 @@ namespace DoTheMath.Linear
 
 #if HAS_CODECONTRACTS
         [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Matrix2D Subtract(Matrix2D other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            return new Matrix2D
+            {
+                E00 = E00 - other.E00,
+                E01 = E01 - other.E01,
+                E10 = E10 - other.E10,
+                E11 = E11 - other.E11
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Matrix2D Multiply(double scalar)
         {
@@ -645,6 +795,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public Matrix2D Multiply(Matrix2D right)
         {
             if (right == null)
@@ -658,6 +811,23 @@ namespace DoTheMath.Linear
                 E01 = (E00 * right.E01) + (E01 * right.E11),
                 E10 = (E10 * right.E00) + (E11 * right.E10),
                 E11 = (E10 * right.E01) + (E11 * right.E11)
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Matrix2D Divide(double denominator)
+        {
+            return new Matrix2D
+            {
+                E00 = E00 / denominator,
+                E01 = E01 / denominator,
+                E10 = E10 / denominator,
+                E11 = E11 / denominator
             };
         }
 

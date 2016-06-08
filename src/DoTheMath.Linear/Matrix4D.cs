@@ -257,6 +257,97 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public static Matrix4D operator +(Matrix4D left, Matrix4D right)
+        {
+            if (left == null || right == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return left.Add(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix4D operator -(Matrix4D left, Matrix4D right)
+        {
+            if (left == null || right == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return left.Subtract(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix4D operator *(Matrix4D left, Matrix4D right)
+        {
+            if (left == null || right == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return left.Multiply(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix4D operator *(Matrix4D matrix, double scalar)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return matrix.Multiply(scalar);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix4D operator *(double scalar, Matrix4D matrix)
+        {
+            return matrix * scalar;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Matrix4D operator /(Matrix4D matrix, double denominator)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return matrix.Divide(denominator);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public static Matrix4D CreateIdentity()
         {
 #if HAS_CODECONTRACTS
@@ -1235,6 +1326,36 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public Matrix4D Subtract(Matrix4D other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+            return new Matrix4D
+            {
+                E00 = E00 - other.E00,
+                E01 = E01 - other.E01,
+                E02 = E02 - other.E02,
+                E03 = E03 - other.E03,
+                E10 = E10 - other.E10,
+                E11 = E11 - other.E11,
+                E12 = E12 - other.E12,
+                E13 = E13 - other.E13,
+                E20 = E20 - other.E20,
+                E21 = E21 - other.E21,
+                E22 = E22 - other.E22,
+                E23 = E23 - other.E23,
+                E30 = E30 - other.E30,
+                E31 = E31 - other.E31,
+                E32 = E32 - other.E32,
+                E33 = E33 - other.E33
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public Matrix4D Multiply(double scalar)
         {
             return new Matrix4D
@@ -1255,6 +1376,32 @@ namespace DoTheMath.Linear
                 E31 = E31 * scalar,
                 E32 = E32 * scalar,
                 E33 = E33 * scalar,
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Matrix4D Divide(double scalar)
+        {
+            return new Matrix4D
+            {
+                E00 = E00 / scalar,
+                E01 = E01 / scalar,
+                E02 = E02 / scalar,
+                E03 = E03 / scalar,
+                E10 = E10 / scalar,
+                E11 = E11 / scalar,
+                E12 = E12 / scalar,
+                E13 = E13 / scalar,
+                E20 = E20 / scalar,
+                E21 = E21 / scalar,
+                E22 = E22 / scalar,
+                E23 = E23 / scalar,
+                E30 = E30 / scalar,
+                E31 = E31 / scalar,
+                E32 = E32 / scalar,
+                E33 = E33 / scalar,
             };
         }
 
