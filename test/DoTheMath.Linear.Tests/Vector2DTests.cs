@@ -60,6 +60,81 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class OperatorOverloads : Vector2DTests
+        {
+            [Fact]
+            public void op_addition_mimics_add()
+            {
+                var left = new Vector2D(1, 2);
+                var right = new Vector2D(-3, -100);
+                var expected = left.Add(right);
+
+                var actual = left + right;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_subtraction_mimics_subtract()
+            {
+                var left = new Vector2D(1, 2);
+                var right = new Vector2D(-3, -100);
+                var expected = left.Subtract(right);
+
+                var actual = left - right;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_multiply_mimics_dot()
+            {
+                var left = new Vector2D(1, 2);
+                var right = new Vector2D(-3, -100);
+                var expected = left.Dot(right);
+
+                var actual = left * right;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_multiply_scalar_mimics_scale()
+            {
+                var vector = new Vector2D(1, 2);
+                var scalar = 2.4;
+                var expected = vector.GetScaled(scalar);
+
+                var actual = vector * scalar;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_multiply_scalar_mimics_scale_first()
+            {
+                var vector = new Vector2D(1, 2);
+                var scalar = 2.4;
+                var expected = vector.GetScaled(scalar);
+
+                var actual = scalar * vector;
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void op_multiply_scalar_mimics_divide()
+            {
+                var vector = new Vector2D(1, 2);
+                var denominator = 2.4;
+                var expected = vector.GetQuotient(denominator);
+
+                var actual = vector / denominator;
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class Get : Vector2DTests
         {
             [Fact]

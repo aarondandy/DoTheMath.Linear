@@ -268,7 +268,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix2D operator /(Matrix2D matrix, double denominator)
+        public static Matrix2D operator /(Matrix2D matrix, double divisor)
         {
             if (matrix == null)
             {
@@ -277,10 +277,10 @@ namespace DoTheMath.Linear
 
             return new Matrix2D
             {
-                E00 = matrix.E00 / denominator,
-                E01 = matrix.E01 / denominator,
-                E10 = matrix.E10 / denominator,
-                E11 = matrix.E11 / denominator
+                E00 = matrix.E00 / divisor,
+                E01 = matrix.E01 / divisor,
+                E10 = matrix.E10 / divisor,
+                E11 = matrix.E11 / divisor
             };
         }
 
@@ -820,14 +820,14 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Matrix2D Divide(double denominator)
+        public Matrix2D Divide(double divisor)
         {
             return new Matrix2D
             {
-                E00 = E00 / denominator,
-                E01 = E01 / denominator,
-                E10 = E10 / denominator,
-                E11 = E11 / denominator
+                E00 = E00 / divisor,
+                E01 = E01 / divisor,
+                E10 = E10 / divisor,
+                E11 = E11 / divisor
             };
         }
 

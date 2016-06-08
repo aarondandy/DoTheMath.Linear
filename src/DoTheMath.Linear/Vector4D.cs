@@ -105,6 +105,72 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public static Vector4D operator +(Vector4D left, Vector4D right)
+        {
+            return left.Add(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector4D operator -(Vector4D left, Vector4D right)
+        {
+            return left.Subtract(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static double operator *(Vector4D left, Vector4D right)
+        {
+            return left.Dot(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector4D operator *(Vector4D vector, double scalar)
+        {
+            return vector.GetScaled(scalar);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector4D operator *(double scalar, Vector4D vector)
+        {
+            return vector.GetScaled(scalar);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector4D operator /(Vector4D vector, double divisor)
+        {
+            return vector.GetQuotient(divisor);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public static Vector4D CreateXUnit()
         {
             return new Vector4D

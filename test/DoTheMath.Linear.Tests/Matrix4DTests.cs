@@ -292,10 +292,10 @@ namespace DoTheMath.Linear.Tests
             public void op_multiply_mimics_divide_denominator()
             {
                 var matrix = CreateIncremenetalMatrix();
-                var scalar = -1.3;
-                var expected = matrix.Divide(scalar);
+                var divisor = -1.3;
+                var expected = matrix.Divide(divisor);
 
-                var actual = matrix / scalar;
+                var actual = matrix / divisor;
 
                 Assert.Equal(expected, actual);
             }
@@ -304,9 +304,9 @@ namespace DoTheMath.Linear.Tests
             public void op_division_null_matrix_throws()
             {
                 var @null = (Matrix4D)null;
-                var denominator = 1.0;
+                var divisor = 1.0;
 
-                Assert.Throws<ArgumentNullException>(() => @null * denominator);
+                Assert.Throws<ArgumentNullException>(() => @null * divisor);
             }
         }
 

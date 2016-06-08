@@ -90,6 +90,72 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public static Vector3D operator +(Vector3D left, Vector3D right)
+        {
+            return left.Add(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector3D operator -(Vector3D left, Vector3D right)
+        {
+            return left.Subtract(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static double operator *(Vector3D left, Vector3D right)
+        {
+            return left.Dot(right);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector3D operator *(Vector3D vector, double scalar)
+        {
+            return vector.GetScaled(scalar);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector3D operator *(double scalar, Vector3D vector)
+        {
+            return vector.GetScaled(scalar);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static Vector3D operator /(Vector3D vector, double divisor)
+        {
+            return vector.GetQuotient(divisor);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public static Vector3D CreateXUnit()
         {
             return new Vector3D

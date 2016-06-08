@@ -281,14 +281,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix3D operator /(Matrix3D matrix, double denominator)
+        public static Matrix3D operator /(Matrix3D matrix, double divisor)
         {
             if (matrix == null)
             {
                 throw new ArgumentNullException();
             }
 
-            return matrix.Divide(denominator);
+            return matrix.Divide(divisor);
         }
 
 #if !PRE_NETSTANDARD
@@ -1159,19 +1159,19 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix3D Divide(double denominator)
+        public Matrix3D Divide(double divisor)
         {
             return new Matrix3D
             {
-                E00 = E00 / denominator,
-                E01 = E01 / denominator,
-                E02 = E02 / denominator,
-                E10 = E10 / denominator,
-                E11 = E11 / denominator,
-                E12 = E12 / denominator,
-                E20 = E20 / denominator,
-                E21 = E21 / denominator,
-                E22 = E22 / denominator,
+                E00 = E00 / divisor,
+                E01 = E01 / divisor,
+                E02 = E02 / divisor,
+                E10 = E10 / divisor,
+                E11 = E11 / divisor,
+                E12 = E12 / divisor,
+                E20 = E20 / divisor,
+                E21 = E21 / divisor,
+                E22 = E22 / divisor,
             };
         }
 

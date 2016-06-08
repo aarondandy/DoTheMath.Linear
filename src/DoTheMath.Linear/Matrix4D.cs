@@ -332,14 +332,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D operator /(Matrix4D matrix, double denominator)
+        public static Matrix4D operator /(Matrix4D matrix, double divisor)
         {
             if (matrix == null)
             {
                 throw new ArgumentNullException();
             }
 
-            return matrix.Divide(denominator);
+            return matrix.Divide(divisor);
         }
 
 #if !PRE_NETSTANDARD
@@ -1382,26 +1382,26 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D Divide(double scalar)
+        public Matrix4D Divide(double divisor)
         {
             return new Matrix4D
             {
-                E00 = E00 / scalar,
-                E01 = E01 / scalar,
-                E02 = E02 / scalar,
-                E03 = E03 / scalar,
-                E10 = E10 / scalar,
-                E11 = E11 / scalar,
-                E12 = E12 / scalar,
-                E13 = E13 / scalar,
-                E20 = E20 / scalar,
-                E21 = E21 / scalar,
-                E22 = E22 / scalar,
-                E23 = E23 / scalar,
-                E30 = E30 / scalar,
-                E31 = E31 / scalar,
-                E32 = E32 / scalar,
-                E33 = E33 / scalar,
+                E00 = E00 / divisor,
+                E01 = E01 / divisor,
+                E02 = E02 / divisor,
+                E03 = E03 / divisor,
+                E10 = E10 / divisor,
+                E11 = E11 / divisor,
+                E12 = E12 / divisor,
+                E13 = E13 / divisor,
+                E20 = E20 / divisor,
+                E21 = E21 / divisor,
+                E22 = E22 / divisor,
+                E23 = E23 / divisor,
+                E30 = E30 / divisor,
+                E31 = E31 / divisor,
+                E32 = E32 / divisor,
+                E33 = E33 / divisor,
             };
         }
 
