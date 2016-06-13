@@ -135,7 +135,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = CreateIncremenetalMatrix();
                 var right = new Matrix2D(4.4, 3.3, 2.2, 1.1);
-                var expected = left.Add(right);
+                var expected = left.GetSum(right);
 
                 var actual = left + right;
 
@@ -157,7 +157,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = CreateIncremenetalMatrix();
                 var right = new Matrix2D(4.4, 3.3, 2.2, 1.1);
-                var expected = left.Subtract(right);
+                var expected = left.GetDifference(right);
 
                 var actual = left - right;
 
@@ -179,7 +179,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = CreateIncremenetalMatrix();
                 var right = new Matrix2D(4.4, 3.3, 2.2, 1.1);
-                var expected = left.Multiply(right);
+                var expected = left.GetProduct(right);
 
                 var actual = left * right;
 
@@ -201,7 +201,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var matrix = CreateIncremenetalMatrix();
                 var scalar = -9.5;
-                var expected = matrix.Multiply(scalar);
+                var expected = matrix.GetScaled(scalar);
 
                 var actual = matrix * scalar;
 
@@ -213,7 +213,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var matrix = CreateIncremenetalMatrix();
                 var scalar = -13.5;
-                var expected = matrix.Multiply(scalar);
+                var expected = matrix.GetScaled(scalar);
 
                 var actual = scalar * matrix;
 
@@ -235,7 +235,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var matrix = CreateIncremenetalMatrix();
                 var divisor = -1.3;
-                var expected = matrix.Divide(divisor);
+                var expected = matrix.GetQuotient(divisor);
 
                 var actual = matrix / divisor;
 
@@ -990,7 +990,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var m = new Matrix2D();
 
-                Assert.Throws<ArgumentNullException>(() => m.Add((Matrix2D)null));
+                Assert.Throws<ArgumentNullException>(() => m.GetSum((Matrix2D)null));
             }
 
             [Fact]
@@ -1000,7 +1000,7 @@ namespace DoTheMath.Linear.Tests
                 var b = new Matrix2D(4.4, 3.3, 2.2, 1.1);
                 var expected = new Matrix2D(5.4, 5.3, 5.2, 5.1);
 
-                var actual = a.Add(b);
+                var actual = a.GetSum(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1013,7 +1013,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var m = new Matrix2D();
 
-                Assert.Throws<ArgumentNullException>(() => m.Subtract((Matrix2D)null));
+                Assert.Throws<ArgumentNullException>(() => m.GetDifference((Matrix2D)null));
             }
 
             [Fact]
@@ -1023,7 +1023,7 @@ namespace DoTheMath.Linear.Tests
                 var b = new Matrix2D(4.4, 3.3, 2.2, 1.1);
                 var expected = new Matrix2D(1 - 4.4, 2 - 3.3, 3 - 2.2, 4 - 1.1);
 
-                var actual = a.Subtract(b);
+                var actual = a.GetDifference(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1037,7 +1037,7 @@ namespace DoTheMath.Linear.Tests
                 var a = CreateIncremenetalMatrix();
                 var expected = new Matrix2D(1 * 1.1, 2 * 1.1, 3 * 1.1, 4 * 1.1);
 
-                var actual = a.Multiply(1.1);
+                var actual = a.GetScaled(1.1);
 
                 Assert.Equal(expected, actual);
             }
@@ -1051,7 +1051,7 @@ namespace DoTheMath.Linear.Tests
                 var a = CreateIncremenetalMatrix();
                 var expected = new Matrix2D(1 / 1.1, 2 / 1.1, 3 / 1.1, 4 / 1.1);
 
-                var actual = a.Divide(1.1);
+                var actual = a.GetQuotient(1.1);
 
                 Assert.Equal(expected, actual);
             }
@@ -1064,7 +1064,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var sut = CreateIncremenetalMatrix();
 
-                Assert.Throws<ArgumentNullException>(() => sut.Multiply((Matrix2D)null));
+                Assert.Throws<ArgumentNullException>(() => sut.GetProduct((Matrix2D)null));
             }
 
             [Fact]
@@ -1074,7 +1074,7 @@ namespace DoTheMath.Linear.Tests
                 var b = new Matrix2D(2, 3, -4, 5);
                 var expected = new Matrix2D(2, 14, -12, -40);
 
-                var actual = a.Multiply(b);
+                var actual = a.GetProduct(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1086,8 +1086,8 @@ namespace DoTheMath.Linear.Tests
                 var identity = Matrix2D.CreateIdentity();
                 Assert.NotEqual(identity, a);
 
-                Assert.Equal(a, a.Multiply(identity));
-                Assert.Equal(a, identity.Multiply(a));
+                Assert.Equal(a, a.GetProduct(identity));
+                Assert.Equal(a, identity.GetProduct(a));
             }
         }
 

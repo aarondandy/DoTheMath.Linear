@@ -362,7 +362,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new VectorD(4);
                 Assert.NotEqual(left.Dimensions, right.Dimensions);
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => left.Add(right));
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.GetSum(right));
             }
 
             [Fact]
@@ -371,7 +371,7 @@ namespace DoTheMath.Linear.Tests
                 var left = new VectorD(3);
                 VectorD right = null;
 
-                Assert.Throws<ArgumentNullException>(() => left.Add(right));
+                Assert.Throws<ArgumentNullException>(() => left.GetSum(right));
             }
 
             [Fact]
@@ -388,7 +388,7 @@ namespace DoTheMath.Linear.Tests
                 right.Set(2, -20);
                 var expectedRight = new VectorD(right);
 
-                left.Add(right);
+                left.GetSum(right);
 
                 Assert.Equal(expectedRight, right);
                 Assert.Equal(expectedLeft, left);
@@ -410,7 +410,7 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(1, 7);
                 expected.Set(2, -24);
 
-                var actual = left.Add(right);
+                var actual = left.GetSum(right);
 
                 Assert.Equal(expected, actual);
             }
@@ -425,7 +425,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new VectorD(4);
                 Assert.NotEqual(left.Dimensions, right.Dimensions);
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => left.AddTo(right));
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.Add(right));
             }
 
             [Fact]
@@ -434,7 +434,7 @@ namespace DoTheMath.Linear.Tests
                 var left = new VectorD(3);
                 VectorD right = null;
 
-                Assert.Throws<ArgumentNullException>(() => left.AddTo(right));
+                Assert.Throws<ArgumentNullException>(() => left.Add(right));
             }
 
             [Fact]
@@ -453,13 +453,76 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(1, 7);
                 expected.Set(2, -24);
 
-                actual.AddTo(right);
+                actual.Add(right);
 
                 Assert.Equal(expected, actual);
             }
         }
 
         public class SubtractTests : VectorDTests
+        {
+            [Fact]
+            public void subtracting_vectors_of_different_size_throws()
+            {
+                var left = new VectorD(3);
+                var right = new VectorD(4);
+                Assert.NotEqual(left.Dimensions, right.Dimensions);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.GetDiffernce(right));
+            }
+
+            [Fact]
+            public void subtracting_null_vector_throws()
+            {
+                var left = new VectorD(3);
+                VectorD right = null;
+
+                Assert.Throws<ArgumentNullException>(() => left.GetDiffernce(right));
+            }
+
+            [Fact]
+            public void subtracting_vector_produces_diff_vector()
+            {
+                var left = new VectorD(3);
+                left.Set(0, 1);
+                left.Set(1, 10);
+                left.Set(2, 6);
+                var right = new VectorD(3);
+                right.Set(0, 10);
+                right.Set(1, 3);
+                right.Set(2, 1);
+                var expected = new VectorD(3);
+                expected.Set(0, -9);
+                expected.Set(1, 7);
+                expected.Set(2, 5);
+
+                var actual = left.GetDiffernce(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void subtracting_vectors_leaves_operands_unchanged()
+            {
+                var left = new VectorD(3);
+                left.Set(0, 1);
+                left.Set(1, 10);
+                left.Set(2, 6);
+                var expectedLeft = new VectorD(left);
+                var right = new VectorD(3);
+                right.Set(0, 10);
+                right.Set(1, 3);
+                right.Set(2, 1);
+                var expectedRight = new VectorD(right);
+
+                var result = left.GetDiffernce(right);
+
+                Assert.Equal(expectedLeft, left);
+                Assert.Equal(expectedRight, right);
+            }
+        }
+
+        public class SubtractFromTests : VectorDTests
         {
             [Fact]
             public void subtracting_vectors_of_different_size_throws()
@@ -481,69 +544,6 @@ namespace DoTheMath.Linear.Tests
             }
 
             [Fact]
-            public void subtracting_vector_produces_diff_vector()
-            {
-                var left = new VectorD(3);
-                left.Set(0, 1);
-                left.Set(1, 10);
-                left.Set(2, 6);
-                var right = new VectorD(3);
-                right.Set(0, 10);
-                right.Set(1, 3);
-                right.Set(2, 1);
-                var expected = new VectorD(3);
-                expected.Set(0, -9);
-                expected.Set(1, 7);
-                expected.Set(2, 5);
-
-                var actual = left.Subtract(right);
-
-                Assert.Equal(expected, actual);
-            }
-
-            [Fact]
-            public void subtracting_vectors_leaves_operands_unchanged()
-            {
-                var left = new VectorD(3);
-                left.Set(0, 1);
-                left.Set(1, 10);
-                left.Set(2, 6);
-                var expectedLeft = new VectorD(left);
-                var right = new VectorD(3);
-                right.Set(0, 10);
-                right.Set(1, 3);
-                right.Set(2, 1);
-                var expectedRight = new VectorD(right);
-
-                var result = left.Subtract(right);
-
-                Assert.Equal(expectedLeft, left);
-                Assert.Equal(expectedRight, right);
-            }
-        }
-
-        public class SubtractFromTests : VectorDTests
-        {
-            [Fact]
-            public void subtracting_vectors_of_different_size_throws()
-            {
-                var left = new VectorD(3);
-                var right = new VectorD(4);
-                Assert.NotEqual(left.Dimensions, right.Dimensions);
-
-                Assert.Throws<ArgumentOutOfRangeException>(() => left.SubtractFrom(right));
-            }
-
-            [Fact]
-            public void subtracting_null_vector_throws()
-            {
-                var left = new VectorD(3);
-                VectorD right = null;
-
-                Assert.Throws<ArgumentNullException>(() => left.SubtractFrom(right));
-            }
-
-            [Fact]
             public void subtracting_vector_subtracts_from_components()
             {
                 var actual = new VectorD(3);
@@ -559,7 +559,7 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(1, 7);
                 expected.Set(2, 5);
 
-                actual.SubtractFrom(right);
+                actual.Subtract(right);
 
                 Assert.Equal(expected, actual);
             }
@@ -577,7 +577,7 @@ namespace DoTheMath.Linear.Tests
                 right.Set(2, 1);
                 var expectedRight = new VectorD(right);
 
-                left.SubtractFrom(right);
+                left.Subtract(right);
 
                 Assert.Equal(expectedRight, right);
             }
@@ -729,7 +729,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = new VectorD(5);
 
-                Assert.Throws<ArgumentNullException>(() => left.Dot((VectorD)null));
+                Assert.Throws<ArgumentNullException>(() => left.GetDot((VectorD)null));
             }
 
             [Fact]
@@ -738,7 +738,7 @@ namespace DoTheMath.Linear.Tests
                 var left = new VectorD(5);
                 var right = new VectorD(3);
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => left.Dot(right));
+                Assert.Throws<ArgumentOutOfRangeException>(() => left.GetDot(right));
             }
 
             [Fact]
@@ -748,7 +748,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new VectorD(0);
                 var expected = 0.0;
 
-                var actual = left.Dot(right);
+                var actual = left.GetDot(right);
 
                 Assert.Equal(expected, actual);
             }
@@ -766,7 +766,7 @@ namespace DoTheMath.Linear.Tests
                 right.Set(2, 3.3);
                 var expected = (1.2 * -1.1) + (3.0 * 6.7) + (-9.0 * 3.3);
 
-                var actual = left.Dot(right);
+                var actual = left.GetDot(right);
 
                 Assert.Equal(expected, actual);
             }

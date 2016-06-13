@@ -1163,7 +1163,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var m = new MatrixD(4, 2);
 
-                Assert.Throws<ArgumentNullException>(() => m.Add((MatrixD)null));
+                Assert.Throws<ArgumentNullException>(() => m.GetSum((MatrixD)null));
             }
 
             [Fact]
@@ -1172,7 +1172,7 @@ namespace DoTheMath.Linear.Tests
                 var a = new MatrixD(4, 2);
                 var b = new MatrixD(2, 4);
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => a.Add(b));
+                Assert.Throws<ArgumentOutOfRangeException>(() => a.GetSum(b));
             }
 
             [Fact]
@@ -1202,7 +1202,7 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(1, 1, 5 - 5.3);
                 expected.Set(1, 2, 6 + 0.6);
 
-                var actual = a.Add(b);
+                var actual = a.GetSum(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1215,7 +1215,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var m = new MatrixD(4, 2);
 
-                Assert.Throws<ArgumentNullException>(() => m.Subtract((MatrixD)null));
+                Assert.Throws<ArgumentNullException>(() => m.GetDifference((MatrixD)null));
             }
 
             [Fact]
@@ -1224,7 +1224,7 @@ namespace DoTheMath.Linear.Tests
                 var a = new MatrixD(4, 2);
                 var b = new MatrixD(2, 4);
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => a.Subtract(b));
+                Assert.Throws<ArgumentOutOfRangeException>(() => a.GetDifference(b));
             }
 
             [Fact]
@@ -1254,7 +1254,7 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(1, 1, 5 + 5.3);
                 expected.Set(1, 2, 6 - 0.6);
 
-                var actual = a.Subtract(b);
+                var actual = a.GetDifference(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1281,7 +1281,7 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(1, 1, 5 * 1.1);
                 expected.Set(1, 2, 6 * 1.1);
 
-                var actual = a.Multiply(1.1);
+                var actual = a.GetScaled(1.1);
 
                 Assert.Equal(expected, actual);
             }
@@ -1308,7 +1308,7 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(1, 1, 5 / 1.1);
                 expected.Set(1, 2, 6 / 1.1);
 
-                var actual = a.Divide(1.1);
+                var actual = a.GetQuotient(1.1);
 
                 Assert.Equal(expected, actual);
             }
@@ -1321,7 +1321,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var sut = new MatrixD(4, 7);
 
-                Assert.Throws<ArgumentNullException>(() => sut.Multiply((MatrixD)null));
+                Assert.Throws<ArgumentNullException>(() => sut.GetProduct((MatrixD)null));
             }
 
             [Fact]
@@ -1360,7 +1360,7 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(2, 1, 4);
                 expected.Set(2, 2, -772);
 
-                var actual = a.Multiply(b);
+                var actual = a.GetProduct(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1371,7 +1371,7 @@ namespace DoTheMath.Linear.Tests
                 var a = new MatrixD(2, 2);
                 var b = new MatrixD(3, 2);
 
-                Assert.Throws<ArgumentOutOfRangeException>(() => a.Multiply(b));
+                Assert.Throws<ArgumentOutOfRangeException>(() => a.GetProduct(b));
             }
 
             [Fact]
@@ -1394,7 +1394,7 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(0, 1, (2 * 2) + (3 * 5));
                 expected.Set(0, 2, (2 * 3) + (3 * 6));
 
-                var actual = a.Multiply(b);
+                var actual = a.GetProduct(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1416,8 +1416,8 @@ namespace DoTheMath.Linear.Tests
                 var identity = MatrixD.CreateIdentity(3);
                 Assert.NotEqual(identity, a);
 
-                Assert.Equal(a, a.Multiply(identity));
-                Assert.Equal(a, identity.Multiply(a));
+                Assert.Equal(a, a.GetProduct(identity));
+                Assert.Equal(a, identity.GetProduct(a));
             }
         }
 

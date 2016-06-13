@@ -116,7 +116,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public VectorD Add(VectorD right)
+        public VectorD GetSum(VectorD right)
         {
             if (right == null)
             {
@@ -139,7 +139,7 @@ namespace DoTheMath.Linear
             return sum;
         }
 
-        public void AddTo(VectorD right)
+        public void Add(VectorD right)
         {
             if (right == null)
             {
@@ -161,7 +161,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public VectorD Subtract(VectorD right)
+        public VectorD GetDiffernce(VectorD right)
         {
             if (right == null)
             {
@@ -184,7 +184,7 @@ namespace DoTheMath.Linear
             return difference;
         }
 
-        public void SubtractFrom(VectorD right)
+        public void Subtract(VectorD right)
         {
             if (right == null)
             {
@@ -278,7 +278,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double Dot(VectorD right)
+        public double GetDot(VectorD right)
         {
             if (right == null)
             {
@@ -353,7 +353,7 @@ namespace DoTheMath.Linear
             }
 
             return Math.Acos(
-                Dot(other)
+                GetDot(other)
                     / Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
         }
 
@@ -411,7 +411,7 @@ namespace DoTheMath.Linear
             var scalarDenominator = GetMagnitudeSquared();
             return scalarDenominator == 0.0
                 ? other
-                : GetScaled((Dot(other)) / scalarDenominator);
+                : GetScaled((GetDot(other)) / scalarDenominator);
         }
 
 #if HAS_CODECONTRACTS

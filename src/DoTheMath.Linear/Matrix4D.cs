@@ -264,7 +264,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return left.Add(right);
+            return left.GetSum(right);
         }
 
 #if !PRE_NETSTANDARD
@@ -280,7 +280,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return left.Subtract(right);
+            return left.GetDifference(right);
         }
 
 #if !PRE_NETSTANDARD
@@ -296,7 +296,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return left.Multiply(right);
+            return left.GetProduct(right);
         }
 
 #if !PRE_NETSTANDARD
@@ -312,7 +312,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return matrix.Multiply(scalar);
+            return matrix.GetScaled(scalar);
         }
 
 #if !PRE_NETSTANDARD
@@ -339,7 +339,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return matrix.Divide(divisor);
+            return matrix.GetQuotient(divisor);
         }
 
 #if !PRE_NETSTANDARD
@@ -1296,12 +1296,13 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D Add(Matrix4D other)
+        public Matrix4D GetSum(Matrix4D other)
         {
             if (other == null)
             {
                 throw new ArgumentNullException(nameof(other));
             }
+
             return new Matrix4D
             {
                 E00 = other.E00 + E00,
@@ -1326,12 +1327,13 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D Subtract(Matrix4D other)
+        public Matrix4D GetDifference(Matrix4D other)
         {
             if (other == null)
             {
                 throw new ArgumentNullException(nameof(other));
             }
+
             return new Matrix4D
             {
                 E00 = E00 - other.E00,
@@ -1356,7 +1358,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D Multiply(double scalar)
+        public Matrix4D GetScaled(double scalar)
         {
             return new Matrix4D
             {
@@ -1382,7 +1384,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D Divide(double divisor)
+        public Matrix4D GetQuotient(double divisor)
         {
             return new Matrix4D
             {
@@ -1408,7 +1410,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D Multiply(Matrix4D right)
+        public Matrix4D GetProduct(Matrix4D right)
         {
             if (right == null)
             {

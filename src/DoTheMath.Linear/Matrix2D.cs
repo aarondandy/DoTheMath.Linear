@@ -737,7 +737,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Matrix2D Add(Matrix2D other)
+        public Matrix2D GetSum(Matrix2D other)
         {
             if (other == null)
             {
@@ -759,7 +759,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Matrix2D Subtract(Matrix2D other)
+        public Matrix2D GetDifference(Matrix2D other)
         {
             if (other == null)
             {
@@ -781,7 +781,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Matrix2D Multiply(double scalar)
+        public Matrix2D GetScaled(double scalar)
         {
             return new Matrix2D
             {
@@ -798,7 +798,24 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Matrix2D Multiply(Matrix2D right)
+        public Matrix2D GetQuotient(double divisor)
+        {
+            return new Matrix2D
+            {
+                E00 = E00 / divisor,
+                E01 = E01 / divisor,
+                E10 = E10 / divisor,
+                E11 = E11 / divisor
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Matrix2D GetProduct(Matrix2D right)
         {
             if (right == null)
             {
@@ -811,23 +828,6 @@ namespace DoTheMath.Linear
                 E01 = (E00 * right.E01) + (E01 * right.E11),
                 E10 = (E10 * right.E00) + (E11 * right.E10),
                 E11 = (E10 * right.E01) + (E11 * right.E11)
-            };
-        }
-
-#if HAS_CODECONTRACTS
-        [Pure]
-#endif
-#if !PRE_NETSTANDARD
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public Matrix2D Divide(double divisor)
-        {
-            return new Matrix2D
-            {
-                E00 = E00 / divisor,
-                E01 = E01 / divisor,
-                E10 = E10 / divisor,
-                E11 = E11 / divisor
             };
         }
 
@@ -875,6 +875,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
             Ensures(Result<Matrix2D>() != null);
 #endif
+
             var inverter = new GaussJordanInverter<Matrix2D>(
                 new Matrix2D(this),
                 Matrix2D.CreateIdentity());

@@ -107,7 +107,7 @@ namespace DoTheMath.Linear
 #endif
         public static Vector4D operator +(Vector4D left, Vector4D right)
         {
-            return left.Add(right);
+            return left.GetSum(right);
         }
 
 #if !PRE_NETSTANDARD
@@ -118,7 +118,7 @@ namespace DoTheMath.Linear
 #endif
         public static Vector4D operator -(Vector4D left, Vector4D right)
         {
-            return left.Subtract(right);
+            return left.GetDifference(right);
         }
 
 #if !PRE_NETSTANDARD
@@ -129,7 +129,7 @@ namespace DoTheMath.Linear
 #endif
         public static double operator *(Vector4D left, Vector4D right)
         {
-            return left.Dot(right);
+            return left.GetDot(right);
         }
 
 #if !PRE_NETSTANDARD
@@ -282,7 +282,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Vector4D Add(Vector4D right)
+        public Vector4D GetSum(Vector4D right)
         {
             return new Vector4D
             {
@@ -296,7 +296,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void AddTo(Vector4D right)
+        public void Add(Vector4D right)
         {
             X += right.X;
             Y += right.Y;
@@ -310,7 +310,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Vector4D Subtract(Vector4D right)
+        public Vector4D GetDifference(Vector4D right)
         {
             return new Vector4D
             {
@@ -324,7 +324,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void SubtractFrom(Vector4D right)
+        public void Subtract(Vector4D right)
         {
             X -= right.X;
             Y -= right.Y;
@@ -422,7 +422,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double Dot(Vector4D right)
+        public double GetDot(Vector4D right)
         {
             return (X * right.X) + (Y * right.Y) + (Z * right.Z) + (W * right.W);
         }
@@ -458,7 +458,7 @@ namespace DoTheMath.Linear
         public double GetAngleBetween(Vector4D other)
         {
             return Math.Acos(
-                Dot(other)
+                GetDot(other)
                     / Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
         }
 
@@ -495,7 +495,7 @@ namespace DoTheMath.Linear
             var scalarDenominator = GetMagnitudeSquared();
             return scalarDenominator == 0.0
                 ? other
-                : GetScaled((Dot(other)) / scalarDenominator);
+                : GetScaled((GetDot(other)) / scalarDenominator);
         }
 
 #if HAS_CODECONTRACTS

@@ -419,7 +419,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public MatrixD Add(MatrixD other)
+        public MatrixD GetSum(MatrixD other)
         {
             if (other == null)
             {
@@ -448,7 +448,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public MatrixD Subtract(MatrixD other)
+        public MatrixD GetDifference(MatrixD other)
         {
             if (other == null)
             {
@@ -477,7 +477,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public MatrixD Multiply(double scalar)
+        public MatrixD GetScaled(double scalar)
         {
             var scaled = new MatrixD(Rows, Columns);
             var scaledElements = scaled._elements;
@@ -497,7 +497,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public MatrixD Divide(double denominator)
+        public MatrixD GetQuotient(double denominator)
         {
             var divided = new MatrixD(Rows, Columns);
             var dividedElements = divided._elements;
@@ -517,7 +517,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public MatrixD Multiply(MatrixD right)
+        public MatrixD GetProduct(MatrixD right)
         {
             if (right == null)
             {

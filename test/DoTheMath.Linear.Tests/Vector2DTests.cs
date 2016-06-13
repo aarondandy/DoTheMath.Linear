@@ -67,7 +67,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = new Vector2D(1, 2);
                 var right = new Vector2D(-3, -100);
-                var expected = left.Add(right);
+                var expected = left.GetDifference(right);
 
                 var actual = left + right;
 
@@ -79,7 +79,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = new Vector2D(1, 2);
                 var right = new Vector2D(-3, -100);
-                var expected = left.Subtract(right);
+                var expected = left.GetDifference(right);
 
                 var actual = left - right;
 
@@ -91,7 +91,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = new Vector2D(1, 2);
                 var right = new Vector2D(-3, -100);
-                var expected = left.Dot(right);
+                var expected = left.GetDot(right);
 
                 var actual = left * right;
 
@@ -317,7 +317,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new Vector2D(3, 4);
                 var expected = new Vector2D(4, 6);
 
-                var actual = left.Add(right);
+                var actual = left.GetSum(right);
 
                 Assert.Equal(expected, actual);
             }
@@ -330,7 +330,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new Vector2D(3, 4);
                 var expectedRight = new Vector2D(right);
 
-                var result = left.Add(right);
+                var result = left.GetSum(right);
 
                 Assert.Equal(expectedLeft, left);
                 Assert.Equal(expectedRight, right);
@@ -346,7 +346,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new Vector2D(3, 4);
                 var expected = new Vector2D(4, 6);
 
-                actual.AddTo(right);
+                actual.Add(right);
 
                 Assert.Equal(expected, actual);
             }
@@ -358,7 +358,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new Vector2D(3, 4);
                 var expectedRight = new Vector2D(right);
 
-                left.AddTo(right);
+                left.Add(right);
 
                 Assert.Equal(expectedRight, right);
             }
@@ -373,7 +373,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new Vector2D(3, 2);
                 var expected = new Vector2D(-2, 13);
 
-                var actual = left.Subtract(right);
+                var actual = left.GetDifference(right);
 
                 Assert.Equal(expected, actual);
             }
@@ -386,7 +386,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new Vector2D(3, 4);
                 var expectedRight = new Vector2D(right);
 
-                var result = left.Subtract(right);
+                var result = left.GetDifference(right);
 
                 Assert.Equal(expectedLeft, left);
                 Assert.Equal(expectedRight, right);
@@ -402,7 +402,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new Vector2D(3, 4);
                 var expected = new Vector2D(-2, 11);
 
-                actual.SubtractFrom(right);
+                actual.Subtract(right);
 
                 Assert.Equal(expected, actual);
             }
@@ -414,7 +414,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new Vector2D(3, 4);
                 var expectedRight = new Vector2D(right);
 
-                left.SubtractFrom(right);
+                left.Subtract(right);
 
                 Assert.Equal(expectedRight, right);
             }
@@ -535,7 +535,7 @@ namespace DoTheMath.Linear.Tests
                 var right = new Vector2D(-0.3, 3);
                 var expected = (9 * -0.3) + (1.2 * 3);
 
-                var actual = left.Dot(right);
+                var actual = left.GetDot(right);
 
                 Assert.Equal(expected, actual);
             }

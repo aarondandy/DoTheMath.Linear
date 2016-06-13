@@ -213,7 +213,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return left.Add(right);
+            return left.GetSum(right);
         }
 
 #if !PRE_NETSTANDARD
@@ -229,7 +229,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return left.Subtract(right);
+            return left.GetDifference(right);
         }
 
 #if !PRE_NETSTANDARD
@@ -245,7 +245,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return left.Multiply(right);
+            return left.GetProduct(right);
         }
 
 #if !PRE_NETSTANDARD
@@ -261,7 +261,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return matrix.Multiply(scalar);
+            return matrix.GetScaled(scalar);
         }
 
 #if !PRE_NETSTANDARD
@@ -288,7 +288,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentNullException();
             }
 
-            return matrix.Divide(divisor);
+            return matrix.GetQuotient(divisor);
         }
 
 #if !PRE_NETSTANDARD
@@ -1092,7 +1092,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix3D Add(Matrix3D other)
+        public Matrix3D GetSum(Matrix3D other)
         {
             if (other == null)
             {
@@ -1116,7 +1116,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix3D Subtract(Matrix3D other)
+        public Matrix3D GetDifference(Matrix3D other)
         {
             if (other == null)
             {
@@ -1140,7 +1140,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix3D Multiply(double scalar)
+        public Matrix3D GetScaled(double scalar)
         {
             return new Matrix3D
             {
@@ -1159,7 +1159,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix3D Divide(double divisor)
+        public Matrix3D GetQuotient(double divisor)
         {
             return new Matrix3D
             {
@@ -1178,7 +1178,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix3D Multiply(Matrix3D right)
+        public Matrix3D GetProduct(Matrix3D right)
         {
             if (right == null)
             {
@@ -1249,6 +1249,10 @@ namespace DoTheMath.Linear
 #endif
         public Matrix3D GetInverse()
         {
+#if HAS_CODECONTRACTS
+            Ensures(Result<Matrix3D>() != null);
+#endif
+
             var inverter = new GaussJordanInverter<Matrix3D>(
                 new Matrix3D(this),
                 Matrix3D.CreateIdentity());
@@ -1257,10 +1261,8 @@ namespace DoTheMath.Linear
             {
                 return inverter.Inverse;
             }
-            else
-            {
-                throw new NoInverseException();
-            }
+
+            throw new NoInverseException();
         }
 
 #if HAS_CODECONTRACTS

@@ -193,7 +193,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = CreateIncremenetalMatrix();
                 var right = new Matrix3D(4.4, 3.3, 2.2, 1.1, 5.9, 6.8, 7.7, 8.6, 9.5);
-                var expected = left.Add(right);
+                var expected = left.GetSum(right);
 
                 var actual = left + right;
 
@@ -215,7 +215,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = CreateIncremenetalMatrix();
                 var right = new Matrix3D(4.4, 3.3, 2.2, 1.1, 5.9, 6.8, 7.7, 8.6, 9.5);
-                var expected = left.Subtract(right);
+                var expected = left.GetDifference(right);
 
                 var actual = left - right;
 
@@ -237,7 +237,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = CreateIncremenetalMatrix();
                 var right = new Matrix3D(4.4, 3.3, 2.2, 1.1, 5.9, 6.8, 7.7, 8.6, 9.5);
-                var expected = left.Multiply(right);
+                var expected = left.GetProduct(right);
 
                 var actual = left * right;
 
@@ -259,7 +259,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var matrix = CreateIncremenetalMatrix();
                 var scalar = -9.5;
-                var expected = matrix.Multiply(scalar);
+                var expected = matrix.GetScaled(scalar);
 
                 var actual = matrix * scalar;
 
@@ -271,7 +271,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var matrix = CreateIncremenetalMatrix();
                 var scalar = -13.5;
-                var expected = matrix.Multiply(scalar);
+                var expected = matrix.GetScaled(scalar);
 
                 var actual = scalar * matrix;
 
@@ -293,7 +293,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var matrix = CreateIncremenetalMatrix();
                 var divisor = -1.3;
-                var expected = matrix.Divide(divisor);
+                var expected = matrix.GetQuotient(divisor);
 
                 var actual = matrix / divisor;
 
@@ -1178,7 +1178,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var m = new Matrix3D();
 
-                Assert.Throws<ArgumentNullException>(() => m.Add((Matrix3D)null));
+                Assert.Throws<ArgumentNullException>(() => m.GetSum((Matrix3D)null));
             }
 
             [Fact]
@@ -1188,7 +1188,7 @@ namespace DoTheMath.Linear.Tests
                 var b = new Matrix3D(4.4, 3.3, 2.2, 1.1, -0.1, 1.2, 2.3, 4.6, 7.7);
                 var expected = new Matrix3D(5.4, 5.3, 5.2, 5.1, 4.9, 7.2, 9.3, 12.6, 16.7);
 
-                var actual = a.Add(b);
+                var actual = a.GetSum(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1201,7 +1201,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var m = new Matrix3D();
 
-                Assert.Throws<ArgumentNullException>(() => m.Subtract((Matrix3D)null));
+                Assert.Throws<ArgumentNullException>(() => m.GetDifference((Matrix3D)null));
             }
 
             [Fact]
@@ -1211,7 +1211,7 @@ namespace DoTheMath.Linear.Tests
                 var b = new Matrix3D(4.4, 3.3, 2.2, 1.1, -0.1, 1.2, 2.3, 4.6, 7.7);
                 var expected = new Matrix3D(1 - 4.4, 2 - 3.3, 3 - 2.2, 4 - 1.1, 5 + 0.1, 6 - 1.2, 7 - 2.3, 8 - 4.6, 9 - 7.7);
 
-                var actual = a.Subtract(b);
+                var actual = a.GetDifference(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1225,7 +1225,7 @@ namespace DoTheMath.Linear.Tests
                 var a = new Matrix3D(1, 2, 3, 4, 5, 6, -7, 8, -9);
                 var expected = new Matrix3D(1.1, 2 * 1.1, 3 * 1.1, 4 * 1.1, 5 * 1.1, 6 * 1.1, -7 * 1.1, 8 * 1.1, -9 * 1.1);
 
-                var actual = a.Multiply(1.1);
+                var actual = a.GetScaled(1.1);
 
                 Assert.Equal(expected, actual);
             }
@@ -1239,7 +1239,7 @@ namespace DoTheMath.Linear.Tests
                 var a = CreateIncremenetalMatrix();
                 var expected = new Matrix3D(1 / 1.1, 2 / 1.1, 3 / 1.1, 4 / 1.1, 5 / 1.1, 6 / 1.1, 7 / 1.1, 8 / 1.1, 9 / 1.1);
 
-                var actual = a.Divide(1.1);
+                var actual = a.GetQuotient(1.1);
 
                 Assert.Equal(expected, actual);
             }
@@ -1252,7 +1252,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var sut = CreateIncremenetalMatrix();
 
-                Assert.Throws<ArgumentNullException>(() => sut.Multiply((Matrix3D)null));
+                Assert.Throws<ArgumentNullException>(() => sut.GetProduct((Matrix3D)null));
             }
 
             [Fact]
@@ -1271,7 +1271,7 @@ namespace DoTheMath.Linear.Tests
                     40, -48, -918,
                     -77, 4, -772);
 
-                var actual = a.Multiply(b);
+                var actual = a.GetProduct(b);
 
                 Assert.Equal(expected, actual);
             }
@@ -1283,8 +1283,8 @@ namespace DoTheMath.Linear.Tests
                 var identity = Matrix3D.CreateIdentity();
                 Assert.NotEqual(identity, a);
 
-                Assert.Equal(a, a.Multiply(identity));
-                Assert.Equal(a, identity.Multiply(a));
+                Assert.Equal(a, a.GetProduct(identity));
+                Assert.Equal(a, identity.GetProduct(a));
             }
         }
 
