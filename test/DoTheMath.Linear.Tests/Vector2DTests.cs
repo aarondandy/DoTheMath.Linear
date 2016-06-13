@@ -67,7 +67,7 @@ namespace DoTheMath.Linear.Tests
             {
                 var left = new Vector2D(1, 2);
                 var right = new Vector2D(-3, -100);
-                var expected = left.GetDifference(right);
+                var expected = left.GetSum(right);
 
                 var actual = left + right;
 
