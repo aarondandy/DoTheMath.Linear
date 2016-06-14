@@ -87,6 +87,27 @@ namespace DoTheMath.Linear
             }
         }
 
+        public double this[int row, int column]
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get
+            {
+                return _elements[(Columns * row) + column];
+            }
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            set
+            {
+                _elements[(Columns * row) + column] = value;
+            }
+        }
+
 #if HAS_CODECONTRACTS
         [Pure]
 #endif

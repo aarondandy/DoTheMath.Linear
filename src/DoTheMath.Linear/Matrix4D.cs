@@ -251,6 +251,73 @@ namespace DoTheMath.Linear
             }
         }
 
+        public double this[int row, int column]
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get
+            {
+                if (unchecked((row & 0xfffffffc) == 0) && unchecked((column & 0xfffffffc) == 0))
+                {
+                    switch (unchecked((row << 2) | column))
+                    {
+                        case 0: return E00;
+                        case 1: return E01;
+                        case 2: return E02;
+                        case 3: return E03;
+                        case 4: return E10;
+                        case 5: return E11;
+                        case 6: return E12;
+                        case 7: return E13;
+                        case 8: return E20;
+                        case 9: return E21;
+                        case 10: return E22;
+                        case 11: return E23;
+                        case 12: return E30;
+                        case 13: return E31;
+                        case 14: return E32;
+                        default: return E33;
+                    }
+                }
+
+                throw new IndexOutOfRangeException();
+            }
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            set
+            {
+                if (unchecked((row & 0xfffffffc) == 0) && unchecked((column & 0xfffffffc) == 0))
+                {
+                    switch (unchecked((row << 2) | column))
+                    {
+                        case 0: E00 = value; return;
+                        case 1: E01 = value; return;
+                        case 2: E02 = value; return;
+                        case 3: E03 = value; return;
+                        case 4: E10 = value; return;
+                        case 5: E11 = value; return;
+                        case 6: E12 = value; return;
+                        case 7: E13 = value; return;
+                        case 8: E20 = value; return;
+                        case 9: E21 = value; return;
+                        case 10: E22 = value; return;
+                        case 11: E23 = value; return;
+                        case 12: E30 = value; return;
+                        case 13: E31 = value; return;
+                        case 14: E32 = value; return;
+                        default: E33 = value; return;
+                    }
+                }
+
+                throw new IndexOutOfRangeException();
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

@@ -163,6 +163,77 @@ namespace DoTheMath.Linear
             }
         }
 
+        public double this[int row, int column]
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get
+            {
+                if (row == 0)
+                {
+                    if (column == 0)
+                    {
+                        return E00;
+                    }
+                    if (column == 1)
+                    {
+                        return E01;
+                    }
+                }
+                else if (row == 1)
+                {
+                    if (column == 0)
+                    {
+                        return E10;
+                    }
+                    if (column == 1)
+                    {
+                        return E11;
+                    }
+                }
+
+                throw new IndexOutOfRangeException();
+            }
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            set
+            {
+                if (row == 0)
+                {
+                    if (column == 0)
+                    {
+                        E00 = value;
+                        return;
+                    }
+                    if (column == 1)
+                    {
+                        E01 = value;
+                        return;
+                    }
+                }
+                else if (row == 1)
+                {
+                    if (column == 0)
+                    {
+                        E10 = value;
+                        return;
+                    }
+                    if (column == 1)
+                    {
+                        E11 = value;
+                        return;
+                    }
+                }
+
+                throw new IndexOutOfRangeException();
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

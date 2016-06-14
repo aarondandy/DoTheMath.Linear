@@ -356,6 +356,104 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class IndexerGet : MatrixDTests
+        {
+            [Fact]
+            public void get_negative_col_throws()
+            {
+                var m = new MatrixD(2, 6);
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, -1]);
+            }
+
+            [Fact]
+            public void get_large_col_throws()
+            {
+                var m = new MatrixD(2, 6);
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, 100]);
+            }
+
+            [Fact]
+            public void get_negative_row_throws()
+            {
+                var m = new MatrixD(2, 6);
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[-2, 1]);
+            }
+
+            [Fact]
+            public void get_large_row_throws()
+            {
+                var m = new MatrixD(2, 6);
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[101, 1]);
+            }
+        }
+
+        public class IndexerSet : MatrixDTests
+        {
+            [Fact]
+            public void set_negative_col_throws()
+            {
+                var m = new MatrixD(2, 6);
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, -1] = 100.0);
+            }
+
+            [Fact]
+            public void set_large_col_throws()
+            {
+                var m = new MatrixD(2, 6);
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, 100] = 100.0);
+            }
+
+            [Fact]
+            public void set_negative_row_throws()
+            {
+                var m = new MatrixD(2, 6);
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[-2, 1] = 100.0);
+            }
+
+            [Fact]
+            public void set_large_row_throws()
+            {
+                var m = new MatrixD(2, 6);
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[101, 1] = 100.0);
+            }
+        }
+
+        public class IndexerGetAndSet : MatrixDTests
+        {
+            [Fact]
+            public void get_all_elements_for_3_3()
+            {
+                var m = new MatrixD(3, 3);
+                m[0, 0] = 1.0;
+                m[0, 1] = 2.0;
+                m[0, 2] = 3.0;
+                m[1, 0] = 4.0;
+                m[1, 1] = 5.0;
+                m[1, 2] = 6.0;
+                m[2, 0] = 7.0;
+                m[2, 1] = 8.0;
+                m[2, 2] = 9.0;
+
+                Assert.Equal(1.0, m[0, 0]);
+                Assert.Equal(2.0, m[0, 1]);
+                Assert.Equal(3.0, m[0, 2]);
+                Assert.Equal(4.0, m[1, 0]);
+                Assert.Equal(5.0, m[1, 1]);
+                Assert.Equal(6.0, m[1, 2]);
+                Assert.Equal(7.0, m[2, 0]);
+                Assert.Equal(8.0, m[2, 1]);
+                Assert.Equal(9.0, m[2, 2]);
+            }
+        }
+
         public class IEquatable_Self_Equals : MatrixDTests
         {
             [Fact]

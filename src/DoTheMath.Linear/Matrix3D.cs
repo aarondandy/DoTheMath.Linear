@@ -200,6 +200,128 @@ namespace DoTheMath.Linear
             }
         }
 
+        public double this[int row, int column]
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get
+            {
+                if (row == 0)
+                {
+                    if (column == 0)
+                    {
+                        return E00;
+                    }
+                    if (column == 1)
+                    {
+                        return E01;
+                    }
+                    if (column == 2)
+                    {
+                        return E02;
+                    }
+                }
+                else if (row == 1)
+                {
+                    if (column == 0)
+                    {
+                        return E10;
+                    }
+                    if (column == 1)
+                    {
+                        return E11;
+                    }
+                    if (column == 2)
+                    {
+                        return E12;
+                    }
+                }
+                else if (row == 2)
+                {
+                    if (column == 0)
+                    {
+                        return E20;
+                    }
+                    if (column == 1)
+                    {
+                        return E21;
+                    }
+                    if (column == 2)
+                    {
+                        return E22;
+                    }
+                }
+
+                throw new IndexOutOfRangeException();
+            }
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            set
+            {
+                if (row == 0)
+                {
+                    if (column == 0)
+                    {
+                        E00 = value;
+                        return;
+                    }
+                    else if (column == 1)
+                    {
+                        E01 = value;
+                        return;
+                    }
+                    else if (column == 2)
+                    {
+                        E02 = value;
+                        return;
+                    }
+                }
+                else if (row == 1)
+                {
+                    if (column == 0)
+                    {
+                        E10 = value;
+                        return;
+                    }
+                    else if (column == 1)
+                    {
+                        E11 = value;
+                        return;
+                    }
+                    else if (column == 2)
+                    {
+                        E12 = value;
+                        return;
+                    }
+                }
+                else if (row == 2)
+                {
+                    if (column == 0)
+                    {
+                        E20 = value;
+                        return;
+                    }
+                    else if (column == 1)
+                    {
+                        E21 = value;
+                        return;
+                    }
+                    else if (column == 2)
+                    {
+                        E22 = value;
+                        return;
+                    }
+                }
+
+                throw new IndexOutOfRangeException();
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

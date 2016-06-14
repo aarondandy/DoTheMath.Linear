@@ -470,6 +470,101 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class IndexerGet : Matrix3DTests
+        {
+            [Fact]
+            public void can_get_all_elements()
+            {
+                var m = new Matrix3D(
+                    1.0, -5.0, 9.0,
+                    -1.0, 8.0, -4.0,
+                    21.0, -0.5, 1.4);
+
+                Assert.Equal(1.0d, m[0, 0]);
+                Assert.Equal(-5.0, m[0, 1]);
+                Assert.Equal(9.0d, m[0, 2]);
+                Assert.Equal(-1.0, m[1, 0]);
+                Assert.Equal(8.0d, m[1, 1]);
+                Assert.Equal(-4.0, m[1, 2]);
+                Assert.Equal(21.0, m[2, 0]);
+                Assert.Equal(-0.5d, m[2, 1]);
+                Assert.Equal(1.4d, m[2, 2]);
+            }
+
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[-1, 0]);
+                Assert.Throws<IndexOutOfRangeException>(() => m[3, 0]);
+                Assert.Throws<IndexOutOfRangeException>(() => m[int.MinValue, 0]);
+                Assert.Throws<IndexOutOfRangeException>(() => m[int.MaxValue, 0]);
+            }
+
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, -1]);
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, 3]);
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, int.MinValue]);
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, int.MaxValue]);
+            }
+        }
+
+        public class IndexerSet : Matrix3DTests
+        {
+            [Fact]
+            public void can_set_all_elements()
+            {
+                var m = new Matrix3D();
+
+                m[0, 0] = 1.0;
+                m[0, 1] = -5.0;
+                m[0, 2] = 9.0;
+                m[1, 0] = -1.0;
+                m[1, 1] = 8.0;
+                m[1, 2] = -4.0;
+                m[2, 0] = 21.0;
+                m[2, 1] = -0.5;
+                m[2, 2] = 1.4;
+
+                Assert.Equal(1.0d, m[0, 0]);
+                Assert.Equal(-5.0, m[0, 1]);
+                Assert.Equal(9.0d, m[0, 2]);
+                Assert.Equal(-1.0, m[1, 0]);
+                Assert.Equal(8.0d, m[1, 1]);
+                Assert.Equal(-4.0, m[1, 2]);
+                Assert.Equal(21.0, m[2, 0]);
+                Assert.Equal(-0.5d, m[2, 1]);
+                Assert.Equal(1.4d, m[2, 2]);
+            }
+
+            [Fact]
+            public void invalid_rows_throw()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[-1, 0] = 0);
+                Assert.Throws<IndexOutOfRangeException>(() => m[3, 0] = 0);
+                Assert.Throws<IndexOutOfRangeException>(() => m[int.MinValue, 0] = 0);
+                Assert.Throws<IndexOutOfRangeException>(() => m[int.MaxValue, 0] = 0);
+            }
+
+            [Fact]
+            public void invalid_columns_throw()
+            {
+                var m = new Matrix3D();
+
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, -1] = 0);
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, 3] = 0);
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, int.MinValue] = 0);
+                Assert.Throws<IndexOutOfRangeException>(() => m[0, int.MaxValue] = 0);
+            }
+        }
+
         public class IEquatable_Self_Equals : Matrix3DTests
         {
             [Fact]
