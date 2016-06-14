@@ -51,6 +51,55 @@ namespace DoTheMath.Linear
             get { return 3; }
         }
 
+        public double this[int index]
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get
+            {
+                if (index == 0)
+                {
+                    return X;
+                }
+                if (index == 1)
+                {
+                    return Y;
+                }
+                if (index == 2)
+                {
+                    return Z;
+                }
+
+                throw new IndexOutOfRangeException();
+            }
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            set
+            {
+                if (index == 0)
+                {
+                    X = value;
+                }
+                else if (index == 1)
+                {
+                    Y = value;
+                }
+                else if (index == 2)
+                {
+                    Z = value;
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
         double IVector3<double>.X
         {
 #if !PRE_NETSTANDARD

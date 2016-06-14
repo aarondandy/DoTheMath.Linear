@@ -213,6 +213,72 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class IndexerGet : Vector3DTests
+        {
+            [Fact]
+            public void can_get_all_componenets()
+            {
+                var v = new Vector3D(-1.0, 5.0, -0.5);
+
+                Assert.Equal(-1.0, v[0]);
+                Assert.Equal(5.0, v[1]);
+                Assert.Equal(-0.5, v[2]);
+            }
+
+            [Fact]
+            public void negative_dimension_throws()
+            {
+                var v = new Vector3D();
+
+                Assert.Throws<IndexOutOfRangeException>(() => v[-1]);
+                Assert.Throws<IndexOutOfRangeException>(() => v[int.MinValue]);
+            }
+
+            [Fact]
+            public void large_dimension_throws()
+            {
+                var v = new Vector3D();
+
+                Assert.Throws<IndexOutOfRangeException>(() => v[3]);
+                Assert.Throws<IndexOutOfRangeException>(() => v[int.MaxValue]);
+            }
+        }
+
+        public class IndexerSet : Vector3DTests
+        {
+            [Fact]
+            public void can_set_all_componenets()
+            {
+                var v = new Vector3D(1, 2, 3);
+
+                v[0] = -1.0;
+                v[1] = 5.0;
+                v[2] = -0.5;
+
+                Assert.Equal(-1.0, v[0]);
+                Assert.Equal(5.0, v[1]);
+                Assert.Equal(-0.5, v[2]);
+            }
+
+            [Fact]
+            public void negative_dimension_throws()
+            {
+                var v = new Vector3D();
+
+                Assert.Throws<IndexOutOfRangeException>(() => v[-1] = 0);
+                Assert.Throws<IndexOutOfRangeException>(() => v[int.MinValue] = 0);
+            }
+
+            [Fact]
+            public void large_dimension_throws()
+            {
+                var v = new Vector3D();
+
+                Assert.Throws<IndexOutOfRangeException>(() => v[3] = 0);
+                Assert.Throws<IndexOutOfRangeException>(() => v[int.MaxValue] = 0);
+            }
+        }
+
         public class IEquatable_Self_Equals : Vector3DTests
         {
             [Fact]

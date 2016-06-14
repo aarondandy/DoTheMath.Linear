@@ -140,6 +140,16 @@ namespace DoTheMath.Linear.Tests
         public class Get : VectorDTests
         {
             [Fact]
+            public void can_get_componenets()
+            {
+                var v = new VectorD(new[] { 3.0, 4.0, 5.0 });
+
+                Assert.Equal(3.0, v.Get(0));
+                Assert.Equal(4.0, v.Get(1));
+                Assert.Equal(5.0, v.Get(2));
+            }
+
+            [Fact]
             public void get_negative_dimension_throws()
             {
                 var v = new VectorD(5);
@@ -165,6 +175,20 @@ namespace DoTheMath.Linear.Tests
         public class Set : VectorDTests
         {
             [Fact]
+            public void can_set_componenets()
+            {
+                var v = new VectorD(new[] { 2.0, 6.0, 7.0 });
+
+                v.Set(0, 3.0);
+                v.Set(1, 4.0);
+                v.Set(2, 5.0);
+
+                Assert.Equal(3.0, v.Get(0));
+                Assert.Equal(4.0, v.Get(1));
+                Assert.Equal(5.0, v.Get(2));
+            }
+
+            [Fact]
             public void set_negative_dimension_throws()
             {
                 var v = new VectorD(5);
@@ -184,6 +208,82 @@ namespace DoTheMath.Linear.Tests
                 Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(6, 0.0));
                 Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(101, 0.0));
                 Assert.Throws<ArgumentOutOfRangeException>(() => v.Set(int.MaxValue, 0.0));
+            }
+        }
+
+        public class IndexerGet : VectorDTests
+        {
+            [Fact]
+            public void can_get_componenets()
+            {
+                var v = new VectorD(new[] { 3.0, 4.0, 5.0 });
+
+                Assert.Equal(3.0, v[0]);
+                Assert.Equal(4.0, v[1]);
+                Assert.Equal(5.0, v[2]);
+            }
+
+            [Fact]
+            public void get_negative_dimension_throws()
+            {
+                var v = new VectorD(5);
+
+                Assert.Throws<IndexOutOfRangeException>(() => v[-1]);
+                Assert.Throws<IndexOutOfRangeException>(() => v[-4]);
+                Assert.Throws<IndexOutOfRangeException>(() => v[-5]);
+                Assert.Throws<IndexOutOfRangeException>(() => v[int.MinValue]);
+            }
+
+            [Fact]
+            public void get_large_dimension_throws()
+            {
+                var v = new VectorD(5);
+
+                Assert.Throws<IndexOutOfRangeException>(() => v[v.Dimensions]);
+                Assert.Throws<IndexOutOfRangeException>(() => v[5]);
+                Assert.Throws<IndexOutOfRangeException>(() => v[6]);
+                Assert.Throws<IndexOutOfRangeException>(() => v[101]);
+                Assert.Throws<IndexOutOfRangeException>(() => v[int.MaxValue]);
+            }
+        }
+
+        public class IndexerSet : VectorDTests
+        {
+            [Fact]
+            public void can_set_componenets()
+            {
+                var v = new VectorD(new[] { 2.0, 6.0, 7.0 });
+
+                v[0] = 3.0;
+                v[1] = 4.0;
+                v[2] = 5.0;
+
+                Assert.Equal(3.0, v[0]);
+                Assert.Equal(4.0, v[1]);
+                Assert.Equal(5.0, v[2]);
+            }
+
+            [Fact]
+            public void set_negative_dimension_throws()
+            {
+                var v = new VectorD(5);
+
+                Assert.Throws<IndexOutOfRangeException>(() => v[-1] = 0.0);
+                Assert.Throws<IndexOutOfRangeException>(() => v[-4] = 0.0);
+                Assert.Throws<IndexOutOfRangeException>(() => v[-5] = 0.0);
+                Assert.Throws<IndexOutOfRangeException>(() => v[int.MinValue] = 0.0);
+            }
+
+            [Fact]
+            public void set_large_dimension_throws()
+            {
+                var v = new VectorD(5);
+
+                Assert.Throws<IndexOutOfRangeException>(() => v[v.Dimensions] = 0.0);
+                Assert.Throws<IndexOutOfRangeException>(() => v[5] = 0.0);
+                Assert.Throws<IndexOutOfRangeException>(() => v[6] = 0.0);
+                Assert.Throws<IndexOutOfRangeException>(() => v[101] = 0.0);
+                Assert.Throws<IndexOutOfRangeException>(() => v[int.MaxValue] = 0.0);
             }
         }
 

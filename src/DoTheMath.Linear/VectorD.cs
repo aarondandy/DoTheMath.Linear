@@ -62,6 +62,42 @@ namespace DoTheMath.Linear
             get { return _components.Length; }
         }
 
+        public double this[int index]
+        {
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+            [Pure]
+#endif
+            get
+            {
+#if HAS_CODECONTRACTS
+                Requires(index >= 0);
+                Requires(index < Dimensions);
+                EndContractBlock();
+
+                Assume(Dimensions == _components.Length);
+#endif
+
+                return _components[index];
+            }
+#if !PRE_NETSTANDARD
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+            set
+            {
+#if HAS_CODECONTRACTS
+                Requires(index >= 0);
+                Requires(index < Dimensions);
+                EndContractBlock();
+
+                Assume(Dimensions == _components.Length);
+#endif
+                _components[index] = value;
+            }
+        }
+
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
