@@ -16,6 +16,7 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(0.0d, v.Y);
                 Assert.Equal(0.0d, v.Z);
                 Assert.Equal(0.0d, v.W);
+                Assert.Equal(4, v.Dimensions);
             }
 
             [Fact]
@@ -32,12 +33,52 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void copy_constructor_copies_all_componenets()
             {
-                var expected = new Vector4D(0, 1, 2, 3);
+                var expected = new Vector4D(1, 2, 3, 4);
 
                 var actual = new Vector4D(expected);
 
                 Assert.NotSame(expected, actual);
                 Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void copy_constructor_copies_componenets_from_ivector()
+            {
+                var expected = new Vector4D(1, 2, 3, 4);
+
+                var actual = new Vector4D((IVector<double>)expected);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void copy_constructor_throws_for_ivector_of_wrong_size()
+            {
+                var source = new VectorD(5);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => new Vector4D((IVector<double>)source));
+            }
+
+            [Fact]
+            public void copy_constructor_throws_for_null_ivector()
+            {
+                Assert.Throws<ArgumentNullException>(() => new Vector4D((IVector<double>)null));
+            }
+
+            [Fact]
+            public void copy_constructor_copies_componenets_from_ivector4()
+            {
+                var expected = new Vector4D(1, 2, 3, 4);
+
+                var actual = new Vector4D((IVector4<double>)expected);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void copy_constructor_throws_for_null_ivector4()
+            {
+                Assert.Throws<ArgumentNullException>(() => new Vector4D((IVector4<double>)null));
             }
         }
 

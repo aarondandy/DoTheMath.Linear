@@ -15,6 +15,7 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(0.0d, v.X);
                 Assert.Equal(0.0d, v.Y);
                 Assert.Equal(0.0d, v.Z);
+                Assert.Equal(3, v.Dimensions);
             }
 
             [Fact]
@@ -30,11 +31,51 @@ namespace DoTheMath.Linear.Tests
             [Fact]
             public void copy_constructor_copies_all_componenets()
             {
-                var expected = new Vector3D(0, 1, 2);
+                var expected = new Vector3D(1, 2, 3);
 
                 var actual = new Vector3D(expected);
 
                 Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void copy_constructor_copies_componenets_from_ivector()
+            {
+                var expected = new Vector3D(1, 2, 3);
+
+                var actual = new Vector3D((IVector<double>)expected);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void copy_constructor_throws_for_null_ivector()
+            {
+                Assert.Throws<ArgumentNullException>(() => new Vector3D((IVector<double>)null));
+            }
+
+            [Fact]
+            public void copy_constructor_throws_for_ivector_of_wrong_size()
+            {
+                var source = new VectorD(4);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => new Vector3D((IVector<double>)source));
+            }
+
+            [Fact]
+            public void copy_constructor_throws_for_null_ivector3()
+            {
+                Assert.Throws<ArgumentNullException>(() => new Vector3D((IVector3<double>)null));
+            }
+
+            [Fact]
+            public void copy_constructor_copies_componenets_from_ivector3()
+            {
+                var expected = new Vector3D(1, 2, 3);
+
+                var actual = new Vector3D((IVector3<double>)expected);
+
                 Assert.Equal(expected, actual);
             }
         }

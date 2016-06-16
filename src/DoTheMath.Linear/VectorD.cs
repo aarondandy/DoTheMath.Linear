@@ -51,6 +51,27 @@ namespace DoTheMath.Linear
             _components = Clone(components);
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public VectorD(IVector<double> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (source.Dimensions < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(source));
+            }
+
+            _components = new double[source.Dimensions];
+            for (var i = 0; i < _components.Length; i++)
+            {
+                _components[i] = source[i];
+            }
+        }
+
         public int Dimensions
         {
 #if !PRE_NETSTANDARD

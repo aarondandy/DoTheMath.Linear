@@ -40,6 +40,40 @@ namespace DoTheMath.Linear
             Z = source.Z;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector3D(IVector3<double> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            X = source.X;
+            Y = source.Y;
+            Z = source.Z;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector3D(IVector<double> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (source.Dimensions != 3)
+            {
+                throw new ArgumentOutOfRangeException(nameof(source));
+            }
+
+            X = source[0];
+            Y = source[1];
+            Z = source[2];
+        }
+
         public int Dimensions
         {
 #if !PRE_NETSTANDARD

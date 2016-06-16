@@ -96,6 +96,22 @@ namespace DoTheMath.Linear.Tests
 
                 Assert.Equal(expected, actual);
             }
+
+            [Fact]
+            public void copy_constructor_copies_componenets_from_ivector()
+            {
+                var expected = new VectorD(new[] { 1.0, 2.0, 3.3, 4.4 });
+
+                var actual = new VectorD((IVector<double>)expected);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void copy_constructor_throws_for_null_ivector()
+            {
+                Assert.Throws<ArgumentNullException>(() => new VectorD((IVector<double>)null));
+            }
         }
 
         public class Factories : VectorDTests

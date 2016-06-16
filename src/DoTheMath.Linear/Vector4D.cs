@@ -44,6 +44,42 @@ namespace DoTheMath.Linear
             W = source.W;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector4D(IVector4<double> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            X = source.X;
+            Y = source.Y;
+            Z = source.Z;
+            W = source.W;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector4D(IVector<double> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (source.Dimensions != 4)
+            {
+                throw new ArgumentOutOfRangeException(nameof(source));
+            }
+
+            X = source[0];
+            Y = source[1];
+            Z = source[2];
+            W = source[3];
+        }
+
         public int Dimensions
         {
 #if !PRE_NETSTANDARD
@@ -52,7 +88,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
             [Pure]
 #endif
-            get { return 3; }
+            get { return 4; }
         }
 
         public double this[int index]
