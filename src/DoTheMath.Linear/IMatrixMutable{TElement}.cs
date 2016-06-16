@@ -2,6 +2,8 @@
 {
     public interface IMatrixMutable<TElement> : IMatrix<TElement>
     {
+        new TElement this[int row, int column] { get; set; }
+
         void Set(int row, int column, TElement value);
 
         void SwapRows(int rowA, int rowB);

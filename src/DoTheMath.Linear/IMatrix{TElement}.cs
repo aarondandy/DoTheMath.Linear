@@ -1,6 +1,6 @@
 ﻿namespace DoTheMath.Linear
 {
-    public interface IMatrix<TElement>
+    public interface IMatrix<out TElement>
     {
         int Rows { get; }
 
@@ -8,8 +8,8 @@
 
         bool IsSquare { get; }
 
-        TElement Get(int row, int column);
+        TElement this[int row, int column] { get; }
 
-        IMatrix<TElement> GetTranspose();
+        TElement Get(int row, int column);
     }
 }

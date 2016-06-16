@@ -1342,14 +1342,6 @@ namespace DoTheMath.Linear
             };
         }
 
-#if HAS_CODECONTRACTS
-        [Pure]
-#endif
-        IMatrix<double> IMatrix<double>.GetTranspose()
-        {
-            return this.GetTranspose();
-        }
-
         public void Transpose()
         {
             Swap(ref E01, ref E10);

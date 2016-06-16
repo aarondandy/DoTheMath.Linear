@@ -613,14 +613,6 @@ namespace DoTheMath.Linear
             return transposed;
         }
 
-#if HAS_CODECONTRACTS
-        [Pure]
-#endif
-        IMatrix<double> IMatrix<double>.GetTranspose()
-        {
-            return GetTranspose();
-        }
-
         public void Transpose()
         {
             var newElements = new double[_elements.Length];

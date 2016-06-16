@@ -1,6 +1,6 @@
 ﻿namespace DoTheMath.Linear
 {
-    public interface IVector3<TComponenet> : IVector<TComponenet>
+    public interface IVector3<out TComponenet> : IVector<TComponenet>
     {
         TComponenet X { get; }
 
