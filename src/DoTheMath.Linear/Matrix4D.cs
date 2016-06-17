@@ -1584,7 +1584,7 @@ namespace DoTheMath.Linear
 #endif
         public double GetDeterminant()
         {
-            var evaluator = new DeterminantEvaluator<Matrix4D>(new Matrix4D(this));
+            var evaluator = new DeterminantEvaluator<Matrix4D, double>(new Matrix4D(this));
             return evaluator.Evaluate();
         }
 
@@ -1593,7 +1593,7 @@ namespace DoTheMath.Linear
 #endif
         public Matrix4D GetInverse()
         {
-            var inverter = new GaussJordanInverter<Matrix4D>(
+            var inverter = new GaussJordanInverter<Matrix4D, double>(
                 new Matrix4D(this),
                 Matrix4D.CreateIdentity());
 

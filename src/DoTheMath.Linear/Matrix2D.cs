@@ -946,7 +946,7 @@ namespace DoTheMath.Linear
 #endif
         public double GetDeterminant()
         {
-            var evaluator = new DeterminantEvaluator<Matrix2D>(new Matrix2D(this));
+            var evaluator = new DeterminantEvaluator<Matrix2D, double>(new Matrix2D(this));
             return evaluator.Evaluate();
         }
 
@@ -959,7 +959,7 @@ namespace DoTheMath.Linear
             Ensures(Result<Matrix2D>() != null);
 #endif
 
-            var inverter = new GaussJordanInverter<Matrix2D>(
+            var inverter = new GaussJordanInverter<Matrix2D, double>(
                 new Matrix2D(this),
                 Matrix2D.CreateIdentity());
 

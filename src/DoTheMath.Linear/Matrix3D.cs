@@ -1379,7 +1379,7 @@ namespace DoTheMath.Linear
 #endif
         public double GetDeterminant()
         {
-            var evaluator = new DeterminantEvaluator<Matrix3D>(new Matrix3D(this));
+            var evaluator = new DeterminantEvaluator<Matrix3D, double>(new Matrix3D(this));
             return evaluator.Evaluate();
         }
 
@@ -1392,7 +1392,7 @@ namespace DoTheMath.Linear
             Ensures(Result<Matrix3D>() != null);
 #endif
 
-            var inverter = new GaussJordanInverter<Matrix3D>(
+            var inverter = new GaussJordanInverter<Matrix3D, double>(
                 new Matrix3D(this),
                 Matrix3D.CreateIdentity());
 

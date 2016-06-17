@@ -1,4 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
+using System;
+using static DoTheMath.Linear.Utilities.MathEx;
 
 #if HAS_CODECONTRACTS
 using System.Diagnostics.Contracts;
@@ -7,7 +9,7 @@ using static System.Diagnostics.Contracts.Contract;
 
 namespace DoTheMath.Linear
 {
-    internal struct DeterminantEvaluator<TMatrix> where TMatrix : IMatrixMutable<double>
+    internal struct DeterminantEvaluator<TMatrix, TElement> where TMatrix : IMatrixMutable<TElement>
     {
         private TMatrix _scratch;
 
@@ -31,15 +33,15 @@ namespace DoTheMath.Linear
             _determinantNegationRequired = false;
         }
 
-        public double Evaluate()
+        public TElement Evaluate()
         {
             for (int ordinal = 0; ordinal < _scratch.Columns; ordinal++)
             {
                 ForceElementsUnderOrdinalToZero(ordinal);
 
-                if (_scratch.Get(ordinal, ordinal).Equals(0.0))
+                if (IsZero(_scratch[ordinal, ordinal]))
                 {
-                    return 0.0;
+                    return GetZero<TElement>();
                 }
             }
 
@@ -49,33 +51,33 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        private double GetDeterminantProduct()
+        private TElement GetDeterminantProduct()
         {
             if (_scratch.Columns == 0)
             {
-                return 0.0;
+                return GetZero<TElement>();
             }
 
-            var product = _scratch.Get(0, 0);
+            var product = _scratch[0, 0];
 
 #if HAS_CODECONTRACTS
-            Assume(!product.Equals(0.0));
+            Assume(!IsZero(product));
 #endif
 
             for (int ordinal = 1; ordinal < _scratch.Columns; ordinal++)
             {
-                var elementValue = _scratch.Get(ordinal, ordinal);
+                var elementValue = _scratch[ordinal, ordinal];
 
 #if HAS_CODECONTRACTS
-                Assume(!elementValue.Equals(0.0));
+                Assume(!IsZero(elementValue));
 #endif
 
-                product *= elementValue;
+                product = Multiply(product, elementValue);
             }
 
             if (_determinantNegationRequired)
             {
-                product = -product;
+                product = Negate(product);
             }
 
             return product;
@@ -98,16 +100,16 @@ namespace DoTheMath.Linear
 
         private void AttemptToMakeElementsUnderOrdinalZeroBySwapping(int ordinal)
         {
-            var diagonalValue = _scratch.Get(ordinal, ordinal);
-            if (!diagonalValue.Equals(0.0))
+            var diagonalValue = _scratch[ordinal, ordinal];
+            if (!IsZero(diagonalValue))
             {
                 return;
             }
 
             for (var row = ordinal + 1; row < _scratch.Rows; row++)
             {
-                var currentElementValue = _scratch.Get(row, ordinal);
-                if (currentElementValue.Equals(0.0))
+                var currentElementValue = _scratch[row, ordinal];
+                if (IsZero(currentElementValue))
                 {
                     continue;
                 }
@@ -115,8 +117,8 @@ namespace DoTheMath.Linear
                 if (ElementLeftOfColumnAreAllZeros(row, ordinal))
                 {
 #if HAS_CODECONTRACTS
-                    Assume(!currentElementValue.Equals(0.0));
-                    Assume(diagonalValue.Equals(0.0));
+                    Assume(!IsZero(currentElementValue));
+                    Assume(IsZero(diagonalValue));
 #endif
 
                     SwapRows(ordinal, row);
@@ -127,8 +129,8 @@ namespace DoTheMath.Linear
 
         private bool ForceElementUnderOrdinalToZero(int row, int ordinal)
         {
-            var currentElementValue = _scratch.Get(row, ordinal);
-            if (currentElementValue.Equals(0.0))
+            var currentElementValue = _scratch[row, ordinal];
+            if (IsZero(currentElementValue))
             {
                 return true;
             }
@@ -140,10 +142,10 @@ namespace DoTheMath.Linear
                     continue;
                 }
 
-                var searchElementValue = _scratch.Get(searchRow, ordinal);
-                if (!searchElementValue.Equals(0.0))
+                var searchElementValue = _scratch[searchRow, ordinal];
+                if (!IsZero(searchElementValue))
                 {
-                    if ((currentElementValue + searchElementValue).Equals(0.0))
+                    if (IsZero(Add(currentElementValue, searchElementValue)))
                     {
                         // find a value where currentElementValue + searchElementValue == 0
                         if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))
@@ -152,7 +154,7 @@ namespace DoTheMath.Linear
                             return true;
                         }
                     }
-                    else if ((currentElementValue - searchElementValue).Equals(0.0))
+                    else if (IsZero(Subtract(currentElementValue, searchElementValue)))
                     {
                         // find a value where currentElementValue - searchElementValue == 0
                         if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))
@@ -172,12 +174,12 @@ namespace DoTheMath.Linear
                 }
 
                 // find a value where currentElementValue + (searchElementValue * factor) == 0
-                var searchElementValue = _scratch.Get(searchRow, ordinal);
-                if (!searchElementValue.Equals(0.0))
+                var searchElementValue = _scratch[searchRow, ordinal];
+                if (!IsZero(searchElementValue))
                 {
                     if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))
                     {
-                        _scratch.AddScaledRow(searchRow, row, -currentElementValue / searchElementValue);
+                        _scratch.AddScaledRow(searchRow, row, Divide(Negate(currentElementValue), searchElementValue));
                         return true;
                     }
                 }
@@ -193,7 +195,7 @@ namespace DoTheMath.Linear
         {
             for (var searchColumn = 0; searchColumn < column; searchColumn++)
             {
-                if (!_scratch.Get(row, searchColumn).Equals(0.0))
+                if (!IsZero(_scratch[row, searchColumn]))
                 {
                     return false;
                 }

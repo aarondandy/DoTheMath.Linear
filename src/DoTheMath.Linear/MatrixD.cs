@@ -62,7 +62,7 @@ namespace DoTheMath.Linear
 #endif
         public MatrixD(IMatrix<double> source)
         {
-            if(source == null)
+            if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
@@ -71,10 +71,10 @@ namespace DoTheMath.Linear
             _columns = source.Columns;
             _elements = new double[checked(_rows * _columns)];
 
-            for(int row = 0; row < _rows; row++)
+            for (int row = 0; row < _rows; row++)
             {
                 var rowOffset = row * _columns;
-                for(int column = 0; column < _columns; column++)
+                for (int column = 0; column < _columns; column++)
                 {
                     _elements[rowOffset + column] = source[row, column];
                 }
@@ -182,7 +182,7 @@ namespace DoTheMath.Linear
 
             for (var rowAndColumn = 0; rowAndColumn < order; rowAndColumn++)
             {
-                result.Set(rowAndColumn, rowAndColumn, 1.0);
+                result[rowAndColumn, rowAndColumn] = 1.0;
             }
 
             return result;
@@ -671,7 +671,7 @@ namespace DoTheMath.Linear
                 throw new NoDeterminantException();
             }
 
-            var evaluator = new DeterminantEvaluator<MatrixD>(new MatrixD(this));
+            var evaluator = new DeterminantEvaluator<MatrixD, double>(new MatrixD(this));
             return evaluator.Evaluate();
         }
 
@@ -685,9 +685,7 @@ namespace DoTheMath.Linear
                 throw new NotSquareMatrixException();
             }
 
-            var inverter = new GaussJordanInverter<MatrixD>(
-                new MatrixD(this),
-                CreateIdentity(this.Rows));
+            var inverter = new GaussJordanInverter<MatrixD, double>(new MatrixD(this), CreateIdentity(Rows));
 
             if (inverter.Invert())
             {
