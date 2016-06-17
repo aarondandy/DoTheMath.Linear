@@ -78,6 +78,26 @@ namespace DoTheMath.Linear
             E11 = source.E11;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Matrix2D(IMatrix<double> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (source.Rows != 2 || source.Columns != 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(source));
+            }
+
+            E00 = source[0, 0];
+            E01 = source[0, 1];
+            E10 = source[1, 0];
+            E11 = source[1, 1];
+        }
+
         public int Columns
         {
 #if !PRE_NETSTANDARD

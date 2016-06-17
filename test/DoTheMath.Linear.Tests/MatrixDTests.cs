@@ -52,7 +52,7 @@ namespace DoTheMath.Linear.Tests
             }
 
             [Fact]
-            public void copy_constructor_contains_same_element()
+            public void copy_constructor_contains_same_elements()
             {
                 var expected = new MatrixD(2, 3);
                 expected.Set(0, 0, 0);
@@ -63,6 +63,29 @@ namespace DoTheMath.Linear.Tests
                 expected.Set(1, 2, 5);
 
                 var actual = new MatrixD(expected);
+
+                Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void copy_constructor_imatrix_throws_for_null()
+            {
+                Assert.Throws<ArgumentNullException>(() => new MatrixD((IMatrix<double>)null));
+            }
+
+            [Fact]
+            public void copy_constructor_imatrix_contains_same_elements()
+            {
+                var expected = new MatrixD(2, 3);
+                expected.Set(0, 0, 0);
+                expected.Set(0, 1, 1);
+                expected.Set(0, 2, 2);
+                expected.Set(1, 0, 3);
+                expected.Set(1, 1, 4);
+                expected.Set(1, 2, 5);
+
+                var actual = new MatrixD((IMatrix<double>)expected);
 
                 Assert.NotSame(expected, actual);
                 Assert.Equal(expected, actual);

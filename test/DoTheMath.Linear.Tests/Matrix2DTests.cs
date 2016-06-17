@@ -45,6 +45,39 @@ namespace DoTheMath.Linear.Tests
                 Assert.NotSame(expected, actual);
                 Assert.Equal(expected, actual);
             }
+
+            [Fact]
+            public void copy_constructor_imatrix_throws_for_null()
+            {
+                Assert.Throws<ArgumentNullException>(() => new Matrix2D((IMatrix<double>)null));
+            }
+
+            [Fact]
+            public void copy_constructor_imatrix_throws_for_bad_size()
+            {
+                var source = new MatrixD(3, 6);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => new Matrix2D((IMatrix<double>)source));
+            }
+
+            [Fact]
+            public void copy_constructor_imatrix_contains_same_elements()
+            {
+                var source = new MatrixD(2, 2);
+                source.Set(0, 0, 16);
+                source.Set(0, 1, 1);
+                source.Set(1, 0, 3);
+                source.Set(1, 1, 4);
+
+                var expected = new Matrix2D(
+                    16, 1,
+                    3, 4);
+
+                var actual = new Matrix2D((IMatrix<double>)source);
+
+                Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
         }
 
         public class Factories : Matrix2DTests

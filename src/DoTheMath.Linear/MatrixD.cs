@@ -22,6 +22,9 @@ namespace DoTheMath.Linear
         /// <summary>
         /// Constructs a new zero matrix.
         /// </summary>
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public MatrixD(int rows, int columns)
         {
             if (rows < 0)
@@ -38,6 +41,9 @@ namespace DoTheMath.Linear
             _elements = new double[checked(rows * columns)];
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public MatrixD(MatrixD source)
         {
             if (source == null)
@@ -49,6 +55,30 @@ namespace DoTheMath.Linear
             _columns = source.Columns;
 
             _elements = Clone(source._elements);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public MatrixD(IMatrix<double> source)
+        {
+            if(source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            _rows = source.Rows;
+            _columns = source.Columns;
+            _elements = new double[checked(_rows * _columns)];
+
+            for(int row = 0; row < _rows; row++)
+            {
+                var rowOffset = row * _columns;
+                for(int column = 0; column < _columns; column++)
+                {
+                    _elements[rowOffset + column] = source[row, column];
+                }
+            }
         }
 
         public int Rows

@@ -164,6 +164,38 @@ namespace DoTheMath.Linear
             E33 = source.E33;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Matrix4D(IMatrix<double> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (source.Rows != 4 || source.Columns != 4)
+            {
+                throw new ArgumentOutOfRangeException(nameof(source));
+            }
+
+            E00 = source[0, 0];
+            E01 = source[0, 1];
+            E02 = source[0, 2];
+            E03 = source[0, 3];
+            E10 = source[1, 0];
+            E11 = source[1, 1];
+            E12 = source[1, 2];
+            E13 = source[1, 3];
+            E20 = source[2, 0];
+            E21 = source[2, 1];
+            E22 = source[2, 2];
+            E23 = source[2, 3];
+            E30 = source[3, 0];
+            E31 = source[3, 1];
+            E32 = source[3, 2];
+            E33 = source[3, 3];
+        }
+
         public int Columns
         {
 #if !PRE_NETSTANDARD

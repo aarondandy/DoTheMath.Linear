@@ -73,6 +73,52 @@ namespace DoTheMath.Linear.Tests
                 Assert.NotSame(expected, actual);
                 Assert.Equal(expected, actual);
             }
+
+            [Fact]
+            public void copy_constructor_imatrix_throws_for_null()
+            {
+                Assert.Throws<ArgumentNullException>(() => new Matrix4D((IMatrix<double>)null));
+            }
+
+            [Fact]
+            public void copy_constructor_imatrix_throws_for_bad_size()
+            {
+                var source = new MatrixD(3, 6);
+
+                Assert.Throws<ArgumentOutOfRangeException>(() => new Matrix4D((IMatrix<double>)source));
+            }
+
+            [Fact]
+            public void copy_constructor_imatrix_contains_same_elements()
+            {
+                var source = new MatrixD(4, 4);
+                source.Set(0, 0, 16);
+                source.Set(0, 1, 1);
+                source.Set(0, 2, 2);
+                source.Set(0, 3, 6);
+                source.Set(1, 0, 3);
+                source.Set(1, 1, 4);
+                source.Set(1, 2, 5);
+                source.Set(1, 3, 7);
+                source.Set(2, 0, 8);
+                source.Set(2, 1, 9);
+                source.Set(2, 2, 10);
+                source.Set(2, 3, 11);
+                source.Set(3, 0, 12);
+                source.Set(3, 1, 13);
+                source.Set(3, 2, 14);
+                source.Set(3, 3, 15);
+                var expected = new Matrix4D(
+                    16, 1, 2, 6,
+                    3, 4, 5, 7,
+                    8, 9, 10, 11,
+                    12, 13, 14, 15);
+
+                var actual = new Matrix4D((IMatrix<double>)source);
+
+                Assert.NotSame(expected, actual);
+                Assert.Equal(expected, actual);
+            }
         }
 
         public class Factories : Matrix4DTests

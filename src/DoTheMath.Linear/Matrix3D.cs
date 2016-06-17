@@ -114,6 +114,31 @@ namespace DoTheMath.Linear
             E22 = source.E22;
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Matrix3D(IMatrix<double> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (source.Rows != 3 || source.Columns != 3)
+            {
+                throw new ArgumentOutOfRangeException(nameof(source));
+            }
+
+            E00 = source[0, 0];
+            E01 = source[0, 1];
+            E02 = source[0, 2];
+            E10 = source[1, 0];
+            E11 = source[1, 1];
+            E12 = source[1, 2];
+            E20 = source[2, 0];
+            E21 = source[2, 1];
+            E22 = source[2, 2];
+        }
+
         public int Columns
         {
 #if !PRE_NETSTANDARD
