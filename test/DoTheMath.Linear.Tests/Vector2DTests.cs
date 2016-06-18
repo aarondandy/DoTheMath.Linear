@@ -943,5 +943,105 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class RotatePerpendicularClockwiseTests : Vector2DTests
+        {
+            [Fact]
+            public void rotate_zero_vector_produces_zero_vector()
+            {
+                var actual = new Vector2D();
+                var expected = new Vector2D();
+
+                actual.RotatePerpendicularClockwise();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var actual = new Vector2D(3, 2);
+                var expected = new Vector2D(2, -3);
+
+                actual.RotatePerpendicularClockwise();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetPerpendicularClockwiseTests : Vector2DTests
+        {
+            [Fact]
+            public void rotate_zero_vector_produces_zero_vector()
+            {
+                var vector = new Vector2D();
+                var expected = new Vector2D();
+
+                var actual = vector.GetPerpendicularClockwise();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var vector = new Vector2D(3, 2);
+                var expected = new Vector2D(2, -3);
+
+                var actual = vector.GetPerpendicularClockwise();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class RotatePerpendicularCounterclockwise : Vector2DTests
+        {
+            [Fact]
+            public void rotate_zero_vector_produces_zero_vector()
+            {
+                var actual = new Vector2D();
+                var expected = new Vector2D();
+
+                actual.RotatePerpendicularCounterclockwise();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var actual = new Vector2D(3, 2);
+                var expected = new Vector2D(-2, 3);
+
+                actual.RotatePerpendicularCounterclockwise();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetPerpendicularCounterclockwiseTests : Vector2DTests
+        {
+            [Fact]
+            public void rotate_zero_vector_produces_zero_vector()
+            {
+                var vector = new Vector2D();
+                var expected = new Vector2D();
+
+                var actual = vector.GetPerpendicularCounterclockwise();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var vector = new Vector2D(3, 2);
+                var expected = new Vector2D(-2, 3);
+
+                var actual = vector.GetPerpendicularCounterclockwise();
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

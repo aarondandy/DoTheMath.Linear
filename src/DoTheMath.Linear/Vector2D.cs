@@ -512,6 +512,48 @@ namespace DoTheMath.Linear
             return magnitude == 0.0 ? this : GetQuotient(magnitude);
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void RotatePerpendicularClockwise()
+        {
+            var temp = Y;
+            Y = -X;
+            X = temp;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector2D GetPerpendicularClockwise()
+        {
+            return new Vector2D(Y, -X);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void RotatePerpendicularCounterclockwise()
+        {
+            var temp = X;
+            X = -Y;
+            Y = temp;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector2D GetPerpendicularCounterclockwise()
+        {
+            return new Vector2D(-Y, X);
+        }
+
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
