@@ -1364,6 +1364,57 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class PerpendicularDot : Vector2DTests
+        {
+            [Fact]
+            public void zero_vector_perp_dot_is_zero()
+            {
+                var left = new Vector2D();
+                var right = new Vector2D();
+                var expected = 0.0;
+
+                var actual = left.GetPerpendicularDot(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void self_vector_perp_dot_is_zero()
+            {
+                var left = new Vector2D(3, 2);
+                var right = new Vector2D(left);
+                var expected = 0.0;
+
+                var actual = left.GetPerpendicularDot(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var left = new Vector2D(5, 2);
+                var right = new Vector2D(3, -3);
+                var expected = -21.0;
+
+                var actual = left.GetPerpendicularDot(right);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_2()
+            {
+                var left = new Vector2D(3, -3);
+                var right = new Vector2D(5, 2);
+                var expected = 21.0;
+
+                var actual = left.GetPerpendicularDot(right);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected VectorD CreateIncremenetal(int dimension)
         {
             var vector = new VectorD(dimension);

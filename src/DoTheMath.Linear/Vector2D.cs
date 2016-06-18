@@ -412,6 +412,17 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public double GetPerpendicularDot(Vector2D right)
+        {
+            return (X * right.Y) - (Y * right.X);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public double GetMagnitude()
         {
             return Math.Sqrt((X * X) + (Y * Y));
