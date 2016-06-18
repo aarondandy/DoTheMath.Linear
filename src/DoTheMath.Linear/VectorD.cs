@@ -471,6 +471,30 @@ namespace DoTheMath.Linear
                 : GetScaled((GetDot(other)) / scalarDenominator);
         }
 
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Normalize()
+        {
+            var magnitude = GetMagnitude();
+            if (magnitude != 0.0)
+            {
+                Divide(magnitude);
+            }
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public VectorD GetNormal()
+        {
+            var magnitude = GetMagnitude();
+            return magnitude == 0.0 ? this : GetQuotient(magnitude);
+        }
+
 #if HAS_CODECONTRACTS
         [Pure]
 #endif

@@ -1292,6 +1292,78 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class NormalizeTests : VectorDTests
+        {
+            [Fact]
+            public void zero_vector_normalizes_to_zero()
+            {
+                var actual = new VectorD(4);
+                var expected = new VectorD(4);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_axis_vector_normalizes_to_self()
+            {
+                var actual = VectorD.CreateUnit(4, 2);
+                var expected = new VectorD(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_normalize_sample()
+            {
+                var actual = new VectorD(new[] { 3.0, 4, 5, -6 });
+                var expected = actual.GetQuotient(actual.GetMagnitude());
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetNormalTests : VectorDTests
+        {
+            [Fact]
+            public void zero_vector_normalizes_to_zero()
+            {
+                var vector = new VectorD(4);
+                var expected = new VectorD(4);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_axis_vector_normalizes_to_self()
+            {
+                var vector = VectorD.CreateUnit(5, 1);
+                var expected = new VectorD(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_normalize_sample()
+            {
+                var vector = new VectorD(new[] { 3.0, 4, 5, -6 });
+                var expected = vector.GetQuotient(vector.GetMagnitude());
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected VectorD CreateIncremenetal(int dimension)
         {
             var vector = new VectorD(dimension);

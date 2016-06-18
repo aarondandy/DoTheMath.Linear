@@ -888,5 +888,143 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class NormalizeTests : Vector4DTests
+        {
+            [Fact]
+            public void zero_vector_normalizes_to_zero()
+            {
+                var actual = new Vector4D();
+                var expected = new Vector4D();
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_x_normalizes_to_self()
+            {
+                var actual = Vector4D.CreateXUnit();
+                var expected = new Vector4D(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_y_normalizes_to_self()
+            {
+                var actual = Vector4D.CreateYUnit();
+                var expected = new Vector4D(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_z_normalizes_to_self()
+            {
+                var actual = Vector4D.CreateZUnit();
+                var expected = new Vector4D(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_w_normalizes_to_self()
+            {
+                var actual = Vector4D.CreateWUnit();
+                var expected = new Vector4D(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_normalize_sample()
+            {
+                var actual = new Vector4D(3, 4, 5, -6);
+                var expected = actual.GetQuotient(actual.GetMagnitude());
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetNormalTests : Vector4DTests
+        {
+            [Fact]
+            public void zero_vector_normalizes_to_zero()
+            {
+                var vector = new Vector4D();
+                var expected = new Vector4D();
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_x_normalizes_to_self()
+            {
+                var vector = Vector4D.CreateXUnit();
+                var expected = new Vector4D(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_y_normalizes_to_self()
+            {
+                var vector = Vector4D.CreateYUnit();
+                var expected = new Vector4D(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_z_normalizes_to_self()
+            {
+                var vector = Vector4D.CreateZUnit();
+                var expected = new Vector4D(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_w_normalizes_to_self()
+            {
+                var vector = Vector4D.CreateWUnit();
+                var expected = new Vector4D(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_normalize_sample()
+            {
+                var vector = new Vector4D(3, 4, 5, -6);
+                var expected = vector.GetQuotient(vector.GetMagnitude());
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

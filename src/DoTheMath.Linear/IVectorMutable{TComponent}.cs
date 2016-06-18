@@ -11,5 +11,7 @@
         void Divide(TComponenet divisor);
 
         void Negate();
+
+        void Normalize();
     }
 }

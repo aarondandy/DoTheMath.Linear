@@ -849,5 +849,99 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class NormalizeTests : Vector2DTests
+        {
+            [Fact]
+            public void zero_vector_normalizes_to_zero()
+            {
+                var actual = new Vector2D();
+                var expected = new Vector2D();
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_x_normalizes_to_self()
+            {
+                var actual = Vector2D.CreateXUnit();
+                var expected = new Vector2D(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_y_normalizes_to_self()
+            {
+                var actual = Vector2D.CreateYUnit();
+                var expected = new Vector2D(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_normalize_sample()
+            {
+                var actual = new Vector2D(3, 4);
+                var expected = actual.GetQuotient(5.0);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetNormalTests : Vector2DTests
+        {
+            [Fact]
+            public void zero_vector_normalizes_to_zero()
+            {
+                var vector = new Vector2D();
+                var expected = new Vector2D();
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_x_normalizes_to_self()
+            {
+                var vector = Vector2D.CreateXUnit();
+                var expected = new Vector2D(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_y_normalizes_to_self()
+            {
+                var vector = Vector2D.CreateYUnit();
+                var expected = new Vector2D(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_normalize_sample()
+            {
+                var vector = new Vector2D(3, 4);
+                var expected = vector.GetQuotient(5.0);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

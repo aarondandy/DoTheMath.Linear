@@ -868,5 +868,121 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class NormalizeTests : Vector3DTests
+        {
+            [Fact]
+            public void zero_vector_normalizes_to_zero()
+            {
+                var actual = new Vector3D();
+                var expected = new Vector3D();
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_x_normalizes_to_self()
+            {
+                var actual = Vector3D.CreateXUnit();
+                var expected = new Vector3D(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_y_normalizes_to_self()
+            {
+                var actual = Vector3D.CreateYUnit();
+                var expected = new Vector3D(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_z_normalizes_to_self()
+            {
+                var actual = Vector3D.CreateZUnit();
+                var expected = new Vector3D(actual);
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_normalize_sample()
+            {
+                var actual = new Vector3D(3, 4, 5);
+                var expected = actual.GetQuotient(actual.GetMagnitude());
+
+                actual.Normalize();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetNormalTests : Vector3DTests
+        {
+            [Fact]
+            public void zero_vector_normalizes_to_zero()
+            {
+                var vector = new Vector3D();
+                var expected = new Vector3D();
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_x_normalizes_to_self()
+            {
+                var vector = Vector3D.CreateXUnit();
+                var expected = new Vector3D(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_y_normalizes_to_self()
+            {
+                var vector = Vector3D.CreateYUnit();
+                var expected = new Vector3D(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void unit_z_normalizes_to_self()
+            {
+                var vector = Vector3D.CreateZUnit();
+                var expected = new Vector3D(vector);
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_normalize_sample()
+            {
+                var vector = new Vector3D(3, 4, 5);
+                var expected = vector.GetQuotient(vector.GetMagnitude());
+
+                var actual = vector.GetNormal();
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }
