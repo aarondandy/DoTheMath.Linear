@@ -480,9 +480,9 @@ namespace DoTheMath.Linear
                 E00 = 1.0,
                 E33 = 1.0,
                 E11 = Math.Cos(radians),
-                E21 = Math.Sin(radians)
+                E12 = Math.Sin(radians)
             };
-            result.E12 = -result.E21;
+            result.E21 = -result.E12;
             result.E22 = result.E11;
 
             return result;
@@ -506,9 +506,9 @@ namespace DoTheMath.Linear
                 E11 = 1.0,
                 E33 = 1.0,
                 E00 = Math.Cos(radians),
-                E02 = Math.Sin(radians)
+                E20 = Math.Sin(radians)
             };
-            result.E20 = -result.E02;
+            result.E02 = -result.E20;
             result.E22 = result.E00;
 
             return result;
@@ -532,9 +532,9 @@ namespace DoTheMath.Linear
                 E22 = 1.0,
                 E33 = 1.0,
                 E00 = Math.Cos(radians),
-                E10 = Math.Sin(radians)
+                E01 = Math.Sin(radians)
             };
-            result.E01 = -result.E10;
+            result.E10 = -result.E01;
             result.E11 = result.E00;
 
             return result;
@@ -588,9 +588,9 @@ namespace DoTheMath.Linear
                 E11 = 1.0,
                 E22 = 1.0,
                 E33 = 1.0,
-                E03 = delta.X,
-                E13 = delta.Y,
-                E23 = delta.Z
+                E30 = delta.X,
+                E31 = delta.Y,
+                E32 = delta.Z
             };
         }
 

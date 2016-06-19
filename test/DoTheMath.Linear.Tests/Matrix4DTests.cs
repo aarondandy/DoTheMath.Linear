@@ -139,8 +139,8 @@ namespace DoTheMath.Linear.Tests
                 {
                     E00 = 1.0,
                     E11 = Math.Cos(radians),
-                    E12 = -Math.Sin(radians),
-                    E21 = Math.Sin(radians),
+                    E12 = Math.Sin(radians),
+                    E21 = -Math.Sin(radians),
                     E22 = Math.Cos(radians),
                     E33 = 1.0
                 };
@@ -157,9 +157,9 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Matrix4D
                 {
                     E00 = Math.Cos(radians),
-                    E02 = Math.Sin(radians),
+                    E02 = -Math.Sin(radians),
                     E11 = 1.0,
-                    E20 = -Math.Sin(radians),
+                    E20 = Math.Sin(radians),
                     E22 = Math.Cos(radians),
                     E33 = 1.0
                 };
@@ -176,8 +176,8 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Matrix4D
                 {
                     E00 = Math.Cos(radians),
-                    E01 = -Math.Sin(radians),
-                    E10 = Math.Sin(radians),
+                    E01 = Math.Sin(radians),
+                    E10 = -Math.Sin(radians),
                     E11 = Math.Cos(radians),
                     E22 = 1.0,
                     E33 = 1.0
@@ -222,9 +222,9 @@ namespace DoTheMath.Linear.Tests
             {
                 var delta = new Vector3D(2, -3, 4.3);
                 var expected = Matrix4D.CreateIdentity();
-                expected.E03 = delta.X;
-                expected.E13 = delta.Y;
-                expected.E23 = delta.Z;
+                expected.E30 = delta.X;
+                expected.E31 = delta.Y;
+                expected.E32 = delta.Z;
 
                 var actual = Matrix4D.CreateTranslation(delta);
 

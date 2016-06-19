@@ -406,9 +406,9 @@ namespace DoTheMath.Linear
             var result = new Matrix2D
             {
                 E00 = Math.Cos(radians),
-                E10 = Math.Sin(radians)
+                E01 = Math.Sin(radians)
             };
-            result.E01 = -result.E10;
+            result.E10 = -result.E01;
             result.E11 = result.E00;
 
             return result;

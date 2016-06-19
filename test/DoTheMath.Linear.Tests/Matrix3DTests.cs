@@ -117,8 +117,8 @@ namespace DoTheMath.Linear.Tests
                 {
                     E00 = 1.0,
                     E11 = Math.Cos(radians),
-                    E12 = -Math.Sin(radians),
-                    E21 = Math.Sin(radians),
+                    E12 = Math.Sin(radians),
+                    E21 = -Math.Sin(radians),
                     E22 = Math.Cos(radians)
                 };
 
@@ -134,9 +134,9 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Matrix3D
                 {
                     E00 = Math.Cos(radians),
-                    E02 = Math.Sin(radians),
+                    E02 = -Math.Sin(radians),
                     E11 = 1.0,
-                    E20 = -Math.Sin(radians),
+                    E20 = Math.Sin(radians),
                     E22 = Math.Cos(radians)
                 };
 
@@ -152,8 +152,8 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Matrix3D
                 {
                     E00 = Math.Cos(radians),
-                    E01 = -Math.Sin(radians),
-                    E10 = Math.Sin(radians),
+                    E01 = Math.Sin(radians),
+                    E10 = -Math.Sin(radians),
                     E11 = Math.Cos(radians),
                     E22 = 1.0
                 };
@@ -195,8 +195,8 @@ namespace DoTheMath.Linear.Tests
             {
                 var delta = new Vector2D(2, -3);
                 var expected = Matrix3D.CreateIdentity();
-                expected.E02 = delta.X;
-                expected.E12 = delta.Y;
+                expected.E20 = delta.X;
+                expected.E21 = delta.Y;
 
                 var actual = Matrix3D.CreateTranslation(delta);
 
@@ -207,11 +207,10 @@ namespace DoTheMath.Linear.Tests
             public void create_rotation_around_non_zero_origin()
             {
                 var origin = new Vector2D(5, 4);
-                var theta = Math.PI / 2.0;
-                var expected = new Matrix3D(
-                    0, -1, 9,
-                    1, 0, -1,
-                    0, 0, 1);
+                var theta = Math.PI / 2.3;
+                var expected = Matrix3D.CreateTranslation(origin.GetNegative())
+                    * Matrix3D.CreateRotationZ(theta)
+                    * Matrix3D.CreateTranslation(origin);
 
                 var actual = Matrix3D.CreateRotation(origin, theta);
 

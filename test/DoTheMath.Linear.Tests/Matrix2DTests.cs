@@ -97,8 +97,8 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Matrix2D
                 {
                     E00 = 0,
-                    E01 = -1,
-                    E10 = 1,
+                    E01 = 1,
+                    E10 = -1,
                     E11 = 0
                 };
 
@@ -117,8 +117,8 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Matrix2D
                 {
                     E00 = 0,
-                    E01 = 1,
-                    E10 = -1,
+                    E01 = -1,
+                    E10 = 1,
                     E11 = 0
                 };
 
@@ -137,8 +137,8 @@ namespace DoTheMath.Linear.Tests
                 var expected = new Matrix2D
                 {
                     E00 = Math.Cos(rotation),
-                    E01 = -Math.Sin(rotation),
-                    E10 = Math.Sin(rotation),
+                    E01 = Math.Sin(rotation),
+                    E10 = -Math.Sin(rotation),
                     E11 = Math.Cos(rotation)
                 };
 

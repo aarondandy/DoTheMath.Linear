@@ -475,9 +475,9 @@ namespace DoTheMath.Linear
             {
                 E00 = 1.0,
                 E11 = Math.Cos(radians),
-                E21 = Math.Sin(radians)
+                E12 = Math.Sin(radians)
             };
-            result.E12 = -result.E21;
+            result.E21 = -result.E12;
             result.E22 = result.E11;
 
             return result;
@@ -500,9 +500,9 @@ namespace DoTheMath.Linear
             {
                 E11 = 1.0,
                 E00 = Math.Cos(radians),
-                E02 = Math.Sin(radians)
+                E20 = Math.Sin(radians)
             };
-            result.E20 = -result.E02;
+            result.E02 = -result.E20;
             result.E22 = result.E00;
 
             return result;
@@ -525,9 +525,9 @@ namespace DoTheMath.Linear
             {
                 E22 = 1.0,
                 E00 = Math.Cos(radians),
-                E10 = Math.Sin(radians)
+                E01 = Math.Sin(radians)
             };
-            result.E01 = -result.E10;
+            result.E10 = -result.E01;
             result.E11 = result.E00;
 
             return result;
@@ -551,12 +551,12 @@ namespace DoTheMath.Linear
             {
                 E22 = 1.0,
                 E00 = Math.Cos(radians),
-                E10 = Math.Sin(radians)
+                E01 = Math.Sin(radians)
             };
-            result.E01 = -result.E10;
+            result.E10 = -result.E01;
             result.E11 = result.E00;
-            result.E02 = origin.X - (result.E00 * origin.X) + (result.E10 * origin.Y);
-            result.E12 = origin.Y - (result.E10 * origin.X) - (result.E00 * origin.Y);
+            result.E20 = origin.X - (result.E00 * origin.X) + (result.E01 * origin.Y);
+            result.E21 = origin.Y - (result.E01 * origin.X) - (result.E00 * origin.Y);
 
             return result;
         }
@@ -606,8 +606,8 @@ namespace DoTheMath.Linear
                 E00 = 1.0,
                 E11 = 1.0,
                 E22 = 1.0,
-                E02 = delta.X,
-                E12 = delta.Y
+                E20 = delta.X,
+                E21 = delta.Y
             };
         }
 
