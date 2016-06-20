@@ -295,12 +295,12 @@ namespace DoTheMath.Linear
                         E00 = value;
                         return;
                     }
-                    else if (column == 1)
+                    if (column == 1)
                     {
                         E01 = value;
                         return;
                     }
-                    else if (column == 2)
+                    if (column == 2)
                     {
                         E02 = value;
                         return;
@@ -313,12 +313,12 @@ namespace DoTheMath.Linear
                         E10 = value;
                         return;
                     }
-                    else if (column == 1)
+                    if (column == 1)
                     {
                         E11 = value;
                         return;
                     }
-                    else if (column == 2)
+                    if (column == 2)
                     {
                         E12 = value;
                         return;
@@ -331,12 +331,12 @@ namespace DoTheMath.Linear
                         E20 = value;
                         return;
                     }
-                    else if (column == 1)
+                    if (column == 1)
                     {
                         E21 = value;
                         return;
                     }
-                    else if (column == 2)
+                    if (column == 2)
                     {
                         E22 = value;
                         return;
@@ -459,7 +459,7 @@ namespace DoTheMath.Linear
         }
 
         /// <summary>
-        /// Creates a rotation matrix for the given rotation <paramref name="radians"/> around the X axis.
+        /// Creates a right-handed rotation matrix for the given rotation <paramref name="radians"/> around the X axis.
         /// </summary>
         /// <param name="radians">The number of radians to create a rotation matrix for.</param>
         /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
@@ -484,7 +484,7 @@ namespace DoTheMath.Linear
         }
 
         /// <summary>
-        /// Creates a rotation matrix for the given rotation <paramref name="radians"/> around the Y axis.
+        /// Creates a right-handed rotation matrix for the given rotation <paramref name="radians"/> around the Y axis.
         /// </summary>
         /// <param name="radians">The number of radians to create a rotation matrix for.</param>
         /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
@@ -509,7 +509,7 @@ namespace DoTheMath.Linear
         }
 
         /// <summary>
-        /// Creates a rotation matrix for the given rotation <paramref name="radians"/> around the Z axis.
+        /// Creates a right-handed rotation matrix for the given rotation <paramref name="radians"/> around the Z axis.
         /// </summary>
         /// <param name="radians">The number of radians to create a rotation matrix for.</param>
         /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
@@ -534,7 +534,7 @@ namespace DoTheMath.Linear
         }
 
         /// <summary>
-        /// Creates a rotation matrix for the given rotation <paramref name="radians"/> around the given <paramref name="origin"/>.
+        /// Creates a z-axis rotation matrix for the given rotation <paramref name="radians"/> around the given 2D <paramref name="origin"/>.
         /// </summary>
         /// <param name="origin">The origin to rotate around.</param>
         /// <param name="radians">The number of radians to create a rotation matrix for.</param>
@@ -680,12 +680,12 @@ namespace DoTheMath.Linear
                     E00 = value;
                     return;
                 }
-                else if (column == 1)
+                if (column == 1)
                 {
                     E01 = value;
                     return;
                 }
-                else if (column == 2)
+                if (column == 2)
                 {
                     E02 = value;
                     return;
@@ -698,12 +698,12 @@ namespace DoTheMath.Linear
                     E10 = value;
                     return;
                 }
-                else if (column == 1)
+                if (column == 1)
                 {
                     E11 = value;
                     return;
                 }
-                else if (column == 2)
+                if (column == 2)
                 {
                     E12 = value;
                     return;
@@ -716,12 +716,12 @@ namespace DoTheMath.Linear
                     E20 = value;
                     return;
                 }
-                else if (column == 1)
+                if (column == 1)
                 {
                     E21 = value;
                     return;
                 }
-                else if (column == 2)
+                if (column == 2)
                 {
                     E22 = value;
                     return;
