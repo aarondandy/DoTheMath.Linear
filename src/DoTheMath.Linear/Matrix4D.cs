@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using static DoTheMath.Linear.Utilities.Swapper;
+using System.Diagnostics;
 
 #if HAS_CODECONTRACTS
 using System.Diagnostics.Contracts;
@@ -1605,6 +1606,100 @@ namespace DoTheMath.Linear
             {
                 throw new NoInverseException();
             }
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector3D GetProduct(Vector3D rowVector)
+        {
+            return new Vector3D
+            {
+                X = (rowVector.X * E00) + (rowVector.Y * E10) + (rowVector.Z * E20) + E30,
+                Y = (rowVector.X * E01) + (rowVector.Y * E11) + (rowVector.Z * E21) + E31,
+                Z = (rowVector.X * E02) + (rowVector.Y * E12) + (rowVector.Z * E22) + E32
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector4D GetProduct(Vector4D rowVector)
+        {
+            return new Vector4D
+            {
+                X = (rowVector.X * E00) + (rowVector.Y * E10) + (rowVector.Z * E20) + (rowVector.W * E30),
+                Y = (rowVector.X * E01) + (rowVector.Y * E11) + (rowVector.Z * E21) + (rowVector.W * E31),
+                Z = (rowVector.X * E02) + (rowVector.Y * E12) + (rowVector.Z * E22) + (rowVector.W * E32),
+                W = (rowVector.X * E03) + (rowVector.Y * E13) + (rowVector.Z * E23) + (rowVector.W * E33)
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector3D GetProductColumnVector(Vector3D columnVector)
+        {
+            return new Vector3D
+            {
+                X = (E00 * columnVector.X) + (E01 * columnVector.Y) + (E02 * columnVector.Z) + E03,
+                Y = (E10 * columnVector.X) + (E11 * columnVector.Y) + (E12 * columnVector.Z) + E13,
+                Z = (E20 * columnVector.X) + (E21 * columnVector.Y) + (E22 * columnVector.Z) + E23
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector4D GetProductColumnVector(Vector4D columnVector)
+        {
+            return new Vector4D
+            {
+                X = (E00 * columnVector.X) + (E01 * columnVector.Y) + (E02 * columnVector.Z) + (E03 * columnVector.W),
+                Y = (E10 * columnVector.X) + (E11 * columnVector.Y) + (E12 * columnVector.Z) + (E13 * columnVector.W),
+                Z = (E20 * columnVector.X) + (E21 * columnVector.Y) + (E22 * columnVector.Z) + (E23 * columnVector.W),
+                W = (E30 * columnVector.X) + (E31 * columnVector.Y) + (E32 * columnVector.Z) + (E33 * columnVector.W)
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Transform(ref Vector3D rowVector)
+        {
+            var x = rowVector.X;
+            var y = rowVector.Y;
+
+            rowVector.X = (x * E00) + (y * E10) + (rowVector.Z * E20) + E30;
+            rowVector.Y = (x * E01) + (y * E11) + (rowVector.Z * E21) + E31;
+            rowVector.Z = (x * E02) + (y * E12) + (rowVector.Z * E22) + E32;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Transform(ref Vector4D rowVector)
+        {
+            var x = rowVector.X;
+            var y = rowVector.Y;
+            var z = rowVector.Z;
+
+            rowVector.X = (x * E00) + (y * E10) + (z * E20) + (rowVector.W * E30);
+            rowVector.Y = (x * E01) + (y * E11) + (z * E21) + (rowVector.W * E31);
+            rowVector.Z = (x * E02) + (y * E12) + (z * E22) + (rowVector.W * E32);
+            rowVector.W = (x * E03) + (y * E13) + (z * E23) + (rowVector.W * E33);
         }
 
 #if HAS_CODECONTRACTS

@@ -1885,6 +1885,491 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class GetProductVector3DTests : Matrix4DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix4D.CreateIdentity();
+                var original = new Vector3D(3, 5, -2);
+                var expected = new Vector3D(original);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_translation()
+            {
+                var delta = new Vector3D(2, 3, 1.3);
+                var matrix = Matrix4D.CreateTranslation(delta);
+                var original = new Vector3D(1.1, 2.2, -4.4);
+                var expected = original + delta;
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector4D(3, 4, 5, 6);
+                var matrix = Matrix4D.CreateScaled(scalars);
+                var origin = new Vector3D(1.1, 2.2, 3.3);
+                var expected = new Vector3D(origin.X * scalars.X, origin.Y * scalars.Y, origin.Z * scalars.Z);
+
+                var actual = matrix.GetProduct(origin);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_x_rotation()
+            {
+                var original = new Vector3D(2.2, 1, 1);
+                var expected = new Vector3D(2.2, -1, 1);
+                var matrix = Matrix4D.CreateRotationX(Math.PI / 2.0);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_y_rotation()
+            {
+                var original = new Vector3D(1, 4.5, 1);
+                var expected = new Vector3D(1, 4.5, -1);
+                var matrix = Matrix4D.CreateRotationY(Math.PI / 2.0);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_z_rotation()
+            {
+                var original = new Vector3D(1, 1, 3.2);
+                var expected = new Vector3D(-1, 1, 3.2);
+                var matrix = Matrix4D.CreateRotationZ(Math.PI / 2.0);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z);
+            }
+        }
+
+        public class GetProductVector4DTets : Matrix4DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix4D.CreateIdentity();
+                var original = new Vector4D(3, 5, -9, 2);
+                var expected = new Vector4D(original);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector4D(3, 4, 5, 6);
+                var matrix = Matrix4D.CreateScaled(scalars);
+                var origin = new Vector4D(1.1, 2.2, -4.4, -5.5);
+                var expected = new Vector4D(origin.X * scalars.X, origin.Y * scalars.Y, origin.Z * scalars.Z, origin.W * scalars.W);
+
+                var actual = matrix.GetProduct(origin);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_x_rotation()
+            {
+                var original = new Vector4D(2.2, 1, 1, 5);
+                var expected = new Vector4D(2.2, -1, 1, 5);
+                var matrix = Matrix4D.CreateRotationX(Math.PI / 2.0);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z, 10);
+                Assert.Equal(expected.W, actual.W);
+            }
+
+            [Fact]
+            public void can_apply_y_rotation()
+            {
+                var original = new Vector4D(1, 4.5, 1, 6);
+                var expected = new Vector4D(1, 4.5, -1, 6);
+                var matrix = Matrix4D.CreateRotationY(Math.PI / 2.0);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y);
+                Assert.Equal(expected.Z, actual.Z, 10);
+                Assert.Equal(expected.W, actual.W);
+            }
+
+            [Fact]
+            public void can_apply_z_rotation()
+            {
+                var original = new Vector4D(1, 1, 3.2, 7);
+                var expected = new Vector4D(-1, 1, 3.2, 7);
+                var matrix = Matrix4D.CreateRotationZ(Math.PI / 2.0);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z);
+                Assert.Equal(expected.W, actual.W);
+            }
+        }
+
+        public class GetProductColumnVector3DTests : Matrix4DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix4D.CreateIdentity();
+                var original = new Vector3D(3, 5, -9);
+                var expected = new Vector3D(original);
+
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_translation()
+            {
+                var delta = new Vector3D(2, 3, 4);
+                var matrix = Matrix4D.CreateTranslation(delta);
+                var original = new Vector3D(1.1, 2.2, 3.3);
+                var expected = new Vector3D(original) + delta;
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_x_rotation()
+            {
+                var original = new Vector3D(2.2, 1, 1);
+                var expected = new Vector3D(2.2, -1, 1);
+                var matrix = Matrix4D.CreateRotationX(Math.PI / 2.0);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_y_rotation()
+            {
+                var original = new Vector3D(1, 4.5, 1);
+                var expected = new Vector3D(1, 4.5, -1);
+                var matrix = Matrix4D.CreateRotationY(Math.PI / 2.0);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_z_rotation()
+            {
+                var original = new Vector3D(1, 1, 3.2);
+                var expected = new Vector3D(-1, 1, 3.2);
+                var matrix = Matrix4D.CreateRotationZ(Math.PI / 2.0);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z);
+            }
+
+            [Fact]
+            public void can_apply_scale3_transform()
+            {
+                var scalars = new Vector3D(3, 4, 5);
+                var matrix = Matrix4D.CreateScaled(scalars);
+                var origin = new Vector3D(1.1, 2.2, -3.3);
+                var expected = new Vector3D(origin.X * scalars.X, origin.Y * scalars.Y, origin.Z * scalars.Z);
+
+                var actual = matrix.GetProductColumnVector(origin);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_scale4_transform()
+            {
+                var scalars = new Vector4D(3, 4, 5, 6);
+                var matrix = Matrix4D.CreateScaled(scalars);
+                var origin = new Vector3D(1.1, 2.2, -3.3);
+                var expected = new Vector3D(origin.X * scalars.X, origin.Y * scalars.Y, origin.Z * scalars.Z);
+
+                var actual = matrix.GetProductColumnVector(origin);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetProductColumnVector4DTests : Matrix4DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix4D.CreateIdentity();
+                var original = new Vector4D(3, 5, -9, -11);
+                var expected = new Vector4D(original);
+
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector4D(3, 4, 5, -11);
+                var matrix = Matrix4D.CreateScaled(scalars);
+                var origin = new Vector4D(1.1, 2.2, -4.4, 90);
+                var expected = new Vector4D(origin.X * scalars.X, origin.Y * scalars.Y, origin.Z * scalars.Z, origin.W * scalars.W);
+
+                var actual = matrix.GetProductColumnVector(origin);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_x_rotation()
+            {
+                var original = new Vector4D(2.2, 1, 1, 6);
+                var expected = new Vector4D(2.2, -1, 1, 6);
+                var matrix = Matrix4D.CreateRotationX(Math.PI / 2.0);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z, 10);
+                Assert.Equal(expected.W, actual.W);
+            }
+
+            [Fact]
+            public void can_apply_y_rotation()
+            {
+                var original = new Vector4D(1, 4.5, 1, -9);
+                var expected = new Vector4D(1, 4.5, -1, -9);
+                var matrix = Matrix4D.CreateRotationY(Math.PI / 2.0);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y);
+                Assert.Equal(expected.Z, actual.Z, 10);
+                Assert.Equal(expected.W, actual.W);
+            }
+
+            [Fact]
+            public void can_apply_z_rotation()
+            {
+                var original = new Vector4D(1, 1, 3.2, 2.2);
+                var expected = new Vector4D(-1, 1, 3.2, 2.2);
+                var matrix = Matrix4D.CreateRotationZ(Math.PI / 2.0);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z);
+                Assert.Equal(expected.W, actual.W);
+            }
+        }
+
+        public class TransformVector3DTests : Matrix4DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix4D.CreateIdentity();
+                var actual = new Vector3D(3, 5, -2);
+                var expected = new Vector3D(actual);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_translation()
+            {
+                var delta = new Vector3D(2, 3, -5);
+                var matrix = Matrix4D.CreateTranslation(delta);
+                var actual = new Vector3D(1.1, 2.2, 9.9);
+                var expected = actual + delta;
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector4D(3, 4, 5, -2);
+                var matrix = Matrix4D.CreateScaled(scalars);
+                var actual = new Vector3D(1.1, 2.2, 3.3);
+                var expected = new Vector3D(actual.X * scalars.X, actual.Y * scalars.Y, actual.Z * scalars.Z);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_x_rotation()
+            {
+                var actual = new Vector3D(2.2, 1, 1);
+                var expected = new Vector3D(2.2, -1, 1);
+                var matrix = Matrix4D.CreateRotationX(Math.PI / 2.0);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_y_rotation()
+            {
+                var actual = new Vector3D(1, 4.5, 1);
+                var expected = new Vector3D(1, 4.5, -1);
+                var matrix = Matrix4D.CreateRotationY(Math.PI / 2.0);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_z_rotation()
+            {
+                var actual = new Vector3D(1, 1, 3.2);
+                var expected = new Vector3D(-1, 1, 3.2);
+                var matrix = Matrix4D.CreateRotationZ(Math.PI / 2.0);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z);
+            }
+        }
+
+        public class TransformVector4DTets : Matrix4DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix4D.CreateIdentity();
+                var actual = new Vector4D(3, 5, -9, 2.2);
+                var expected = new Vector4D(actual);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector4D(3, 4, 5, -9.9);
+                var matrix = Matrix4D.CreateScaled(scalars);
+                var actual = new Vector4D(1.1, 2.2, -4.4, 1.3);
+                var expected = new Vector4D(actual.X * scalars.X, actual.Y * scalars.Y, actual.Z * scalars.Z, actual.W * scalars.W);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_x_rotation()
+            {
+                var actual = new Vector4D(2.2, 1, 1, 7.8);
+                var expected = new Vector4D(2.2, -1, 1, 7.8);
+                var matrix = Matrix4D.CreateRotationX(Math.PI / 2.0);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_y_rotation()
+            {
+                var actual = new Vector4D(1, 4.5, 1, -3.4);
+                var expected = new Vector4D(1, 4.5, -1, -3.4);
+                var matrix = Matrix4D.CreateRotationY(Math.PI / 2.0);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_z_rotation()
+            {
+                var actual = new Vector4D(1, 1, 3.2, -9.1);
+                var expected = new Vector4D(-1, 1, 3.2, -9.1);
+                var matrix = Matrix4D.CreateRotationZ(Math.PI / 2.0);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z);
+            }
+        }
+
         protected Matrix4D CreateIncremenetalMatrix()
         {
             return new Matrix4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
