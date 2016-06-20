@@ -1675,6 +1675,423 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class GetProductVector2DTests : Matrix3DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix3D.CreateIdentity();
+                var original = new Vector2D(3, 5);
+                var expected = new Vector2D(original);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_rotation_and_translation_transforms()
+            {
+                var matrix = Matrix3D.CreateRotation(new Vector2D(1, 1), Math.PI / 2.0);
+                var original = new Vector2D(1, 0);
+                var expected = new Vector2D(2, 1);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+            }
+
+            [Fact]
+            public void can_apply_translation()
+            {
+                var delta = new Vector2D(2, 3);
+                var matrix = Matrix3D.CreateTranslation(delta);
+                var original = new Vector2D(1.1, 2.2);
+                var expected = original + delta;
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_origin_rotation()
+            {
+                var matrix = Matrix3D.CreateRotationZ(Math.PI / 2.0);
+                var original = new Vector2D(1, 2);
+                var expected = new Vector2D(-2, 1);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector3D(3, 4, 5);
+                var matrix = Matrix3D.CreateScaled(scalars);
+                var origin = new Vector2D(1.1, 2.2);
+                var expected = new Vector2D(origin.X * scalars.X, origin.Y * scalars.Y);
+
+                var actual = matrix.GetProduct(origin);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetProductVector3DTets : Matrix3DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix3D.CreateIdentity();
+                var original = new Vector3D(3, 5, -9);
+                var expected = new Vector3D(original);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector3D(3, 4, 5);
+                var matrix = Matrix3D.CreateScaled(scalars);
+                var origin = new Vector3D(1.1, 2.2, -4.4);
+                var expected = new Vector3D(origin.X * scalars.X, origin.Y * scalars.Y, origin.Z * scalars.Z);
+
+                var actual = matrix.GetProduct(origin);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_x_rotation()
+            {
+                var original = new Vector3D(2.2, 1, 1);
+                var expected = new Vector3D(2.2, -1, 1);
+                var matrix = Matrix3D.CreateRotationX(Math.PI / 2.0);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_y_rotation()
+            {
+                var original = new Vector3D(1, 4.5, 1);
+                var expected = new Vector3D(1, 4.5, -1);
+                var matrix = Matrix3D.CreateRotationY(Math.PI / 2.0);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_z_rotation()
+            {
+                var original = new Vector3D(1, 1, 3.2);
+                var expected = new Vector3D(-1, 1, 3.2);
+                var matrix = Matrix3D.CreateRotationZ(Math.PI / 2.0);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z);
+            }
+        }
+
+        public class GetProductColumnVector2DTests : Matrix3DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix3D.CreateIdentity();
+                var original = new Vector2D(3, 5);
+                var expected = new Vector2D(original);
+
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_rotation_and_translation_transforms()
+            {
+                var matrix = Matrix3D.CreateRotation(new Vector2D(1, 1), Math.PI / 2.0);
+                var original = new Vector2D(1, 0);
+                var expected = new Vector2D(2, 1);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+            }
+
+            [Fact]
+            public void can_apply_translation()
+            {
+                var delta = new Vector2D(2, 3);
+                var matrix = Matrix3D.CreateTranslation(delta);
+                var original = new Vector2D(1.1, 2.2);
+                var expected = new Vector2D(original) + delta;
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_origin_rotation()
+            {
+                var matrix = Matrix3D.CreateRotationZ(Math.PI / 2.0);
+                var original = new Vector2D(1, 2);
+                var expected = new Vector2D(-2, 1);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector3D(3, 4, 5);
+                var matrix = Matrix3D.CreateScaled(scalars);
+                var origin = new Vector2D(1.1, 2.2);
+                var expected = new Vector2D(origin.X * scalars.X, origin.Y * scalars.Y);
+
+                var actual = matrix.GetProductColumnVector(origin);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetProductColumnVector3DTests : Matrix3DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix3D.CreateIdentity();
+                var original = new Vector3D(3, 5, -9);
+                var expected = new Vector3D(original);
+
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector3D(3, 4, 5);
+                var matrix = Matrix3D.CreateScaled(scalars);
+                var origin = new Vector3D(1.1, 2.2, -4.4);
+                var expected = new Vector3D(origin.X * scalars.X, origin.Y * scalars.Y, origin.Z * scalars.Z);
+
+                var actual = matrix.GetProductColumnVector(origin);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_x_rotation()
+            {
+                var original = new Vector3D(2.2, 1, 1);
+                var expected = new Vector3D(2.2, -1, 1);
+                var matrix = Matrix3D.CreateRotationX(Math.PI / 2.0);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_y_rotation()
+            {
+                var original = new Vector3D(1, 4.5, 1);
+                var expected = new Vector3D(1, 4.5, -1);
+                var matrix = Matrix3D.CreateRotationY(Math.PI / 2.0);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_z_rotation()
+            {
+                var original = new Vector3D(1, 1, 3.2);
+                var expected = new Vector3D(-1, 1, 3.2);
+                var matrix = Matrix3D.CreateRotationZ(Math.PI / 2.0);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z);
+            }
+        }
+
+        public class TransformVector2DTests : Matrix3DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix3D.CreateIdentity();
+                var actual = new Vector2D(3, 5);
+                var expected = new Vector2D(actual);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_rotation_and_translation_transforms()
+            {
+                var matrix = Matrix3D.CreateRotation(new Vector2D(1, 1), Math.PI / 2.0);
+                var actual = new Vector2D(1, 0);
+                var expected = new Vector2D(2, 1);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+            }
+
+            [Fact]
+            public void can_apply_translation()
+            {
+                var delta = new Vector2D(2, 3);
+                var matrix = Matrix3D.CreateTranslation(delta);
+                var actual = new Vector2D(1.1, 2.2);
+                var expected = actual + delta;
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_origin_rotation()
+            {
+                var matrix = Matrix3D.CreateRotationZ(Math.PI / 2.0);
+                var actual = new Vector2D(1, 2);
+                var expected = new Vector2D(-2, 1);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector3D(3, 4, 5);
+                var matrix = Matrix3D.CreateScaled(scalars);
+                var actual = new Vector2D(1.1, 2.2);
+                var expected = new Vector2D(actual.X * scalars.X, actual.Y * scalars.Y);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class TransformVector3DTets : Matrix3DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix3D.CreateIdentity();
+                var actual = new Vector3D(3, 5, -9);
+                var expected = new Vector3D(actual);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_scale_transform()
+            {
+                var scalars = new Vector3D(3, 4, 5);
+                var matrix = Matrix3D.CreateScaled(scalars);
+                var actual = new Vector3D(1.1, 2.2, -4.4);
+                var expected = new Vector3D(actual.X * scalars.X, actual.Y * scalars.Y, actual.Z * scalars.Z);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_apply_x_rotation()
+            {
+                var actual = new Vector3D(2.2, 1, 1);
+                var expected = new Vector3D(2.2, -1, 1);
+                var matrix = Matrix3D.CreateRotationX(Math.PI / 2.0);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_y_rotation()
+            {
+                var actual = new Vector3D(1, 4.5, 1);
+                var expected = new Vector3D(1, 4.5, -1);
+                var matrix = Matrix3D.CreateRotationY(Math.PI / 2.0);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y);
+                Assert.Equal(expected.Z, actual.Z, 10);
+            }
+
+            [Fact]
+            public void can_apply_z_rotation()
+            {
+                var actual = new Vector3D(1, 1, 3.2);
+                var expected = new Vector3D(-1, 1, 3.2);
+                var matrix = Matrix3D.CreateRotationZ(Math.PI / 2.0);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+                Assert.Equal(expected.Z, actual.Z);
+            }
+        }
+
         protected Matrix3D CreateIncremenetalMatrix()
         {
             return new Matrix3D(1, 2, 3, 4, 5, 6, 7, 8, 9);

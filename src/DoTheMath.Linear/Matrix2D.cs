@@ -391,7 +391,7 @@ namespace DoTheMath.Linear
         }
 
         /// <summary>
-        /// Creates a clock-wise rotation matrix based on the given <paramref name="radians"/>.
+        /// Creates a counterclockwise rotation matrix based on the given <paramref name="radians"/>.
         /// </summary>
         /// <param name="radians">The number of radians to create a rotation matrix for.</param>
         /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
@@ -969,6 +969,59 @@ namespace DoTheMath.Linear
             }
 
             throw new NoInverseException();
+        }
+
+        /// <summary>
+        /// Multiplies or transforms a row vector by this matrix.
+        /// </summary>
+        /// <param name="rowVector">A row vector to multiply or transform.</param>
+        /// <returns>The product or multiplication or the transformed vector.</returns>
+        /// <remarks>
+        /// This method can be used to transform a vector by this matrix.
+        /// </remarks>
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector2D GetProduct(Vector2D rowVector)
+        {
+            return new Vector2D
+            {
+                X = (rowVector.X * E00) + (rowVector.Y * E10),
+                Y = (rowVector.X * E01) + (rowVector.Y * E11)
+            };
+        }
+
+        /// <summary>
+        /// Multiplies this matrix by a column vector.
+        /// </summary>
+        /// <param name="columnVector">The column vector to multiply by.</param>
+        /// <returns>The product resulting from multiplying this matrix by a column vector.</returns>
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector2D GetProductColumnVector(Vector2D columnVector)
+        {
+            return new Vector2D
+            {
+                X = (E00 * columnVector.X) + (E01 * columnVector.Y),
+                Y = (E10 * columnVector.X) + (E11 * columnVector.Y)
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Transform(ref Vector2D rowVector)
+        {
+            var x = rowVector.X;
+            rowVector.X = (x * E00) + (rowVector.Y * E10);
+            rowVector.Y = (x * E01) + (rowVector.Y * E11);
         }
 
 #if HAS_CODECONTRACTS

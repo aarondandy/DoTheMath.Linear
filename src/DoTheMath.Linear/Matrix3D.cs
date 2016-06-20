@@ -1407,6 +1407,90 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector2D GetProduct(Vector2D rowVector)
+        {
+            return new Vector2D
+            {
+                X = (rowVector.X * E00) + (rowVector.Y * E10) + E20,
+                Y = (rowVector.X * E01) + (rowVector.Y * E11) + E21
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector3D GetProduct(Vector3D rowVector)
+        {
+            return new Vector3D
+            {
+                X = (rowVector.X * E00) + (rowVector.Y * E10) + (rowVector.Z * E20),
+                Y = (rowVector.X * E01) + (rowVector.Y * E11) + (rowVector.Z * E21),
+                Z = (rowVector.X * E02) + (rowVector.Y * E12) + (rowVector.Z * E22)
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector2D GetProductColumnVector(Vector2D columnVector)
+        {
+            return new Vector2D
+            {
+                X = (E00 * columnVector.X) + (E01 * columnVector.Y) + E02,
+                Y = (E10 * columnVector.X) + (E11 * columnVector.Y) + E12
+            };
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public Vector3D GetProductColumnVector(Vector3D columnVector)
+        {
+            return new Vector3D
+            {
+                X = (E00 * columnVector.X) + (E01 * columnVector.Y) + (E02 * columnVector.Z),
+                Y = (E10 * columnVector.X) + (E11 * columnVector.Y) + (E12 * columnVector.Z),
+                Z = (E20 * columnVector.X) + (E21 * columnVector.Y) + (E22 * columnVector.Z)
+            };
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Transform(ref Vector2D rowVector)
+        {
+            var x = rowVector.X;
+            rowVector.X = (x * E00) + (rowVector.Y * E10) + E20;
+            rowVector.Y = (x * E01) + (rowVector.Y * E11) + E21;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Transform(ref Vector3D rowVector)
+        {
+            var x = rowVector.X;
+            var y = rowVector.Y;
+            rowVector.X = (x * E00) + (y * E10) + (rowVector.Z * E20);
+            rowVector.Y = (x * E01) + (y * E11) + (rowVector.Z * E21);
+            rowVector.Z = (x * E02) + (y * E12) + (rowVector.Z * E22);
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public bool Equals(Matrix3D other)
         {
             return object.ReferenceEquals(this, other)

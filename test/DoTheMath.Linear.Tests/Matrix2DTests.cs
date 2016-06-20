@@ -1619,6 +1619,130 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class GetProductVector2DTests : Matrix2DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix2D.CreateIdentity();
+                var original = new Vector2D(3, 5);
+                var expected = new Vector2D(original);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void rotation_matrix_rotates_vector()
+            {
+                var matrix = Matrix2D.CreateRotation(Math.PI / 2.0);
+                var original = new Vector2D(1, 2);
+                var expected = new Vector2D(-2, 1);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+            }
+
+            [Fact]
+            public void scale_matrix_scales()
+            {
+                var scalars = new Vector2D(1.5, -6.3);
+                var matrix = Matrix2D.CreateScaled(scalars);
+                var original = new Vector2D(2, 0.9);
+                var expected = new Vector2D(scalars.X * original.X, scalars.Y * original.Y);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class GetProductColumnVector2D : Matrix2DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix2D.CreateIdentity();
+                var original = new Vector2D(3, 5);
+                var expected = new Vector2D(original);
+
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void rotation_matrix_rotates_vector()
+            {
+                var matrix = Matrix2D.CreateRotation(Math.PI / 2.0);
+                var original = new Vector2D(1, 2);
+                var expected = new Vector2D(-2, 1);
+
+                matrix.Transpose();
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+            }
+
+            [Fact]
+            public void scale_matrix_scales()
+            {
+                var scalars = new Vector2D(1.5, -6.3);
+                var matrix = Matrix2D.CreateScaled(scalars);
+                var original = new Vector2D(2, 0.9);
+                var expected = new Vector2D(scalars.X * original.X, scalars.Y * original.Y);
+
+                var actual = matrix.GetProductColumnVector(original);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class TransformVector2DTests : Matrix2DTests
+        {
+            [Fact]
+            public void identity_matrix_leaves_values_unchanged()
+            {
+                var matrix = Matrix2D.CreateIdentity();
+                var actual = new Vector2D(3, 5);
+                var expected = new Vector2D(actual);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void rotation_matrix_rotates_vector()
+            {
+                var matrix = Matrix2D.CreateRotation(Math.PI / 2.0);
+                var original = new Vector2D(1, 2);
+                var expected = new Vector2D(-2, 1);
+
+                var actual = matrix.GetProduct(original);
+
+                Assert.Equal(expected.X, actual.X, 10);
+                Assert.Equal(expected.Y, actual.Y, 10);
+            }
+
+            [Fact]
+            public void scale_matrix_scales()
+            {
+                var scalars = new Vector2D(1.5, -6.3);
+                var matrix = Matrix2D.CreateScaled(scalars);
+                var actual = new Vector2D(2, 0.9);
+                var expected = new Vector2D(scalars.X * actual.X, scalars.Y * actual.Y);
+
+                matrix.Transform(ref actual);
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
         protected Matrix2D CreateIncremenetalMatrix()
         {
             return new Matrix2D(1, 2, 3, 4);
