@@ -15,6 +15,9 @@ namespace DoTheMath.Linear
         IMatrixMutable<double>,
         IEquatable<Matrix4D>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private const uint IndexMask = 0xfffffffc;
+
         /// <summary>
         /// The element at row 0 and column 0.
         /// </summary>
@@ -294,7 +297,7 @@ namespace DoTheMath.Linear
 #endif
             get
             {
-                if (unchecked((row & 0xfffffffc) == 0) && unchecked((column & 0xfffffffc) == 0))
+                if (unchecked((row & IndexMask) == 0) && unchecked((column & IndexMask) == 0))
                 {
                     switch (unchecked((row << 2) | column))
                     {
@@ -324,7 +327,7 @@ namespace DoTheMath.Linear
 #endif
             set
             {
-                if (unchecked((row & 0xfffffffc) == 0) && unchecked((column & 0xfffffffc) == 0))
+                if (unchecked((row & IndexMask) == 0) && unchecked((column & IndexMask) == 0))
                 {
                     switch (unchecked((row << 2) | column))
                     {
@@ -603,9 +606,9 @@ namespace DoTheMath.Linear
 #endif
         public double Get(int row, int column)
         {
-            if (unchecked((row & 0xfffffffc) == 0))
+            if (unchecked((row & IndexMask) == 0))
             {
-                if (unchecked((column & 0xfffffffc) == 0))
+                if (unchecked((column & IndexMask) == 0))
                 {
                     switch (unchecked((row << 2) | column))
                     {
@@ -639,9 +642,9 @@ namespace DoTheMath.Linear
 #endif
         public void Set(int row, int column, double value)
         {
-            if (unchecked((row & 0xfffffffc) == 0))
+            if (unchecked((row & IndexMask) == 0))
             {
-                if (unchecked((column & 0xfffffffc) == 0))
+                if (unchecked((column & IndexMask) == 0))
                 {
                     switch (unchecked((row << 2) | column))
                     {
@@ -672,11 +675,11 @@ namespace DoTheMath.Linear
 
         public void SwapRows(int rowA, int rowB)
         {
-            if (unchecked((rowA & 0xfffffffc) != 0))
+            if (unchecked((rowA & IndexMask) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(rowA));
             }
-            if (unchecked((rowB & 0xfffffffc) != 0))
+            if (unchecked((rowB & IndexMask) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(rowB));
             }
@@ -762,11 +765,11 @@ namespace DoTheMath.Linear
 
         public void SwapColumns(int columnA, int columnB)
         {
-            if (unchecked((columnA & 0xfffffffc) != 0))
+            if (unchecked((columnA & IndexMask) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(columnA));
             }
-            if (unchecked((columnB & 0xfffffffc) != 0))
+            if (unchecked((columnB & IndexMask) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(columnB));
             }

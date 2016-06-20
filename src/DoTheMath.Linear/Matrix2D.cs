@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using static DoTheMath.Linear.Utilities.Swapper;
+using System.Diagnostics;
 
 #if HAS_CODECONTRACTS
 using System.Diagnostics.Contracts;
@@ -14,6 +15,9 @@ namespace DoTheMath.Linear
         IMatrixMutable<double>,
         IEquatable<Matrix2D>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private const uint IndexMask = 0xfe;
+
         /// <summary>
         /// The element at row 0 and column 0.
         /// </summary>
@@ -460,7 +464,7 @@ namespace DoTheMath.Linear
                 }
             }
 
-            throw new ArgumentOutOfRangeException((row & 0xfffffffe) == 0 ? nameof(column) : nameof(row));
+            throw new ArgumentOutOfRangeException((row & IndexMask) == 0 ? nameof(column) : nameof(row));
         }
 
 #if !PRE_NETSTANDARD
@@ -504,11 +508,11 @@ namespace DoTheMath.Linear
 
         public void SwapRows(int rowA, int rowB)
         {
-            if (unchecked((rowA & 0xfe) != 0))
+            if (unchecked((rowA & IndexMask) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(rowA));
             }
-            if (unchecked((rowB & 0xfe) != 0))
+            if (unchecked((rowB & IndexMask) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(rowB));
             }
@@ -523,11 +527,11 @@ namespace DoTheMath.Linear
 
         public void SwapColumns(int columnA, int columnB)
         {
-            if (unchecked((columnA & 0xfe) != 0))
+            if (unchecked((columnA & IndexMask) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(columnA));
             }
-            if (unchecked((columnB & 0xfe) != 0))
+            if (unchecked((columnB & IndexMask) != 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(columnB));
             }
