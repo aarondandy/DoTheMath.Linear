@@ -984,5 +984,43 @@ namespace DoTheMath.Linear.Tests
                 Assert.Equal(expected, actual);
             }
         }
+
+        public class GetCrossProductTest : Vector2DTests
+        {
+            [Fact]
+            public void self_cross_product_is_zero_vector()
+            {
+                var v = new Vector3D(3, 4, -5);
+                var expected = new Vector3D();
+
+                var actual = v.GetCrossProduct(v);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void swapped_operands_produces_negated_result()
+            {
+                var a = new Vector3D(9.2, -3.5, 1.1);
+                var b = new Vector3D(-4.8, 9.4, 2.9);
+                var expected = a.GetCrossProduct(b).GetNegative();
+
+                var actual = b.GetCrossProduct(a);
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_1()
+            {
+                var a = new Vector3D(3, -3, 1);
+                var b = new Vector3D(4, 9, 2);
+                var expected = new Vector3D(-15, -2, 39);
+
+                var actual = a.GetCrossProduct(b);
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }

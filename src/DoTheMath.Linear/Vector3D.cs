@@ -558,6 +558,16 @@ namespace DoTheMath.Linear
             return magnitude == 0.0 ? this : GetQuotient(magnitude);
         }
 
+        public Vector3D GetCrossProduct(Vector3D right)
+        {
+            return new Vector3D
+            {
+                X = (Y * right.Z) - (Z * right.Y),
+                Y = (Z * right.X) - (X * right.Z),
+                Z = (X * right.Y) - (Y * right.X)
+            };
+        }
+
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
