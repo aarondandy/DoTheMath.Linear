@@ -22,7 +22,8 @@
       "exclude": [
         "**/*.targets"
       ]
-    }
+    },
+    "requireLicenseAcceptance": false
   },
   "buildOptions": {
     "compile": {

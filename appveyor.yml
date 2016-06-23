@@ -7,11 +7,15 @@ assembly_info:
 before_build:
   - nuget restore
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo SharedAssemblyInfo.cs
+  - ps: |
+      $jsonpath = 'src/DoTheMath.Linear/project.json'
+      $json = Get-Content -Raw -Path $jsonpath | ConvertFrom-Json
+      $json.version = $Env:GitVersion_NuGetVersion
+      $json | ConvertTo-Json -depth 999 | Out-File $jsonpath
 
 build:
   project: DoTheMath.Linear.sln
 
 after_build:
-  - cmd: ECHO nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
-  - cmd: nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
-  - cmd: appveyor PushArtifact "<NuSpec>.%GitVersion_NuGetVersion%.nupkg"
+  - cmd: dotnet pack src/DoTheMath.Linear -c Release
+  - cmd: appveyor PushArtifact "src/DoTheMath.Linear/bin/Release/DoTheMath.Linear.%GitVersion_NuGetVersion%.nupkg"
