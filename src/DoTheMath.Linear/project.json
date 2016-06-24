@@ -1,9 +1,10 @@
 ﻿{
   "version": "0.0.0-*",
-  "description": "A bunch of stuff for Linear Algebra.",
+  "description": "A simple library for Linear Algebra.",
   "authors": [ "aarondandy" ],
   "copyright": "Copyright (c) 2016 Aaron Dandy",
   "packOptions": {
+    "summary": "A simple library for Linear Algebra.",
     "tags": [
       "linear",
       "algebra",
