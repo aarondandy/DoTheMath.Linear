@@ -11,27 +11,27 @@ using static System.Diagnostics.Contracts.Contract;
 
 namespace DoTheMath.Linear
 {
-    public sealed class VectorD :
-        IVector<double>,
-        IVectorMutable<double>,
-        IEquatable<VectorD>
+    public sealed class VectorF :
+        IVector<float>,
+        IVectorMutable<float>,
+        IEquatable<VectorF>
     {
-        private double[] _components;
+        private float[] _components;
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public VectorD(int dimensions)
+        public VectorF(int dimensions)
         {
             if (dimensions < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(dimensions));
             }
 
-            _components = new double[dimensions];
+            _components = new float[dimensions];
         }
 
-        public VectorD(VectorD source)
+        public VectorF(VectorF source)
         {
             if (source == null)
             {
@@ -41,7 +41,7 @@ namespace DoTheMath.Linear
             _components = Clone(source._components);
         }
 
-        public VectorD(double[] components)
+        public VectorF(float[] components)
         {
             if (components == null)
             {
@@ -54,7 +54,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public VectorD(IVector<double> source)
+        public VectorF(IVector<float> source)
         {
             if (source == null)
             {
@@ -65,7 +65,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(source));
             }
 
-            _components = new double[source.Dimensions];
+            _components = new float[source.Dimensions];
             for (var i = 0; i < _components.Length; i++)
             {
                 _components[i] = source[i];
@@ -83,7 +83,7 @@ namespace DoTheMath.Linear
             get { return _components.Length; }
         }
 
-        public double this[int index]
+        public float this[int index]
         {
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -125,7 +125,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static VectorD CreateUnit(int size, int dimension)
+        public static VectorF CreateUnit(int size, int dimension)
         {
             if (size <= 0)
             {
@@ -136,8 +136,8 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(dimension));
             }
 
-            var result = new VectorD(size);
-            result.Set(dimension, 1.0);
+            var result = new VectorF(size);
+            result.Set(dimension, 1.0f);
             return result;
         }
 
@@ -147,7 +147,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double Get(int dimension)
+        public float Get(int dimension)
         {
             if (dimension < 0 || dimension >= _components.Length)
             {
@@ -160,7 +160,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Set(int dimension, double value)
+        public void Set(int dimension, float value)
         {
             if (dimension < 0 || dimension >= _components.Length)
             {
@@ -173,7 +173,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public VectorD GetSum(VectorD right)
+        public VectorF GetSum(VectorF right)
         {
             if (right == null)
             {
@@ -184,7 +184,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(right));
             }
 
-            var sum = new VectorD(_components.Length);
+            var sum = new VectorF(_components.Length);
             var sumComponents = sum._components;
             var rightComponents = right._components;
 
@@ -196,7 +196,7 @@ namespace DoTheMath.Linear
             return sum;
         }
 
-        public void Add(VectorD right)
+        public void Add(VectorF right)
         {
             if (right == null)
             {
@@ -218,7 +218,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public VectorD GetDiffernce(VectorD right)
+        public VectorF GetDiffernce(VectorF right)
         {
             if (right == null)
             {
@@ -229,7 +229,7 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(right));
             }
 
-            var difference = new VectorD(_components.Length);
+            var difference = new VectorF(_components.Length);
             var diffComponents = difference._components;
             var rightComponents = right._components;
 
@@ -241,7 +241,7 @@ namespace DoTheMath.Linear
             return difference;
         }
 
-        public void Subtract(VectorD right)
+        public void Subtract(VectorF right)
         {
             if (right == null)
             {
@@ -263,9 +263,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public VectorD GetScaled(double scalar)
+        public VectorF GetScaled(float scalar)
         {
-            var scaled = new VectorD(_components.Length);
+            var scaled = new VectorF(_components.Length);
             var scaledComponents = scaled._components;
 
             for (int i = 0; i < scaledComponents.Length; i++)
@@ -276,7 +276,7 @@ namespace DoTheMath.Linear
             return scaled;
         }
 
-        public void Scale(double scalar)
+        public void Scale(float scalar)
         {
             for (int i = 0; i < _components.Length; i++)
             {
@@ -284,7 +284,7 @@ namespace DoTheMath.Linear
             }
         }
 
-        public void Divide(double divisor)
+        public void Divide(float divisor)
         {
             for (int i = 0; i < _components.Length; i++)
             {
@@ -295,9 +295,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public VectorD GetQuotient(double divisor)
+        public VectorF GetQuotient(float divisor)
         {
-            var quotient = new VectorD(_components.Length);
+            var quotient = new VectorF(_components.Length);
 
             var quotientComponents = quotient._components;
             for (int i = 0; i < _components.Length; i++)
@@ -319,9 +319,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public VectorD GetNegative()
+        public VectorF GetNegative()
         {
-            var negated = new VectorD(_components.Length);
+            var negated = new VectorF(_components.Length);
 
             var negatedComponents = negated._components;
             for (var i = 0; i < _components.Length; i++)
@@ -335,7 +335,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetDot(VectorD right)
+        public float GetDot(VectorF right)
         {
             if (right == null)
             {
@@ -350,7 +350,7 @@ namespace DoTheMath.Linear
 
             if (_components.Length == 0)
             {
-                return 0.0;
+                return 0.0f;
             }
 
             var sum = _components[0] * rightComponents[0];
@@ -368,19 +368,19 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public double GetMagnitude()
+        public float GetMagnitude()
         {
-            return Math.Sqrt(GetMagnitudeSquared());
+            return (float)Math.Sqrt(GetMagnitudeSquared());
         }
 
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetMagnitudeSquared()
+        public float GetMagnitudeSquared()
         {
             if (_components.Length == 0)
             {
-                return 0.0;
+                return 0.0f;
             }
 
             var sum = MathEx.Square(_components[0]);
@@ -398,7 +398,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetAngleBetween(VectorD other)
+        public float GetAngleBetween(VectorF other)
         {
             if (other == null)
             {
@@ -409,9 +409,9 @@ namespace DoTheMath.Linear
                 throw new ArgumentOutOfRangeException(nameof(other));
             }
 
-            return Math.Acos(
+            return (float)Math.Acos(
                 GetDot(other)
-                    / Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
+                    / (float)Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
         }
 
 #if HAS_CODECONTRACTS
@@ -420,15 +420,15 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public double GetDistance(VectorD other)
+        public float GetDistance(VectorF other)
         {
-            return Math.Sqrt(GetDistanceSquared(other));
+            return (float)Math.Sqrt(GetDistanceSquared(other));
         }
 
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetDistanceSquared(VectorD other)
+        public float GetDistanceSquared(VectorF other)
         {
             if (other == null)
             {
@@ -443,7 +443,7 @@ namespace DoTheMath.Linear
 
             if (_components.Length == 0)
             {
-                return 0.0;
+                return 0.0f;
             }
 
             var sum = MathEx.Square(_components[0] - otherComponenets[0]);
@@ -458,7 +458,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public VectorD GetProjected(VectorD other)
+        public VectorF GetProjected(VectorF other)
         {
             if (other.Dimensions != Dimensions)
             {
@@ -466,7 +466,7 @@ namespace DoTheMath.Linear
             }
 
             var scalarDenominator = GetMagnitudeSquared();
-            return scalarDenominator == 0.0
+            return scalarDenominator == 0.0f
                 ? other
                 : GetScaled(GetDot(other) / scalarDenominator);
         }
@@ -477,7 +477,7 @@ namespace DoTheMath.Linear
         public void Normalize()
         {
             var magnitude = GetMagnitude();
-            if (magnitude != 0.0)
+            if (magnitude != 0.0f)
             {
                 Divide(magnitude);
             }
@@ -489,16 +489,16 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public VectorD GetNormal()
+        public VectorF GetNormal()
         {
             var magnitude = GetMagnitude();
-            return magnitude == 0.0 ? this : GetQuotient(magnitude);
+            return magnitude == 0.0f ? this : GetQuotient(magnitude);
         }
 
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public bool Equals(VectorD other)
+        public bool Equals(VectorF other)
         {
             if (object.ReferenceEquals(this, other))
             {
@@ -535,7 +535,7 @@ namespace DoTheMath.Linear
 #endif
         public sealed override bool Equals(object obj)
         {
-            return obj is VectorD && Equals((VectorD)obj);
+            return obj is VectorF && Equals((VectorF)obj);
         }
 
 #if HAS_CODECONTRACTS

@@ -41,7 +41,7 @@ namespace DoTheMath.Linear
 #endif
         public Vector2D(IVector2<double> source)
         {
-            if(source == null)
+            if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
@@ -59,7 +59,7 @@ namespace DoTheMath.Linear
             {
                 throw new ArgumentNullException(nameof(source));
             }
-            if(source.Dimensions != 2)
+            if (source.Dimensions != 2)
             {
                 throw new ArgumentOutOfRangeException(nameof(source));
             }
@@ -483,9 +483,9 @@ namespace DoTheMath.Linear
         public Vector2D GetProjected(Vector2D other)
         {
             var scalarDenominator = GetMagnitudeSquared();
-            return scalarDenominator == 0.0
+            return scalarDenominator == 0.0d
                 ? other
-                : GetScaled((GetDot(other)) / scalarDenominator);
+                : GetScaled(GetDot(other) / scalarDenominator);
         }
 
 #if !PRE_NETSTANDARD
@@ -494,7 +494,7 @@ namespace DoTheMath.Linear
         public void Normalize()
         {
             var magnitude = GetMagnitude();
-            if(magnitude != 0.0)
+            if (magnitude != 0.0d)
             {
                 Divide(magnitude);
             }
@@ -509,7 +509,7 @@ namespace DoTheMath.Linear
         public Vector2D GetNormal()
         {
             var magnitude = GetMagnitude();
-            return magnitude == 0.0 ? this : GetQuotient(magnitude);
+            return magnitude == 0.0d ? this : GetQuotient(magnitude);
         }
 
 #if !PRE_NETSTANDARD

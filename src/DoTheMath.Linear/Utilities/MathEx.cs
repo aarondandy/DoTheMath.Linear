@@ -21,6 +21,22 @@ namespace DoTheMath.Linear.Utilities
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+        public static void Negate(ref float value)
+        {
+            value = -value;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static void Negate(ref int value)
+        {
+            value = -value;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
@@ -35,11 +51,33 @@ namespace DoTheMath.Linear.Utilities
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
+        public static float Square(float value)
+        {
+            return value * value;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static int Square(int value)
+        {
+            return value * value;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
         public static bool IsZero<TValue>(TValue value)
         {
             if (typeof(TValue) == typeof(double))
             {
-                return (double)(object)value == 0.0;
+                return (double)(object)value == 0.0d;
             }
             else if (typeof(TValue) == typeof(float))
             {
@@ -65,7 +103,7 @@ namespace DoTheMath.Linear.Utilities
         {
             if (typeof(TValue) == typeof(double))
             {
-                return (double)(object)value == 1.0;
+                return (double)(object)value == 1.0d;
             }
             else if (typeof(TValue) == typeof(float))
             {
@@ -91,7 +129,7 @@ namespace DoTheMath.Linear.Utilities
         {
             if (typeof(TValue) == typeof(double))
             {
-                return (TValue)(object)0.0;
+                return (TValue)(object)0.0d;
             }
             else if (typeof(TValue) == typeof(float))
             {

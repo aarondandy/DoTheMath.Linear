@@ -9,45 +9,37 @@ using static System.Diagnostics.Contracts.Contract;
 
 namespace DoTheMath.Linear
 {
-    public struct Vector4D :
-        IVector4<double>,
-        IVectorMutable<double>,
-        IEquatable<Vector4D>
+    public struct Vector2F :
+        IVector2<float>,
+        IVectorMutable<float>,
+        IEquatable<Vector2F>
     {
-        public double X;
+        public float X;
 
-        public double Y;
-
-        public double Z;
-
-        public double W;
+        public float Y;
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Vector4D(double x, double y, double z, double w)
+        public Vector2F(float x, float y)
         {
             X = x;
             Y = y;
-            Z = z;
-            W = w;
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Vector4D(Vector4D source)
+        public Vector2F(Vector2F source)
         {
             X = source.X;
             Y = source.Y;
-            Z = source.Z;
-            W = source.W;
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Vector4D(IVector4<double> source)
+        public Vector2F(IVector2<float> source)
         {
             if (source == null)
             {
@@ -56,28 +48,24 @@ namespace DoTheMath.Linear
 
             X = source.X;
             Y = source.Y;
-            Z = source.Z;
-            W = source.W;
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Vector4D(IVector<double> source)
+        public Vector2F(IVector<float> source)
         {
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
-            if (source.Dimensions != 4)
+            if (source.Dimensions != 2)
             {
                 throw new ArgumentOutOfRangeException(nameof(source));
             }
 
             X = source[0];
             Y = source[1];
-            Z = source[2];
-            W = source[3];
         }
 
         public int Dimensions
@@ -88,10 +76,10 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
             [Pure]
 #endif
-            get { return 4; }
+            get { return 2; }
         }
 
-        public double this[int index]
+        public float this[int index]
         {
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -109,14 +97,6 @@ namespace DoTheMath.Linear
                 {
                     return Y;
                 }
-                if (index == 2)
-                {
-                    return Z;
-                }
-                if (index == 3)
-                {
-                    return W;
-                }
 
                 throw new IndexOutOfRangeException();
             }
@@ -133,14 +113,6 @@ namespace DoTheMath.Linear
                 {
                     Y = value;
                 }
-                else if (index == 2)
-                {
-                    Z = value;
-                }
-                else if (index == 3)
-                {
-                    W = value;
-                }
                 else
                 {
                     throw new IndexOutOfRangeException();
@@ -148,7 +120,7 @@ namespace DoTheMath.Linear
             }
         }
 
-        double IVector4<double>.X
+        float IVector2<float>.X
         {
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -159,7 +131,7 @@ namespace DoTheMath.Linear
             get { return X; }
         }
 
-        double IVector4<double>.Y
+        float IVector2<float>.Y
         {
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -170,35 +142,13 @@ namespace DoTheMath.Linear
             get { return Y; }
         }
 
-        double IVector4<double>.Z
-        {
-#if !PRE_NETSTANDARD
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-#if HAS_CODECONTRACTS
-            [Pure]
-#endif
-            get { return Z; }
-        }
-
-        double IVector4<double>.W
-        {
-#if !PRE_NETSTANDARD
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-#if HAS_CODECONTRACTS
-            [Pure]
-#endif
-            get { return W; }
-        }
-
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Vector4D operator +(Vector4D left, Vector4D right)
+        public static Vector2F operator +(Vector2F left, Vector2F right)
         {
             return left.GetSum(right);
         }
@@ -209,7 +159,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Vector4D operator -(Vector4D left, Vector4D right)
+        public static Vector2F operator -(Vector2F left, Vector2F right)
         {
             return left.GetDifference(right);
         }
@@ -220,7 +170,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static double operator *(Vector4D left, Vector4D right)
+        public static float operator *(Vector2F left, Vector2F right)
         {
             return left.GetDot(right);
         }
@@ -231,7 +181,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Vector4D operator *(Vector4D vector, double scalar)
+        public static Vector2F operator *(Vector2F vector, float scalar)
         {
             return vector.GetScaled(scalar);
         }
@@ -242,7 +192,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Vector4D operator *(double scalar, Vector4D vector)
+        public static Vector2F operator *(float scalar, Vector2F vector)
         {
             return vector.GetScaled(scalar);
         }
@@ -253,7 +203,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Vector4D operator /(Vector4D vector, double divisor)
+        public static Vector2F operator /(Vector2F vector, float divisor)
         {
             return vector.GetQuotient(divisor);
         }
@@ -264,11 +214,11 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Vector4D CreateXUnit()
+        public static Vector2F CreateXUnit()
         {
-            return new Vector4D
+            return new Vector2F
             {
-                X = 1.0
+                X = 1.0f
             };
         }
 
@@ -278,11 +228,11 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Vector4D CreateYUnit()
+        public static Vector2F CreateYUnit()
         {
-            return new Vector4D
+            return new Vector2F
             {
-                Y = 1.0
+                Y = 1.0f
             };
         }
 
@@ -292,35 +242,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Vector4D CreateZUnit()
-        {
-            return new Vector4D
-            {
-                Z = 1.0
-            };
-        }
-
-#if !PRE_NETSTANDARD
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-#if HAS_CODECONTRACTS
-        [Pure]
-#endif
-        public static Vector4D CreateWUnit()
-        {
-            return new Vector4D
-            {
-                W = 1.0
-            };
-        }
-
-#if !PRE_NETSTANDARD
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-#if HAS_CODECONTRACTS
-        [Pure]
-#endif
-        public double Get(int dimension)
+        public float Get(int dimension)
         {
             if (dimension == 0)
             {
@@ -330,14 +252,6 @@ namespace DoTheMath.Linear
             {
                 return Y;
             }
-            if (dimension == 2)
-            {
-                return Z;
-            }
-            if (dimension == 3)
-            {
-                return W;
-            }
 
             throw new ArgumentOutOfRangeException(nameof(dimension));
         }
@@ -345,7 +259,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Set(int dimension, double value)
+        public void Set(int dimension, float value)
         {
             if (dimension == 0)
             {
@@ -354,14 +268,6 @@ namespace DoTheMath.Linear
             else if (dimension == 1)
             {
                 Y = value;
-            }
-            else if (dimension == 2)
-            {
-                Z = value;
-            }
-            else if (dimension == 3)
-            {
-                W = value;
             }
             else
             {
@@ -375,26 +281,22 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Vector4D GetSum(Vector4D right)
+        public Vector2F GetSum(Vector2F right)
         {
-            return new Vector4D
+            return new Vector2F
             {
                 X = X + right.X,
-                Y = Y + right.Y,
-                Z = Z + right.Z,
-                W = W + right.W
+                Y = Y + right.Y
             };
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add(Vector4D right)
+        public void Add(Vector2F right)
         {
             X += right.X;
             Y += right.Y;
-            Z += right.Z;
-            W += right.W;
         }
 
 #if !PRE_NETSTANDARD
@@ -403,26 +305,22 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Vector4D GetDifference(Vector4D right)
+        public Vector2F GetDifference(Vector2F right)
         {
-            return new Vector4D
+            return new Vector2F
             {
                 X = X - right.X,
-                Y = Y - right.Y,
-                Z = Z - right.Z,
-                W = W - right.W
+                Y = Y - right.Y
             };
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Subtract(Vector4D right)
+        public void Subtract(Vector2F right)
         {
             X -= right.X;
             Y -= right.Y;
-            Z -= right.Z;
-            W -= right.W;
         }
 
 #if !PRE_NETSTANDARD
@@ -431,37 +329,31 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Vector4D GetScaled(double scalar)
+        public Vector2F GetScaled(float scalar)
         {
-            return new Vector4D
+            return new Vector2F
             {
                 X = X * scalar,
-                Y = Y * scalar,
-                Z = Z * scalar,
-                W = W * scalar
+                Y = Y * scalar
             };
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Scale(double scalar)
+        public void Scale(float scalar)
         {
             X *= scalar;
             Y *= scalar;
-            Z *= scalar;
-            W *= scalar;
         }
 
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Divide(double divisor)
+        public void Divide(float divisor)
         {
             X /= divisor;
             Y /= divisor;
-            Z /= divisor;
-            W /= divisor;
         }
 
 #if !PRE_NETSTANDARD
@@ -470,14 +362,12 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Vector4D GetQuotient(double divisor)
+        public Vector2F GetQuotient(float divisor)
         {
-            return new Vector4D
+            return new Vector2F
             {
                 X = X / divisor,
-                Y = Y / divisor,
-                Z = Z / divisor,
-                W = W / divisor
+                Y = Y / divisor
             };
         }
 
@@ -488,8 +378,6 @@ namespace DoTheMath.Linear
         {
             X = -X;
             Y = -Y;
-            Z = -Z;
-            W = -W;
         }
 
 #if !PRE_NETSTANDARD
@@ -498,14 +386,12 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Vector4D GetNegative()
+        public Vector2F GetNegative()
         {
-            return new Vector4D
+            return new Vector2F
             {
                 X = -X,
-                Y = -Y,
-                Z = -Z,
-                W = -W
+                Y = -Y
             };
         }
 
@@ -515,9 +401,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetDot(Vector4D right)
+        public float GetDot(Vector2F right)
         {
-            return (X * right.X) + (Y * right.Y) + (Z * right.Z) + (W * right.W);
+            return (X * right.X) + (Y * right.Y);
         }
 
 #if !PRE_NETSTANDARD
@@ -526,9 +412,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetMagnitude()
+        public float GetPerpendicularDot(Vector2F right)
         {
-            return Math.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
+            return (X * right.Y) - (Y * right.X);
         }
 
 #if !PRE_NETSTANDARD
@@ -537,9 +423,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetMagnitudeSquared()
+        public float GetMagnitude()
         {
-            return (X * X) + (Y * Y) + (Z * Z) + (W * W);
+            return (float)Math.Sqrt((X * X) + (Y * Y));
         }
 
 #if !PRE_NETSTANDARD
@@ -548,11 +434,22 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetAngleBetween(Vector4D other)
+        public float GetMagnitudeSquared()
         {
-            return Math.Acos(
+            return (X * X) + (Y * Y);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public float GetAngleBetween(Vector2F other)
+        {
+            return (float)Math.Acos(
                 GetDot(other)
-                    / Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
+                    / (float)Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
         }
 
 #if !PRE_NETSTANDARD
@@ -561,9 +458,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetDistance(Vector4D other)
+        public float GetDistance(Vector2F other)
         {
-            return Math.Sqrt(MathEx.Square(X - other.X) + MathEx.Square(Y - other.Y) + MathEx.Square(Z - other.Z) + MathEx.Square(W - other.W));
+            return (float)Math.Sqrt(MathEx.Square(X - other.X) + MathEx.Square(Y - other.Y));
         }
 
 #if !PRE_NETSTANDARD
@@ -572,9 +469,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetDistanceSquared(Vector4D other)
+        public float GetDistanceSquared(Vector2F other)
         {
-            return MathEx.Square(X - other.X) + MathEx.Square(Y - other.Y) + MathEx.Square(Z - other.Z) + MathEx.Square(W - other.W);
+            return MathEx.Square(X - other.X) + MathEx.Square(Y - other.Y);
         }
 
 #if !PRE_NETSTANDARD
@@ -583,10 +480,10 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Vector4D GetProjected(Vector4D other)
+        public Vector2F GetProjected(Vector2F other)
         {
             var scalarDenominator = GetMagnitudeSquared();
-            return scalarDenominator == 0.0d
+            return scalarDenominator == 0.0f
                 ? other
                 : GetScaled(GetDot(other) / scalarDenominator);
         }
@@ -597,7 +494,7 @@ namespace DoTheMath.Linear
         public void Normalize()
         {
             var magnitude = GetMagnitude();
-            if (magnitude != 0.0d)
+            if (magnitude != 0.0f)
             {
                 Divide(magnitude);
             }
@@ -609,21 +506,61 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Vector4D GetNormal()
+        public Vector2F GetNormal()
         {
             var magnitude = GetMagnitude();
-            return magnitude == 0.0d ? this : GetQuotient(magnitude);
+            return magnitude == 0.0f ? this : GetQuotient(magnitude);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void RotatePerpendicularClockwise()
+        {
+            var temp = Y;
+            Y = -X;
+            X = temp;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector2F GetPerpendicularClockwise()
+        {
+            return new Vector2F(Y, -X);
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void RotatePerpendicularCounterclockwise()
+        {
+            var temp = X;
+            X = -Y;
+            Y = temp;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public Vector2F GetPerpendicularCounterclockwise()
+        {
+            return new Vector2F(-Y, X);
         }
 
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public bool Equals(Vector4D other)
+        public bool Equals(Vector2F other)
         {
             return X.Equals(other.X)
-                && Y.Equals(other.Y)
-                && Z.Equals(other.Z)
-                && W.Equals(other.W);
+                && Y.Equals(other.Y);
         }
 
 #if HAS_CODECONTRACTS
@@ -631,7 +568,7 @@ namespace DoTheMath.Linear
 #endif
         public sealed override bool Equals(object obj)
         {
-            return obj is Vector4D && Equals((Vector4D)obj);
+            return obj is Vector2F && Equals((Vector2F)obj);
         }
 
 #if HAS_CODECONTRACTS
