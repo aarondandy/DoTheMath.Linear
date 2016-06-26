@@ -1424,6 +1424,101 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class TryGetInverse : Matrix2FTests
+        {
+            [Fact]
+            public void failure_does_not_mutate_matrix()
+            {
+                var actual = new Matrix2F(1, 1, 1, 1);
+                var expected = new Matrix2F(actual);
+
+                Matrix2F inverse;
+                var result = actual.TryGetInverse(out inverse);
+
+                Assert.NotNull(inverse);
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_get_inverse()
+            {
+                var matrix = new Matrix2F(
+                    1, 3,
+                    2, 4);
+                var expected = new Matrix2F(
+                    -2, 1.5f,
+                    1, -0.5f);
+
+                Matrix2F actual;
+                var result = matrix.TryGetInverse(out actual);
+
+                Assert.True(result);
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Invert : Matrix2FTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix2F(1, 1, 1, 1);
+                var expected = new Matrix2F(actual);
+
+                Action act = () => actual.Invert();
+
+                Assert.Throws<NoInverseException>(act);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix2F(
+                    1, 3,
+                    2, 4);
+                var expected = new Matrix2F(
+                    -2, 1.5f,
+                    1, -0.5f);
+
+                actual.Invert();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class TryInvert : Matrix2FTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix2F(1, 1, 1, 1);
+                var expected = new Matrix2F(actual);
+
+                var result = actual.TryInvert();
+
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix2F(
+                    1, 3,
+                    2, 4);
+                var expected = new Matrix2F(
+                    -2, 1.5f,
+                    1, -0.5f);
+
+                var result = actual.TryInvert();
+
+                Assert.True(result);
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class GetDeterminant : Matrix2FTests
         {
             [Fact]

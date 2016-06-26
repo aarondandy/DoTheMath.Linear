@@ -963,16 +963,47 @@ namespace DoTheMath.Linear
             Ensures(Result<Matrix2D>() != null);
 #endif
 
-            var inverter = new GaussJordanInverter<Matrix2D, double>(
-                new Matrix2D(this),
-                Matrix2D.CreateIdentity());
-
-            if (inverter.Invert())
+            var inverter = new GaussJordanInverter<Matrix2D, double>(new Matrix2D(this), CreateIdentity());
+            if (!inverter.Invert())
             {
-                return inverter.Inverse;
+                throw new NoInverseException();
             }
 
-            throw new NoInverseException();
+            return inverter.Inverse;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public bool TryGetInverse(out Matrix2D inverse)
+        {
+            var inverter = new GaussJordanInverter<Matrix2D, double>(new Matrix2D(this), CreateIdentity());
+            var successful = inverter.Invert();
+            inverse = inverter.Inverse;
+            return successful;
+        }
+
+        public void Invert()
+        {
+            var inverter = new GaussJordanInverter<Matrix2D, double>(new Matrix2D(this), CreateIdentity());
+            if (!inverter.Invert())
+            {
+                throw new NoInverseException();
+            }
+
+            CopyFrom(inverter.Inverse);
+        }
+
+        public bool TryInvert()
+        {
+            var inverter = new GaussJordanInverter<Matrix2D, double>(new Matrix2D(this), CreateIdentity());
+            var successful = inverter.Invert();
+            if (successful)
+            {
+                CopyFrom(inverter.Inverse);
+            }
+
+            return successful;
         }
 
         /// <summary>
@@ -1057,6 +1088,20 @@ namespace DoTheMath.Linear
         public sealed override int GetHashCode()
         {
             return Rows;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void CopyFrom(Matrix2D source)
+        {
+#if HAS_CODECONTRACTS
+            Requires(source != null);
+#endif
+            E00 = source.E00;
+            E01 = source.E01;
+            E10 = source.E10;
+            E11 = source.E11;
         }
     }
 }

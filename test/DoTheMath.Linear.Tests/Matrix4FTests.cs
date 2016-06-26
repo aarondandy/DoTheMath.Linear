@@ -1787,10 +1787,9 @@ namespace DoTheMath.Linear.Tests
                 {
                     for (int c = 0; c < expected.Columns; c++)
                     {
-                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 3);
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 3);  // TODO: increase accuracy
                     }
                 }
-
             }
 
             [Fact]
@@ -1814,7 +1813,134 @@ namespace DoTheMath.Linear.Tests
                 {
                     for (int c = 0; c < expected.Columns; c++)
                     {
-                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 5);
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 5);  // TODO: increase accuracy
+                    }
+                }
+            }
+        }
+
+        public class TryGetInverse : Matrix4FTests
+        {
+            [Fact]
+            public void failure_does_not_mutate_matrix()
+            {
+                var actual = new Matrix4F(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix4F(actual);
+
+                Matrix4F inverse;
+                var result = actual.TryGetInverse(out inverse);
+
+                Assert.NotNull(inverse);
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_get_inverse()
+            {
+                var matrix = new Matrix4F(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4F(
+                    17.85f, -7.7f, -4.55f, 2.5f,
+                    -14.6f, 6.2f, 3.8f, -2,
+                    4.35f, -1.7f, -1.05f, 0.5f,
+                    -0.7f, 0.4f, 0.1f, 0f);
+
+                Matrix4F actual;
+                var result = matrix.TryGetInverse(out actual);
+
+                Assert.True(result);
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 5); // TODO: increase accuracy
+                    }
+                }
+            }
+        }
+
+        public class Invert : Matrix4FTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix4F(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix4F(actual);
+
+                Action act = () => actual.Invert();
+
+                Assert.Throws<NoInverseException>(act);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix4F(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4F(
+                    17.85f, -7.7f, -4.55f, 2.5f,
+                    -14.6f, 6.2f, 3.8f, -2,
+                    4.35f, -1.7f, -1.05f, 0.5f,
+                    -0.7f, 0.4f, 0.1f, 0f);
+
+                actual.Invert();
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 5); // TODO: increase accuracy
+                    }
+                }
+            }
+        }
+
+        public class TryInvert : Matrix4FTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix4F(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix4F(actual);
+
+                var result = actual.TryInvert();
+
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix4F(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4F(
+                    17.85f, -7.7f, -4.55f, 2.5f,
+                    -14.6f, 6.2f, 3.8f, -2,
+                    4.35f, -1.7f, -1.05f, 0.5f,
+                    -0.7f, 0.4f, 0.1f, 0f);
+
+                var result = actual.TryInvert();
+
+                Assert.True(result);
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 5); // TODO: increase accuracy
                     }
                 }
             }

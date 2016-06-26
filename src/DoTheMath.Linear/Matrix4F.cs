@@ -1597,16 +1597,51 @@ namespace DoTheMath.Linear
 #endif
         public Matrix4F GetInverse()
         {
-            var inverter = new GaussJordanInverter<Matrix4F, float>(new Matrix4F(this), CreateIdentity());
+#if HAS_CODECONTRACTS
+            Ensures(Result<Matrix4F>() != null);
+#endif
 
-            if (inverter.Invert())
-            {
-                return inverter.Inverse;
-            }
-            else
+            var inverter = new GaussJordanInverter<Matrix4F, float>(new Matrix4F(this), CreateIdentity());
+            if (!inverter.Invert())
             {
                 throw new NoInverseException();
             }
+
+            return inverter.Inverse;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public bool TryGetInverse(out Matrix4F inverse)
+        {
+            var inverter = new GaussJordanInverter<Matrix4F, float>(new Matrix4F(this), CreateIdentity());
+            var successful = inverter.Invert();
+            inverse = inverter.Inverse;
+            return successful;
+        }
+
+        public void Invert()
+        {
+            var inverter = new GaussJordanInverter<Matrix4F, float>(new Matrix4F(this), CreateIdentity());
+            if (!inverter.Invert())
+            {
+                throw new NoInverseException();
+            }
+
+            CopyFrom(inverter.Inverse);
+        }
+
+        public bool TryInvert()
+        {
+            var inverter = new GaussJordanInverter<Matrix4F, float>(new Matrix4F(this), CreateIdentity());
+            var successful = inverter.Invert();
+            if (successful)
+            {
+                CopyFrom(inverter.Inverse);
+            }
+
+            return successful;
         }
 
 #if HAS_CODECONTRACTS
@@ -1744,6 +1779,32 @@ namespace DoTheMath.Linear
         public sealed override int GetHashCode()
         {
             return Rows;
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void CopyFrom(Matrix4F source)
+        {
+#if HAS_CODECONTRACTS
+            Requires(source != null);
+#endif
+            E00 = source.E00;
+            E01 = source.E01;
+            E02 = source.E02;
+            E03 = source.E03;
+            E10 = source.E10;
+            E11 = source.E11;
+            E12 = source.E12;
+            E13 = source.E13;
+            E20 = source.E20;
+            E21 = source.E21;
+            E22 = source.E22;
+            E23 = source.E23;
+            E30 = source.E30;
+            E31 = source.E31;
+            E32 = source.E32;
+            E33 = source.E33;
         }
     }
 }
