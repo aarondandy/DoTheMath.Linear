@@ -686,13 +686,62 @@ namespace DoTheMath.Linear
             }
 
             var inverter = new GaussJordanInverter<MatrixF, float>(new MatrixF(this), CreateIdentity(Rows));
-
-            if (inverter.Invert())
+            if (!inverter.Invert())
             {
-                return inverter.Inverse;
+                throw new NoInverseException();
             }
 
-            throw new NoInverseException();
+            return inverter.Inverse;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public bool TryGetInverse(out MatrixF inverse)
+        {
+            if (!IsSquare)
+            {
+                inverse = null;
+                return false;
+            }
+
+            var inverter = new GaussJordanInverter<MatrixF, float>(new MatrixF(this), CreateIdentity(Rows));
+            var successful = inverter.Invert();
+            inverse = inverter.Inverse;
+            return successful;
+        }
+
+        public void Invert()
+        {
+            if (!IsSquare)
+            {
+                throw new NotSquareMatrixException();
+            }
+
+            var inverter = new GaussJordanInverter<MatrixF, float>(new MatrixF(this), CreateIdentity(Rows));
+            if (!inverter.Invert())
+            {
+                throw new NoInverseException();
+            }
+
+            CopyFrom(inverter.Inverse);
+        }
+
+        public bool TryInvert()
+        {
+            if (!IsSquare)
+            {
+                return false;
+            }
+
+            var inverter = new GaussJordanInverter<MatrixF, float>(new MatrixF(this), CreateIdentity(Rows));
+            var successful = inverter.Invert();
+            if (successful)
+            {
+                CopyFrom(inverter.Inverse);
+            }
+
+            return successful;
         }
 
 #if HAS_CODECONTRACTS
@@ -767,6 +816,22 @@ namespace DoTheMath.Linear
             {
                 return 2203 + _elements.Length * 23;
             }
+        }
+
+#if !PRE_NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void CopyFrom(MatrixF source)
+        {
+#if HAS_CODECONTRACTS
+            Requires(source != null);
+            Requires(source.Rows == Rows);
+            Requires(source.Columns == Columns);
+
+            Assume(source._elements.Length == _elements.Length);
+#endif
+
+            CopyTo(source._elements, _elements);
         }
     }
 }

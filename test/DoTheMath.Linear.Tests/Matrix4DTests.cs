@@ -1820,6 +1820,133 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class TryGetInverse : Matrix4DTests
+        {
+            [Fact]
+            public void failure_does_not_mutate_matrix()
+            {
+                var actual = new Matrix4D(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix4D(actual);
+
+                Matrix4D inverse;
+                var result = actual.TryGetInverse(out inverse);
+
+                Assert.NotNull(inverse);
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_get_inverse()
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4D(
+                    17.85, -7.7, -4.55, 2.5,
+                    -14.6, 6.2, 3.8, -2,
+                    4.35, -1.7, -1.05, 0.5,
+                    -0.7, 0.4, 0.1, 0);
+
+                Matrix4D actual;
+                var result = matrix.TryGetInverse(out actual);
+
+                Assert.True(result);
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
+        }
+
+        public class Invert : Matrix4DTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix4D(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix4D(actual);
+
+                Action act = () => actual.Invert();
+
+                Assert.Throws<NoInverseException>(act);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4D(
+                    17.85, -7.7, -4.55, 2.5,
+                    -14.6, 6.2, 3.8, -2,
+                    4.35, -1.7, -1.05, 0.5,
+                    -0.7, 0.4, 0.1, 0);
+
+                actual.Invert();
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
+        }
+
+        public class TryInvert : Matrix4DTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix4D(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix4D(actual);
+
+                var result = actual.TryInvert();
+
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4D(
+                    17.85, -7.7, -4.55, 2.5,
+                    -14.6, 6.2, 3.8, -2,
+                    4.35, -1.7, -1.05, 0.5,
+                    -0.7, 0.4, 0.1, 0);
+
+                var result = actual.TryInvert();
+
+                Assert.True(result);
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
+        }
+
         public class GetDeterminant : Matrix4DTests
         {
             [Fact]
