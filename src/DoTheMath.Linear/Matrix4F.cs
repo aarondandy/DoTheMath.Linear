@@ -11,9 +11,9 @@ using static System.Diagnostics.Contracts.Contract;
 
 namespace DoTheMath.Linear
 {
-    public sealed class Matrix4D :
-        IMatrixMutable<double>,
-        IEquatable<Matrix4D>
+    public sealed class Matrix4F :
+        IMatrixMutable<float>,
+        IEquatable<Matrix4F>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private const uint IndexMask = 0xfffffffc;
@@ -21,67 +21,67 @@ namespace DoTheMath.Linear
         /// <summary>
         /// The element at row 0 and column 0.
         /// </summary>
-        public double E00;
+        public float E00;
         /// <summary>
         /// The element at row 0 and column 1.
         /// </summary>
-        public double E01;
+        public float E01;
         /// <summary>
         /// The element at row 0 and column 2.
         /// </summary>
-        public double E02;
+        public float E02;
         /// <summary>
         /// The element at row 0 and column 3.
         /// </summary>
-        public double E03;
+        public float E03;
         /// <summary>
         /// The element at row 1 and column 0.
         /// </summary>
-        public double E10;
+        public float E10;
         /// <summary>
         /// The element at row 1 and column 1.
         /// </summary>
-        public double E11;
+        public float E11;
         /// <summary>
         /// The element at row 1 and column 2.
         /// </summary>
-        public double E12;
+        public float E12;
         /// <summary>
         /// The element at row 1 and column 3.
         /// </summary>
-        public double E13;
+        public float E13;
         /// <summary>
         /// The element at row 2 and column 0.
         /// </summary>
-        public double E20;
+        public float E20;
         /// <summary>
         /// The element at row 2 and column 1.
         /// </summary>
-        public double E21;
+        public float E21;
         /// <summary>
         /// The element at row 2 and column 2.
         /// </summary>
-        public double E22;
+        public float E22;
         /// <summary>
         /// The element at row 2 and column 3.
         /// </summary>
-        public double E23;
+        public float E23;
         /// <summary>
         /// The element at row 3 and column 0.
         /// </summary>
-        public double E30;
+        public float E30;
         /// <summary>
         /// The element at row 3 and column 1.
         /// </summary>
-        public double E31;
+        public float E31;
         /// <summary>
         /// The element at row 3 and column 2.
         /// </summary>
-        public double E32;
+        public float E32;
         /// <summary>
         /// The element at row 3 and column 3.
         /// </summary>
-        public double E33;
+        public float E33;
 
         /// <summary>
         /// Constructs a new zero matrix.
@@ -89,7 +89,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Matrix4D()
+        public Matrix4F()
         {
         }
 
@@ -115,11 +115,11 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Matrix4D(
-            double e00, double e01, double e02, double e03,
-            double e10, double e11, double e12, double e13,
-            double e20, double e21, double e22, double e23,
-            double e30, double e31, double e32, double e33
+        public Matrix4F(
+            float e00, float e01, float e02, float e03,
+            float e10, float e11, float e12, float e13,
+            float e20, float e21, float e22, float e23,
+            float e30, float e31, float e32, float e33
         )
         {
             E00 = e00;
@@ -143,7 +143,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Matrix4D(Matrix4D source)
+        public Matrix4F(Matrix4F source)
         {
             if (source == null)
             {
@@ -171,7 +171,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Matrix4D(IMatrix<double> source)
+        public Matrix4F(IMatrix<float> source)
         {
             if (source == null)
             {
@@ -249,11 +249,11 @@ namespace DoTheMath.Linear
 #endif
             get
             {
-                return E00 == 1.0 && E11 == 1.0 && E22 == 1.0 && E33 == 1.0
-                    && E01 == 0.0 && E02 == 0.0 && E03 == 0.0
-                    && E10 == 0.0 && E12 == 0.0 && E13 == 0.0
-                    && E20 == 0.0 && E21 == 0.0 && E23 == 0.0
-                    && E30 == 0.0 && E31 == 0.0 && E32 == 0.0;
+                return E00 == 1.0f && E11 == 1.0f && E22 == 1.0f && E33 == 1.0f
+                    && E01 == 0.0f && E02 == 0.0f && E03 == 0.0f
+                    && E10 == 0.0f && E12 == 0.0f && E13 == 0.0f
+                    && E20 == 0.0f && E21 == 0.0f && E23 == 0.0f
+                    && E30 == 0.0f && E31 == 0.0f && E32 == 0.0f;
             }
         }
 
@@ -273,7 +273,7 @@ namespace DoTheMath.Linear
             }
         }
 
-        public double Trace
+        public float Trace
         {
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -287,7 +287,7 @@ namespace DoTheMath.Linear
             }
         }
 
-        public double this[int row, int column]
+        public float this[int row, int column]
         {
 #if !PRE_NETSTANDARD
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -360,7 +360,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D operator +(Matrix4D left, Matrix4D right)
+        public static Matrix4F operator +(Matrix4F left, Matrix4F right)
         {
             if (left == null || right == null)
             {
@@ -376,7 +376,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D operator -(Matrix4D left, Matrix4D right)
+        public static Matrix4F operator -(Matrix4F left, Matrix4F right)
         {
             if (left == null || right == null)
             {
@@ -392,7 +392,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D operator *(Matrix4D left, Matrix4D right)
+        public static Matrix4F operator *(Matrix4F left, Matrix4F right)
         {
             if (left == null || right == null)
             {
@@ -408,7 +408,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D operator *(Matrix4D matrix, double scalar)
+        public static Matrix4F operator *(Matrix4F matrix, float scalar)
         {
             if (matrix == null)
             {
@@ -424,7 +424,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D operator *(double scalar, Matrix4D matrix)
+        public static Matrix4F operator *(float scalar, Matrix4F matrix)
         {
             return matrix * scalar;
         }
@@ -435,7 +435,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D operator /(Matrix4D matrix, double divisor)
+        public static Matrix4F operator /(Matrix4F matrix, float divisor)
         {
             if (matrix == null)
             {
@@ -451,18 +451,18 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D CreateIdentity()
+        public static Matrix4F CreateIdentity()
         {
 #if HAS_CODECONTRACTS
-            Ensures(Result<Matrix4D>() != null);
+            Ensures(Result<Matrix4F>() != null);
 #endif
 
-            return new Matrix4D
+            return new Matrix4F
             {
-                E00 = 1.0,
-                E11 = 1.0,
-                E22 = 1.0,
-                E33 = 1.0
+                E00 = 1.0f,
+                E11 = 1.0f,
+                E22 = 1.0f,
+                E33 = 1.0f
             };
         }
 
@@ -477,14 +477,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D CreateRotationX(double radians)
+        public static Matrix4F CreateRotationX(float radians)
         {
-            var result = new Matrix4D
+            var result = new Matrix4F
             {
-                E00 = 1.0,
-                E33 = 1.0,
-                E11 = Math.Cos(radians),
-                E12 = Math.Sin(radians)
+                E00 = 1.0f,
+                E33 = 1.0f,
+                E11 = (float)Math.Cos(radians),
+                E12 = (float)Math.Sin(radians)
             };
             result.E21 = -result.E12;
             result.E22 = result.E11;
@@ -503,14 +503,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D CreateRotationY(double radians)
+        public static Matrix4F CreateRotationY(float radians)
         {
-            var result = new Matrix4D
+            var result = new Matrix4F
             {
-                E11 = 1.0,
-                E33 = 1.0,
-                E00 = Math.Cos(radians),
-                E20 = Math.Sin(radians)
+                E11 = 1.0f,
+                E33 = 1.0f,
+                E00 = (float)Math.Cos(radians),
+                E20 = (float)Math.Sin(radians)
             };
             result.E02 = -result.E20;
             result.E22 = result.E00;
@@ -529,14 +529,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D CreateRotationZ(double radians)
+        public static Matrix4F CreateRotationZ(float radians)
         {
-            var result = new Matrix4D
+            var result = new Matrix4F
             {
-                E22 = 1.0,
-                E33 = 1.0,
-                E00 = Math.Cos(radians),
-                E01 = Math.Sin(radians)
+                E22 = 1.0f,
+                E33 = 1.0f,
+                E00 = (float)Math.Cos(radians),
+                E01 = (float)Math.Sin(radians)
             };
             result.E10 = -result.E01;
             result.E11 = result.E00;
@@ -550,14 +550,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D CreateScaled(Vector3D factors)
+        public static Matrix4F CreateScaled(Vector3F factors)
         {
-            return new Matrix4D
+            return new Matrix4F
             {
                 E00 = factors.X,
                 E11 = factors.Y,
                 E22 = factors.Z,
-                E33 = 1.0
+                E33 = 1.0f
             };
         }
 
@@ -567,9 +567,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D CreateScaled(Vector4D factors)
+        public static Matrix4F CreateScaled(Vector4F factors)
         {
-            return new Matrix4D
+            return new Matrix4F
             {
                 E00 = factors.X,
                 E11 = factors.Y,
@@ -584,14 +584,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public static Matrix4D CreateTranslation(Vector3D delta)
+        public static Matrix4F CreateTranslation(Vector3F delta)
         {
-            return new Matrix4D
+            return new Matrix4F
             {
-                E00 = 1.0,
-                E11 = 1.0,
-                E22 = 1.0,
-                E33 = 1.0,
+                E00 = 1.0f,
+                E11 = 1.0f,
+                E22 = 1.0f,
+                E33 = 1.0f,
                 E30 = delta.X,
                 E31 = delta.Y,
                 E32 = delta.Z
@@ -604,7 +604,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double Get(int row, int column)
+        public float Get(int row, int column)
         {
             if (unchecked((row & IndexMask) == 0))
             {
@@ -640,7 +640,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Set(int row, int column, double value)
+        public void Set(int row, int column, float value)
         {
             if (unchecked((row & IndexMask) == 0))
             {
@@ -854,7 +854,7 @@ namespace DoTheMath.Linear
 
         }
 
-        public void ScaleRow(int row, double value)
+        public void ScaleRow(int row, float value)
         {
             switch (row)
             {
@@ -894,7 +894,7 @@ namespace DoTheMath.Linear
             }
         }
 
-        public void ScaleColumn(int column, double value)
+        public void ScaleColumn(int column, float value)
         {
             switch (column)
             {
@@ -934,7 +934,7 @@ namespace DoTheMath.Linear
             }
         }
 
-        public void DivideRow(int row, double denominator)
+        public void DivideRow(int row, float denominator)
         {
             switch (row)
             {
@@ -974,7 +974,7 @@ namespace DoTheMath.Linear
             }
         }
 
-        public void DivideColumn(int column, double denominator)
+        public void DivideColumn(int column, float denominator)
         {
             switch (column)
             {
@@ -1016,7 +1016,7 @@ namespace DoTheMath.Linear
 
         public void AddRow(int sourceRow, int targetRow)
         {
-            double e0, e1, e2, e3;
+            float e0, e1, e2, e3;
             switch (sourceRow)
             {
                 case 0:
@@ -1078,7 +1078,7 @@ namespace DoTheMath.Linear
 
         public void SubtractRow(int sourceRow, int targetRow)
         {
-            double e0, e1, e2, e3;
+            float e0, e1, e2, e3;
             switch (sourceRow)
             {
                 case 0:
@@ -1138,9 +1138,9 @@ namespace DoTheMath.Linear
             }
         }
 
-        public void AddScaledRow(int sourceRow, int targetRow, double scalar)
+        public void AddScaledRow(int sourceRow, int targetRow, float scalar)
         {
-            double e0, e1, e2, e3;
+            float e0, e1, e2, e3;
             switch (sourceRow)
             {
                 case 0:
@@ -1207,7 +1207,7 @@ namespace DoTheMath.Linear
 
         public void AddColumn(int sourceColumn, int targetColumn)
         {
-            double e0, e1, e2, e3;
+            float e0, e1, e2, e3;
             switch (sourceColumn)
             {
                 case 0:
@@ -1269,7 +1269,7 @@ namespace DoTheMath.Linear
 
         public void SubtractColumn(int sourceColumn, int targetColumn)
         {
-            double e0, e1, e2, e3;
+            float e0, e1, e2, e3;
             switch (sourceColumn)
             {
                 case 0:
@@ -1329,9 +1329,9 @@ namespace DoTheMath.Linear
             }
         }
 
-        public void AddScaledColumn(int sourceColumn, int targetColumn, double scalar)
+        public void AddScaledColumn(int sourceColumn, int targetColumn, float scalar)
         {
-            double e0, e1, e2, e3;
+            float e0, e1, e2, e3;
             switch (sourceColumn)
             {
                 case 0:
@@ -1399,14 +1399,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D GetSum(Matrix4D other)
+        public Matrix4F GetSum(Matrix4F other)
         {
             if (other == null)
             {
                 throw new ArgumentNullException(nameof(other));
             }
 
-            return new Matrix4D
+            return new Matrix4F
             {
                 E00 = other.E00 + E00,
                 E01 = other.E01 + E01,
@@ -1430,14 +1430,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D GetDifference(Matrix4D other)
+        public Matrix4F GetDifference(Matrix4F other)
         {
             if (other == null)
             {
                 throw new ArgumentNullException(nameof(other));
             }
 
-            return new Matrix4D
+            return new Matrix4F
             {
                 E00 = E00 - other.E00,
                 E01 = E01 - other.E01,
@@ -1461,9 +1461,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D GetScaled(double scalar)
+        public Matrix4F GetScaled(float scalar)
         {
-            return new Matrix4D
+            return new Matrix4F
             {
                 E00 = E00 * scalar,
                 E01 = E01 * scalar,
@@ -1487,9 +1487,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D GetQuotient(double divisor)
+        public Matrix4F GetQuotient(float divisor)
         {
-            return new Matrix4D
+            return new Matrix4F
             {
                 E00 = E00 / divisor,
                 E01 = E01 / divisor,
@@ -1513,14 +1513,14 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D GetProduct(Matrix4D right)
+        public Matrix4F GetProduct(Matrix4F right)
         {
             if (right == null)
             {
                 throw new ArgumentNullException(nameof(right));
             }
 
-            return new Matrix4D
+            return new Matrix4F
             {
                 E00 = (E00 * right.E00) + (E01 * right.E10) + (E02 * right.E20) + (E03 * right.E30),
                 E01 = (E00 * right.E01) + (E01 * right.E11) + (E02 * right.E21) + (E03 * right.E31),
@@ -1547,9 +1547,9 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D GetTranspose()
+        public Matrix4F GetTranspose()
         {
-            return new Matrix4D
+            return new Matrix4F
             {
                 E00 = E00,
                 E01 = E10,
@@ -1586,18 +1586,18 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public double GetDeterminant()
+        public float GetDeterminant()
         {
-            var evaluator = new DeterminantEvaluator<Matrix4D, double>(new Matrix4D(this));
+            var evaluator = new DeterminantEvaluator<Matrix4F, float>(new Matrix4F(this));
             return evaluator.Evaluate();
         }
 
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public Matrix4D GetInverse()
+        public Matrix4F GetInverse()
         {
-            var inverter = new GaussJordanInverter<Matrix4D, double>(new Matrix4D(this), CreateIdentity());
+            var inverter = new GaussJordanInverter<Matrix4F, float>(new Matrix4F(this), CreateIdentity());
 
             if (inverter.Invert())
             {
@@ -1615,9 +1615,9 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Vector3D GetProduct(Vector3D rowVector)
+        public Vector3F GetProduct(Vector3F rowVector)
         {
-            return new Vector3D
+            return new Vector3F
             {
                 X = (rowVector.X * E00) + (rowVector.Y * E10) + (rowVector.Z * E20) + E30,
                 Y = (rowVector.X * E01) + (rowVector.Y * E11) + (rowVector.Z * E21) + E31,
@@ -1631,9 +1631,9 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Vector4D GetProduct(Vector4D rowVector)
+        public Vector4F GetProduct(Vector4F rowVector)
         {
-            return new Vector4D
+            return new Vector4F
             {
                 X = (rowVector.X * E00) + (rowVector.Y * E10) + (rowVector.Z * E20) + (rowVector.W * E30),
                 Y = (rowVector.X * E01) + (rowVector.Y * E11) + (rowVector.Z * E21) + (rowVector.W * E31),
@@ -1648,9 +1648,9 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Vector3D GetProductColumnVector(Vector3D columnVector)
+        public Vector3F GetProductColumnVector(Vector3F columnVector)
         {
-            return new Vector3D
+            return new Vector3F
             {
                 X = (E00 * columnVector.X) + (E01 * columnVector.Y) + (E02 * columnVector.Z) + E03,
                 Y = (E10 * columnVector.X) + (E11 * columnVector.Y) + (E12 * columnVector.Z) + E13,
@@ -1664,9 +1664,9 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public Vector4D GetProductColumnVector(Vector4D columnVector)
+        public Vector4F GetProductColumnVector(Vector4F columnVector)
         {
-            return new Vector4D
+            return new Vector4F
             {
                 X = (E00 * columnVector.X) + (E01 * columnVector.Y) + (E02 * columnVector.Z) + (E03 * columnVector.W),
                 Y = (E10 * columnVector.X) + (E11 * columnVector.Y) + (E12 * columnVector.Z) + (E13 * columnVector.W),
@@ -1678,7 +1678,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Transform(ref Vector3D rowVector)
+        public void Transform(ref Vector3F rowVector)
         {
             var x = rowVector.X;
             var y = rowVector.Y;
@@ -1691,7 +1691,7 @@ namespace DoTheMath.Linear
 #if !PRE_NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Transform(ref Vector4D rowVector)
+        public void Transform(ref Vector4F rowVector)
         {
             var x = rowVector.X;
             var y = rowVector.Y;
@@ -1706,7 +1706,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public bool Equals(Matrix4D other)
+        public bool Equals(Matrix4F other)
         {
             return object.ReferenceEquals(this, other)
                 || (
@@ -1735,7 +1735,7 @@ namespace DoTheMath.Linear
 #endif
         public sealed override bool Equals(object obj)
         {
-            return this.Equals(obj as Matrix4D);
+            return this.Equals(obj as Matrix4F);
         }
 
 #if HAS_CODECONTRACTS

@@ -58,6 +58,10 @@
     <Compile Include="IVector2{TComponenet}.cs" />
     <Compile Include="IVector3{TComponenet}.cs" />
     <Compile Include="IVector4{TComponenet}.cs" />
+    <Compile Include="Matrix2F.cs" />
+    <Compile Include="Matrix3F.cs" />
+    <Compile Include="Matrix4F.cs" />
+    <Compile Include="MatrixF.cs" />
     <Compile Include="NoDeterminantException.cs" />
     <Compile Include="NoInverseException.cs" />
     <Compile Include="NotSquareMatrixException.cs" />
