@@ -19,7 +19,7 @@ namespace DoTheMath.Linear
         /// Sets up the evaluator.
         /// </summary>
         /// <param name="scratch">A scratch space used to calculate the determinant. Must be populated with the matrix to find the determinant of. The matrix will be destroyed.</param>
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && RELEASE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public DeterminantEvaluator(TMatrix scratch)
@@ -58,21 +58,38 @@ namespace DoTheMath.Linear
                 return GetZero<TElement>();
             }
 
-            var product = _scratch[0, 0];
+            TElement product;
 
-#if HAS_CODECONTRACTS
-            Assume(!IsZero(product));
-#endif
-
-            for (int ordinal = 1; ordinal < _scratch.Columns; ordinal++)
+            if (_scratch.Columns == 2)
             {
-                var elementValue = _scratch[ordinal, ordinal];
+                product = Multiply(_scratch[0, 0], _scratch[1, 1]);
+            }
+            else if (_scratch.Columns == 3)
+            {
+                product = Multiply(_scratch[0, 0], _scratch[1, 1], _scratch[2, 2]);
+            }
+            else if (_scratch.Columns == 4)
+            {
+                product = Multiply(_scratch[0, 0], _scratch[1, 1], _scratch[2, 2], _scratch[3, 3]);
+            }
+            else
+            {
+                product = _scratch[0, 0];
 
 #if HAS_CODECONTRACTS
-                Assume(!IsZero(elementValue));
+                Assume(!IsZero(product));
 #endif
 
-                product = Multiply(product, elementValue);
+                for (int ordinal = 1; ordinal < _scratch.Columns; ordinal++)
+                {
+                    var elementValue = _scratch[ordinal, ordinal];
+
+#if HAS_CODECONTRACTS
+                    Assume(!IsZero(elementValue));
+#endif
+
+                    product = Multiply(product, elementValue);
+                }
             }
 
             if (_determinantNegationRequired)
@@ -204,7 +221,7 @@ namespace DoTheMath.Linear
             return true;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && RELEASE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void SwapRows(int rowA, int rowB)

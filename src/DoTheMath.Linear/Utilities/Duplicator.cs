@@ -10,7 +10,7 @@ namespace DoTheMath.Linear.Utilities
 {
     internal static class Duplicator
     {
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && RELEASE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -30,7 +30,7 @@ namespace DoTheMath.Linear.Utilities
             return result;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && RELEASE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -50,7 +50,7 @@ namespace DoTheMath.Linear.Utilities
             return result;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && RELEASE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -70,7 +70,7 @@ namespace DoTheMath.Linear.Utilities
             return result;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && RELEASE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void CopyTo(double[] source, double[] destination)
@@ -84,7 +84,7 @@ namespace DoTheMath.Linear.Utilities
             Buffer.BlockCopy(source, 0, destination, 0, checked(destination.Length * sizeof(double)));
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && RELEASE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void CopyTo(float[] source, float[] destination)
@@ -98,7 +98,7 @@ namespace DoTheMath.Linear.Utilities
             Buffer.BlockCopy(source, 0, destination, 0, checked(destination.Length * sizeof(float)));
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && RELEASE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void CopyTo(int[] source, int[] destination)
