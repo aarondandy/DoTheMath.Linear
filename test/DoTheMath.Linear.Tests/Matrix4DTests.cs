@@ -2010,6 +2010,53 @@ namespace DoTheMath.Linear.Tests
                 var actual = matrix.GetDeterminant();
                 Assert.Equal(expected, actual);
             }
+
+            [Fact]
+            public void example_5()
+            {
+                var matrix = new Matrix4D
+                {
+                    [0, 3] = 0.5773508360503944,
+                    [1, 1] = 0.32610490979911055,
+                    [1, 2] = 0.6966490217934591,
+                    [2, 0] = 0.11025381745316731,
+                    [2, 2] = 0.015784395400334335,
+                    [3, 0] = 0.8044707895277398,
+                    [3, 1] = 0.329659461662946,
+                    [3, 2] = 0.7691706343410399,
+                    [3, 3] = 0.9036252377105994
+                };
+                var expected = -0.0010429623620855184;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void example_6()
+            {
+                var matrix = new Matrix4D
+                {
+                    [0, 0] = 0.8044707895277398,
+                    [0, 1] = 0.329659461662946,
+                    [0, 2] = 0.7691706343410399,
+                    [0, 3] = 0.9036252377105994,
+
+                    [1, 1] = 0.32610490979911055,
+                    [1, 2] = 0.6966490217934591,
+
+                    [2, 0] = 0.11025381745316731,
+                    [2, 2] = 0.015784395400334335,
+
+                    [3, 3] = 0.5773508360503944
+                };
+                var expected = 0.0010429623620855184;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual, 10);
+            }
         }
 
         public class GetProductVector3DTests : Matrix4DTests

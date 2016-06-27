@@ -37,9 +37,9 @@ namespace DoTheMath.Linear
         {
             for (int ordinal = 0; ordinal < _scratch.Columns; ordinal++)
             {
-                ForceElementsUnderOrdinalToZero(ordinal);
+                AttemptToMakeElementsUnderOrdinalZeroBySwapping(ordinal);
 
-                if (IsZero(_scratch[ordinal, ordinal]))
+                if (!ForceElementsUnderOrdinalToZero(ordinal))
                 {
                     return GetZero<TElement>();
                 }
@@ -76,19 +76,9 @@ namespace DoTheMath.Linear
             {
                 product = _scratch[0, 0];
 
-#if HAS_CODECONTRACTS
-                Assume(!IsZero(product));
-#endif
-
                 for (int ordinal = 1; ordinal < _scratch.Columns; ordinal++)
                 {
-                    var elementValue = _scratch[ordinal, ordinal];
-
-#if HAS_CODECONTRACTS
-                    Assume(!IsZero(elementValue));
-#endif
-
-                    product = Multiply(product, elementValue);
+                    product = Multiply(_scratch[ordinal, ordinal], product);
                 }
             }
 
@@ -102,8 +92,6 @@ namespace DoTheMath.Linear
 
         private bool ForceElementsUnderOrdinalToZero(int ordinal)
         {
-            AttemptToMakeElementsUnderOrdinalZeroBySwapping(ordinal);
-
             for (var row = ordinal + 1; row < _scratch.Rows; row++)
             {
                 if (!ForceElementUnderOrdinalToZero(row, ordinal))
@@ -115,6 +103,9 @@ namespace DoTheMath.Linear
             return true;
         }
 
+        /// <remarks>
+        /// All values under the diagonal and left of the ordinal column are to be assumed as zero.
+        /// </remarks>
         private void AttemptToMakeElementsUnderOrdinalZeroBySwapping(int ordinal)
         {
             var diagonalValue = _scratch[ordinal, ordinal];
@@ -131,7 +122,7 @@ namespace DoTheMath.Linear
                     continue;
                 }
 
-                if (ElementLeftOfColumnAreAllZeros(row, ordinal))
+                if (row > ordinal || ElementLeftOfColumnAreAllZeros(row, ordinal))
                 {
 #if HAS_CODECONTRACTS
                     Assume(!IsZero(currentElementValue));
@@ -144,13 +135,9 @@ namespace DoTheMath.Linear
             }
         }
 
-        private bool ForceElementUnderOrdinalToZero(int row, int ordinal)
+        private bool TryForcingElementUnderOrdinalToZeroUsingAdditionOrSubtraction(int row, int ordinal)
         {
             var currentElementValue = _scratch[row, ordinal];
-            if (IsZero(currentElementValue))
-            {
-                return true;
-            }
 
             for (var searchRow = 0; searchRow < _scratch.Rows; searchRow++)
             {
@@ -160,27 +147,67 @@ namespace DoTheMath.Linear
                 }
 
                 var searchElementValue = _scratch[searchRow, ordinal];
-                if (!IsZero(searchElementValue))
+                if (!IsZero(searchElementValue) && (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal)))
                 {
                     if (IsZero(Add(currentElementValue, searchElementValue)))
                     {
-                        // find a value where currentElementValue + searchElementValue == 0
-                        if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))
-                        {
-                            _scratch.AddRow(searchRow, row);
-                            return true;
-                        }
+                        _scratch.AddRow(searchRow, row);
+                        return true;
                     }
                     else if (IsZero(Subtract(currentElementValue, searchElementValue)))
                     {
-                        // find a value where currentElementValue - searchElementValue == 0
-                        if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))
-                        {
-                            _scratch.SubtractRow(searchRow, row);
-                            return true;
-                        }
+                        _scratch.SubtractRow(searchRow, row);
+                        return true;
                     }
                 }
+            }
+
+            return false;
+        }
+
+        private bool TryForcingElementUnderOrdinalToZeroUsingScaledAdditionOrSubtraction(int row, int ordinal)
+        {
+            var currentElementValue = _scratch[row, ordinal];
+
+            for (var searchRow = 0; searchRow < _scratch.Rows; searchRow++)
+            {
+                if (searchRow == row)
+                {
+                    continue;
+                }
+
+                var searchElementValue = _scratch[searchRow, ordinal];
+                if (!IsZero(searchElementValue) && (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal)))
+                {
+                    var scalar = Negate(Divide(currentElementValue, searchElementValue));
+
+                    if (IsZero(Add(Multiply(searchElementValue, scalar), currentElementValue)))
+                    {
+                        _scratch.AddScaledRow(searchRow, row, scalar);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool ForceElementUnderOrdinalToZero(int row, int ordinal)
+        {
+            var currentElementValue = _scratch[row, ordinal];
+            if (IsZero(currentElementValue))
+            {
+                return true;
+            }
+
+            if (TryForcingElementUnderOrdinalToZeroUsingAdditionOrSubtraction(row, ordinal))
+            {
+                return true;
+            }
+
+            if(TryForcingElementUnderOrdinalToZeroUsingScaledAdditionOrSubtraction(row, ordinal))
+            {
+                return true;
             }
 
             for (var searchRow = 0; searchRow < _scratch.Rows; searchRow++)
@@ -196,7 +223,7 @@ namespace DoTheMath.Linear
                 {
                     if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))
                     {
-                        _scratch.AddScaledRow(searchRow, row, Divide(Negate(currentElementValue), searchElementValue));
+                        _scratch.AddScaledRow(searchRow, row, Negate(Divide(currentElementValue, searchElementValue)));
                         return true;
                     }
                 }
