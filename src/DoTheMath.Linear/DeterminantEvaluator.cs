@@ -19,7 +19,7 @@ namespace DoTheMath.Linear
         /// Sets up the evaluator.
         /// </summary>
         /// <param name="scratch">A scratch space used to calculate the determinant. Must be populated with the matrix to find the determinant of. The matrix will be destroyed.</param>
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public DeterminantEvaluator(TMatrix scratch)
@@ -257,7 +257,7 @@ namespace DoTheMath.Linear
             return true;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void SwapRows(int rowA, int rowB)

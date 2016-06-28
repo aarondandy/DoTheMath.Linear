@@ -22,7 +22,7 @@ namespace DoTheMath.Linear
 
         public float W;
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Vector4F(float x, float y, float z, float w)
@@ -33,7 +33,7 @@ namespace DoTheMath.Linear
             W = w;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Vector4F(Vector4F source)
@@ -44,7 +44,7 @@ namespace DoTheMath.Linear
             W = source.W;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Vector4F(IVector4<float> source)
@@ -60,7 +60,7 @@ namespace DoTheMath.Linear
             W = source.W;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Vector4F(IVector<float> source)
@@ -82,7 +82,7 @@ namespace DoTheMath.Linear
 
         public int Dimensions
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -93,7 +93,7 @@ namespace DoTheMath.Linear
 
         public float this[int index]
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -120,7 +120,7 @@ namespace DoTheMath.Linear
 
                 throw new IndexOutOfRangeException();
             }
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
             set
@@ -150,7 +150,7 @@ namespace DoTheMath.Linear
 
         float IVector4<float>.X
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -161,7 +161,7 @@ namespace DoTheMath.Linear
 
         float IVector4<float>.Y
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -172,7 +172,7 @@ namespace DoTheMath.Linear
 
         float IVector4<float>.Z
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -183,7 +183,7 @@ namespace DoTheMath.Linear
 
         float IVector4<float>.W
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -192,7 +192,7 @@ namespace DoTheMath.Linear
             get { return W; }
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -203,7 +203,7 @@ namespace DoTheMath.Linear
             return left.GetSum(right);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -214,7 +214,7 @@ namespace DoTheMath.Linear
             return left.GetDifference(right);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -225,7 +225,7 @@ namespace DoTheMath.Linear
             return left.GetDot(right);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -236,7 +236,7 @@ namespace DoTheMath.Linear
             return vector.GetScaled(scalar);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -247,7 +247,7 @@ namespace DoTheMath.Linear
             return vector.GetScaled(scalar);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -258,7 +258,7 @@ namespace DoTheMath.Linear
             return vector.GetQuotient(divisor);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -272,7 +272,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -286,7 +286,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -300,7 +300,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -314,7 +314,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -342,7 +342,7 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException(nameof(dimension));
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Set(int dimension, float value)
@@ -369,7 +369,7 @@ namespace DoTheMath.Linear
             }
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -386,7 +386,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Add(Vector4F right)
@@ -397,7 +397,7 @@ namespace DoTheMath.Linear
             W += right.W;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -414,7 +414,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Subtract(Vector4F right)
@@ -425,7 +425,7 @@ namespace DoTheMath.Linear
             W -= right.W;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -442,7 +442,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Scale(float scalar)
@@ -453,7 +453,7 @@ namespace DoTheMath.Linear
             W *= scalar;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Divide(float divisor)
@@ -464,7 +464,7 @@ namespace DoTheMath.Linear
             W /= divisor;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -481,7 +481,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Negate()
@@ -492,7 +492,7 @@ namespace DoTheMath.Linear
             W = -W;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -509,7 +509,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -520,7 +520,7 @@ namespace DoTheMath.Linear
             return (X * right.X) + (Y * right.Y) + (Z * right.Z) + (W * right.W);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -531,7 +531,7 @@ namespace DoTheMath.Linear
             return (float)Math.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -542,7 +542,7 @@ namespace DoTheMath.Linear
             return (X * X) + (Y * Y) + (Z * Z) + (W * W);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -555,7 +555,7 @@ namespace DoTheMath.Linear
                     / (float)Math.Sqrt(GetMagnitudeSquared() * other.GetMagnitudeSquared()));
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -566,7 +566,7 @@ namespace DoTheMath.Linear
             return (float)Math.Sqrt(MathEx.Square(X - other.X) + MathEx.Square(Y - other.Y) + MathEx.Square(Z - other.Z) + MathEx.Square(W - other.W));
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -577,7 +577,7 @@ namespace DoTheMath.Linear
             return MathEx.Square(X - other.X) + MathEx.Square(Y - other.Y) + MathEx.Square(Z - other.Z) + MathEx.Square(W - other.W);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -591,7 +591,7 @@ namespace DoTheMath.Linear
                 : GetScaled(GetDot(other) / scalarDenominator);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Normalize()
@@ -603,7 +603,7 @@ namespace DoTheMath.Linear
             }
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS

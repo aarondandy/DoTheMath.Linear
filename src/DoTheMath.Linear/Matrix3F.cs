@@ -54,7 +54,7 @@ namespace DoTheMath.Linear
         /// <summary>
         /// Constructs a new zero matrix.
         /// </summary>
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Matrix3F()
@@ -73,7 +73,7 @@ namespace DoTheMath.Linear
         /// <param name="e20">The value for the element at 2,0.</param>
         /// <param name="e21">The value for the element at 2,1.</param>
         /// <param name="e22">The value for the element at 2,2.</param>
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Matrix3F(
@@ -93,7 +93,7 @@ namespace DoTheMath.Linear
             E22 = e22;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Matrix3F(Matrix3F source)
@@ -114,7 +114,7 @@ namespace DoTheMath.Linear
             E22 = source.E22;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Matrix3F(IMatrix<float> source)
@@ -141,7 +141,7 @@ namespace DoTheMath.Linear
 
         public int Columns
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -155,7 +155,7 @@ namespace DoTheMath.Linear
 
         public int Rows
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -169,7 +169,7 @@ namespace DoTheMath.Linear
 
         public bool IsSquare
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -197,7 +197,7 @@ namespace DoTheMath.Linear
 
         public bool IsSymetric
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -213,7 +213,7 @@ namespace DoTheMath.Linear
 
         public float Trace
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -227,7 +227,7 @@ namespace DoTheMath.Linear
 
         public float this[int row, int column]
         {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -283,7 +283,7 @@ namespace DoTheMath.Linear
 
                 throw new IndexOutOfRangeException();
             }
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
             set
@@ -347,7 +347,7 @@ namespace DoTheMath.Linear
             }
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -363,7 +363,7 @@ namespace DoTheMath.Linear
             return left.GetSum(right);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -379,7 +379,7 @@ namespace DoTheMath.Linear
             return left.GetDifference(right);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -395,7 +395,7 @@ namespace DoTheMath.Linear
             return left.GetProduct(right);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -411,7 +411,7 @@ namespace DoTheMath.Linear
             return matrix.GetScaled(scalar);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -422,7 +422,7 @@ namespace DoTheMath.Linear
             return matrix * scalar;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -438,7 +438,7 @@ namespace DoTheMath.Linear
             return matrix.GetQuotient(divisor);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -463,7 +463,7 @@ namespace DoTheMath.Linear
         /// </summary>
         /// <param name="radians">The number of radians to create a rotation matrix for.</param>
         /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -488,7 +488,7 @@ namespace DoTheMath.Linear
         /// </summary>
         /// <param name="radians">The number of radians to create a rotation matrix for.</param>
         /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -513,7 +513,7 @@ namespace DoTheMath.Linear
         /// </summary>
         /// <param name="radians">The number of radians to create a rotation matrix for.</param>
         /// <returns>A matrix that rotates by the given <paramref name="radians"/>.</returns>
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -539,7 +539,7 @@ namespace DoTheMath.Linear
         /// <param name="origin">The origin to rotate around.</param>
         /// <param name="radians">The number of radians to create a rotation matrix for.</param>
         /// <returns>A matrix that rotates around the <paramref name="origin"/>.</returns>
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -561,7 +561,7 @@ namespace DoTheMath.Linear
             return result;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -577,7 +577,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -593,7 +593,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -611,7 +611,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -668,7 +668,7 @@ namespace DoTheMath.Linear
             throw new ArgumentOutOfRangeException(row >= 0 && row <= 2 ? nameof(column) : nameof(row));
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Set(int row, int column, float value)
@@ -1438,7 +1438,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Vector2F GetProduct(Vector2F rowVector)
@@ -1453,7 +1453,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Vector3F GetProduct(Vector3F rowVector)
@@ -1469,7 +1469,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Vector2F GetProductColumnVector(Vector2F columnVector)
@@ -1484,7 +1484,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public Vector3F GetProductColumnVector(Vector3F columnVector)
@@ -1497,7 +1497,7 @@ namespace DoTheMath.Linear
             };
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Transform(ref Vector2F rowVector)
@@ -1507,7 +1507,7 @@ namespace DoTheMath.Linear
             rowVector.Y = (x * E01) + (rowVector.Y * E11) + E21;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Transform(ref Vector3F rowVector)
@@ -1555,7 +1555,7 @@ namespace DoTheMath.Linear
             return Rows;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void CopyFrom(Matrix3F source)

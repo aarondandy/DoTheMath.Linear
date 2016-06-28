@@ -4,7 +4,7 @@ namespace DoTheMath.Linear.Utilities
 {
     internal static class Swapper
     {
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Swap<T>(ref T a, ref T b)
@@ -14,7 +14,7 @@ namespace DoTheMath.Linear.Utilities
             b = temp;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void SwapPairs<T>(ref T a1, ref T b1, ref T a2, ref T b2)
@@ -23,7 +23,7 @@ namespace DoTheMath.Linear.Utilities
             Swap(ref a2, ref b2);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void SwapPairs<T>(ref T a1, ref T b1, ref T a2, ref T b2, ref T a3, ref T b3)
@@ -32,7 +32,7 @@ namespace DoTheMath.Linear.Utilities
             Swap(ref a3, ref b3);
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void SwapPairs<T>(ref T a1, ref T b1, ref T a2, ref T b2, ref T a3, ref T b3, ref T a4, ref T b4)
