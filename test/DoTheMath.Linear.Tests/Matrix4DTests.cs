@@ -1790,7 +1790,99 @@ namespace DoTheMath.Linear.Tests
                         Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
                     }
                 }
+            }
 
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void nan_fails_inverse(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.NaN;
+                
+                Action act = () => matrix.GetInverse();
+
+                Assert.Throws<NoInverseException>(act);
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void positive_infinity_fails_inverse(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.PositiveInfinity;
+
+                Action act = () => matrix.GetInverse();
+
+                Assert.Throws<NoInverseException>(act);
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void negative_infinity_fails_inverse(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.NegativeInfinity;
+
+                Action act = () => matrix.GetInverse();
+
+                Assert.Throws<NoInverseException>(act);
             }
 
             [Fact]
@@ -2035,6 +2127,98 @@ namespace DoTheMath.Linear.Tests
 
         public class GetDeterminant : Matrix4DTests
         {
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void nan_pollutes_results(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.NaN;
+                var expected = double.NaN;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            public void positive_infinity_pollutes_most_results(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.PositiveInfinity;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.True(double.IsInfinity(actual) || double.IsNaN(actual));
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            public void negative_infinity_pollutes_most_results(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.NegativeInfinity;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.True(double.IsInfinity(actual) || double.IsNaN(actual));
+            }
+
             [Fact]
             public void example_0()
             {

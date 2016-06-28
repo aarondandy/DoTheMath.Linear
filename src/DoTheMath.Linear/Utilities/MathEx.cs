@@ -67,7 +67,63 @@ namespace DoTheMath.Linear.Utilities
             return value * value;
         }
 
-#if !PRE_NETSTANDARD && RELEASE
+#if !PRE_NETSTANDARD && !DEBUG
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static bool IsNotFiniteNumber<TValue>(TValue value)
+        {
+            if (typeof(TValue) == typeof(double))
+            {
+                var castValue = (double)(object)value;
+                return double.IsNaN(castValue) || double.IsInfinity(castValue);
+            }
+            else if (typeof(TValue) == typeof(float))
+            {
+                var castValue = (float)(object)value;
+                return float.IsNaN(castValue) || float.IsInfinity(castValue);
+            }
+            else if (typeof(TValue) == typeof(int))
+            {
+                return false;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+#if !PRE_NETSTANDARD && !DEBUG
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static bool IsNotNumber<TValue>(TValue value)
+        {
+            if (typeof(TValue) == typeof(double))
+            {
+                var castValue = (double)(object)value;
+                return double.IsNaN(castValue);
+            }
+            else if (typeof(TValue) == typeof(float))
+            {
+                var castValue = (float)(object)value;
+                return float.IsNaN(castValue);
+            }
+            else if (typeof(TValue) == typeof(int))
+            {
+                return false;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS

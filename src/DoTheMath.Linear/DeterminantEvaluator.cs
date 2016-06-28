@@ -37,6 +37,15 @@ namespace DoTheMath.Linear
         {
             for (int ordinal = 0; ordinal < _scratch.Columns; ordinal++)
             {
+                for(int row = 0; row < _scratch.Rows; row++)
+                {
+                    var value = _scratch[row, ordinal];
+                    if (IsNotNumber(value))
+                    {
+                        return value;
+                    }
+                }
+
                 AttemptToMakeElementsUnderOrdinalZeroBySwapping(ordinal);
 
                 if (!ForceElementsUnderOrdinalToZero(ordinal))
@@ -219,7 +228,7 @@ namespace DoTheMath.Linear
 
                 // find a value where currentElementValue + (searchElementValue * factor) == 0
                 var searchElementValue = _scratch[searchRow, ordinal];
-                if (!IsZero(searchElementValue))
+                if (!IsZero(searchElementValue) && !IsNotNumber(searchElementValue))
                 {
                     if (searchRow >= ordinal || ElementLeftOfColumnAreAllZeros(searchRow, ordinal))
                     {

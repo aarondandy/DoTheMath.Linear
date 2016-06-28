@@ -63,17 +63,9 @@ namespace DoTheMath.Linear
                 Assume(column <= _scratch.Rows);
 #endif
 
-                for (int row = 0; row < column; row++)
+                for (int row = 0; row < _scratch.Rows; row++)
                 {
-                    if (!ForceColumnElementToZero(row, column))
-                    {
-                        return false;
-                    }
-                }
-
-                for (int row = column + 1; row < _scratch.Rows; row++)
-                {
-                    if (!ForceColumnElementToZero(row, column))
+                    if (row != column && !ForceColumnElementToZero(row, column))
                     {
                         return false;
                     }
@@ -89,6 +81,10 @@ namespace DoTheMath.Linear
             if (IsOne(currentElementValue))
             {
                 return true;
+            }
+            if (IsNotFiniteNumber(currentElementValue))
+            {
+                return false;
             }
 
             int rowIndexSearch;
@@ -147,6 +143,10 @@ namespace DoTheMath.Linear
             if (IsZero(currentElementValue))
             {
                 return true;
+            }
+            if (IsNotFiniteNumber(currentElementValue))
+            {
+                return false;
             }
 
             for (var searchRow = column; searchRow < _scratch.Rows; searchRow++)
