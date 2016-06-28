@@ -566,7 +566,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public sealed override bool Equals(object obj)
+        public override bool Equals(object obj)
         {
             return obj is Vector2F && Equals((Vector2F)obj);
         }
@@ -574,7 +574,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public sealed override int GetHashCode()
+        public override int GetHashCode()
         {
             return Dimensions;
         }

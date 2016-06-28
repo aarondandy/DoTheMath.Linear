@@ -533,7 +533,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public sealed override bool Equals(object obj)
+        public override bool Equals(object obj)
         {
             return obj is VectorD && Equals((VectorD)obj);
         }
@@ -541,7 +541,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
         [Pure]
 #endif
-        public sealed override int GetHashCode()
+        public override int GetHashCode()
         {
             unchecked
             {
