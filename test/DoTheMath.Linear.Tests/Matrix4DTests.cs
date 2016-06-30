@@ -1790,11 +1790,103 @@ namespace DoTheMath.Linear.Tests
                         Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
                     }
                 }
+            }
 
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void nan_fails_inverse(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.NaN;
+                
+                Action act = () => matrix.GetInverse();
+
+                Assert.Throws<NoInverseException>(act);
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void positive_infinity_fails_inverse(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.PositiveInfinity;
+
+                Action act = () => matrix.GetInverse();
+
+                Assert.Throws<NoInverseException>(act);
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void negative_infinity_fails_inverse(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.NegativeInfinity;
+
+                Action act = () => matrix.GetInverse();
+
+                Assert.Throws<NoInverseException>(act);
             }
 
             [Fact]
-            public void can_invert_example_0()
+            public void example_0()
             {
                 var matrix = new Matrix4D(
                     1, 2, 3, 1,
@@ -1818,10 +1910,315 @@ namespace DoTheMath.Linear.Tests
                     }
                 }
             }
+
+            [Fact]
+            public void example_1()
+            {
+                var matrix = new Matrix4D
+                {
+                    [0, 3] = 0.5773508360503944,
+                    [1, 1] = 0.32610490979911055,
+                    [1, 2] = 0.6966490217934591,
+                    [2, 0] = 0.11025381745316731,
+                    [2, 2] = 0.015784395400334335,
+                    [3, 0] = 0.8044707895277398,
+                    [3, 1] = 0.329659461662946,
+                    [3, 2] = 0.7691706343410399,
+                    [3, 3] = 0.9036252377105994
+                };
+                var expected = new Matrix4D
+                {
+                    [0, 0] = -4.459693426285894,
+                    [0, 1] = -2.8804786428183706,
+                    [0, 2] = -11.72090999576405,
+                    [0, 3] = 2.849419893049991,
+                    [1, 0] = -66.54683162807817,
+                    [1, 1] = -39.91554351350884,
+                    [1, 2] = -310.2383443099119,
+                    [1, 3] = 42.518587655118885,
+                    [2, 0] = 31.1509064774442,
+                    [2, 1] = 20.120109665797962,
+                    [2, 2] = 145.22412882595555,
+                    [2, 3] = -19.903164661543062,
+                    [3, 0] = 1.732049106988241
+                };
+
+                var actual = matrix.GetInverse();
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
+
+            [Fact]
+            public void example_2()
+            {
+                var matrix = new Matrix4D
+                {
+                    [0, 0] = 0.8044707895277398,
+                    [0, 1] = 0.329659461662946,
+                    [0, 2] = 0.7691706343410399,
+                    [0, 3] = 0.9036252377105994,
+                    [1, 1] = 0.32610490979911055,
+                    [1, 2] = 0.6966490217934591,
+                    [2, 0] = 0.11025381745316731,
+                    [2, 2] = 0.015784395400334335,
+                    [3, 3] = 0.5773508360503944
+                };
+                var expected = new Matrix4D
+                {
+                    [0, 0] = 2.8494198930499905,
+                    [0, 1] = -2.88047864281837,
+                    [0, 2] = -11.720909995764051,
+                    [0, 3] = -4.459693426285894,
+                    [1, 0] = 42.5185876551189,
+                    [1, 1] = -39.91554351350885,
+                    [1, 2] = -310.238344309912,
+                    [1, 3] = -66.5468316280782,
+                    [2, 0] = -19.90316466154307,
+                    [2, 1] = 20.120109665797965,
+                    [2, 2] = 145.2241288259556,
+                    [2, 3] = 31.15090647744421,
+                    [3, 3] = 1.732049106988241
+                };
+
+                var actual = matrix.GetInverse();
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
+        }
+
+        public class TryGetInverse : Matrix4DTests
+        {
+            [Fact]
+            public void failure_does_not_mutate_matrix()
+            {
+                var actual = new Matrix4D(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix4D(actual);
+
+                Matrix4D inverse;
+                var result = actual.TryGetInverse(out inverse);
+
+                Assert.NotNull(inverse);
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_get_inverse()
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4D(
+                    17.85, -7.7, -4.55, 2.5,
+                    -14.6, 6.2, 3.8, -2,
+                    4.35, -1.7, -1.05, 0.5,
+                    -0.7, 0.4, 0.1, 0);
+
+                Matrix4D actual;
+                var result = matrix.TryGetInverse(out actual);
+
+                Assert.True(result);
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
+        }
+
+        public class Invert : Matrix4DTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix4D(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix4D(actual);
+
+                Action act = () => actual.Invert();
+
+                Assert.Throws<NoInverseException>(act);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4D(
+                    17.85, -7.7, -4.55, 2.5,
+                    -14.6, 6.2, 3.8, -2,
+                    4.35, -1.7, -1.05, 0.5,
+                    -0.7, 0.4, 0.1, 0);
+
+                actual.Invert();
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
+        }
+
+        public class TryInvert : Matrix4DTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix4D(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix4D(actual);
+
+                var result = actual.TryInvert();
+
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                var expected = new Matrix4D(
+                    17.85, -7.7, -4.55, 2.5,
+                    -14.6, 6.2, 3.8, -2,
+                    4.35, -1.7, -1.05, 0.5,
+                    -0.7, 0.4, 0.1, 0);
+
+                var result = actual.TryInvert();
+
+                Assert.True(result);
+
+                for (int r = 0; r < expected.Rows; r++)
+                {
+                    for (int c = 0; c < expected.Columns; c++)
+                    {
+                        Assert.Equal(expected.Get(r, c), actual.Get(r, c), 10);
+                    }
+                }
+            }
         }
 
         public class GetDeterminant : Matrix4DTests
         {
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            [InlineData(3, 3)]
+            public void nan_pollutes_results(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.NaN;
+                var expected = double.NaN;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            public void positive_infinity_pollutes_most_results(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.PositiveInfinity;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.True(double.IsInfinity(actual) || double.IsNaN(actual));
+            }
+
+            [Theory]
+            [InlineData(0, 0)]
+            [InlineData(0, 1)]
+            [InlineData(0, 2)]
+            [InlineData(0, 3)]
+            [InlineData(1, 0)]
+            [InlineData(1, 1)]
+            [InlineData(1, 2)]
+            [InlineData(1, 3)]
+            [InlineData(2, 0)]
+            [InlineData(2, 1)]
+            [InlineData(2, 2)]
+            [InlineData(2, 3)]
+            [InlineData(3, 0)]
+            [InlineData(3, 1)]
+            [InlineData(3, 2)]
+            public void negative_infinity_pollutes_most_results(int row, int column)
+            {
+                var matrix = new Matrix4D(
+                    1, 2, 3, 1,
+                    0, 1, 4, 4,
+                    7, 10, 5, 1,
+                    6, 7, 0, 7);
+                matrix[row, column] = double.NegativeInfinity;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.True(double.IsInfinity(actual) || double.IsNaN(actual));
+            }
+
             [Fact]
             public void example_0()
             {
@@ -1882,6 +2279,72 @@ namespace DoTheMath.Linear.Tests
 
                 var actual = matrix.GetDeterminant();
                 Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void example_5()
+            {
+                var matrix = new Matrix4D
+                {
+                    [0, 3] = 0.5773508360503944,
+                    [1, 1] = 0.32610490979911055,
+                    [1, 2] = 0.6966490217934591,
+                    [2, 0] = 0.11025381745316731,
+                    [2, 2] = 0.015784395400334335,
+                    [3, 0] = 0.8044707895277398,
+                    [3, 1] = 0.329659461662946,
+                    [3, 2] = 0.7691706343410399,
+                    [3, 3] = 0.9036252377105994
+                };
+                var expected = -0.0010429623620855184;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void example_6()
+            {
+                var matrix = new Matrix4D
+                {
+                    [0, 0] = 0.8044707895277398,
+                    [0, 1] = 0.329659461662946,
+                    [0, 2] = 0.7691706343410399,
+                    [0, 3] = 0.9036252377105994,
+                    [1, 1] = 0.32610490979911055,
+                    [1, 2] = 0.6966490217934591,
+                    [2, 0] = 0.11025381745316731,
+                    [2, 2] = 0.015784395400334335,
+                    [3, 3] = 0.5773508360503944
+                };
+                var expected = 0.0010429623620855184;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual, 10);
+            }
+
+            [Fact]
+            public void example_7()
+            {
+                var matrix = new Matrix4D
+                {
+                    [0, 0] = 0.8044707895277398,
+                    [0, 1] = 0.329659461662946,
+                    [0, 2] = 0.7691706343410399,
+                    [0, 3] = 0.9036252377105994,
+                    [1, 0] = 0.11025381745316731,
+                    [1, 2] = 0.015784395400334335,
+                    [2, 1] = 0.32610490979911055,
+                    [2, 2] = 0.6966490217934591,
+                    [3, 3] = 0.5773508360503944
+                };
+                var expected = -0.0010429623620855184;
+
+                var actual = matrix.GetDeterminant();
+
+                Assert.Equal(expected, actual, 10);
             }
         }
 

@@ -10,7 +10,7 @@ namespace DoTheMath.Linear.Utilities
 {
     internal static class MathEx
     {
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Negate(ref double value)
@@ -18,7 +18,7 @@ namespace DoTheMath.Linear.Utilities
             value = -value;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Negate(ref float value)
@@ -26,7 +26,7 @@ namespace DoTheMath.Linear.Utilities
             value = -value;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Negate(ref int value)
@@ -34,7 +34,7 @@ namespace DoTheMath.Linear.Utilities
             value = -value;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -45,7 +45,7 @@ namespace DoTheMath.Linear.Utilities
             return value * value;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -56,7 +56,7 @@ namespace DoTheMath.Linear.Utilities
             return value * value;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -67,7 +67,63 @@ namespace DoTheMath.Linear.Utilities
             return value * value;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static bool IsNotFiniteNumber<TValue>(TValue value)
+        {
+            if (typeof(TValue) == typeof(double))
+            {
+                var castValue = (double)(object)value;
+                return double.IsNaN(castValue) || double.IsInfinity(castValue);
+            }
+            else if (typeof(TValue) == typeof(float))
+            {
+                var castValue = (float)(object)value;
+                return float.IsNaN(castValue) || float.IsInfinity(castValue);
+            }
+            else if (typeof(TValue) == typeof(int))
+            {
+                return false;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+#if !PRE_NETSTANDARD && !DEBUG
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static bool IsNotNumber<TValue>(TValue value)
+        {
+            if (typeof(TValue) == typeof(double))
+            {
+                var castValue = (double)(object)value;
+                return double.IsNaN(castValue);
+            }
+            else if (typeof(TValue) == typeof(float))
+            {
+                var castValue = (float)(object)value;
+                return float.IsNaN(castValue);
+            }
+            else if (typeof(TValue) == typeof(int))
+            {
+                return false;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -93,7 +149,7 @@ namespace DoTheMath.Linear.Utilities
             }
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -119,7 +175,7 @@ namespace DoTheMath.Linear.Utilities
             }
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -145,7 +201,7 @@ namespace DoTheMath.Linear.Utilities
             }
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -171,7 +227,7 @@ namespace DoTheMath.Linear.Utilities
             }
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -197,7 +253,7 @@ namespace DoTheMath.Linear.Utilities
             }
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -223,7 +279,7 @@ namespace DoTheMath.Linear.Utilities
             }
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -249,7 +305,59 @@ namespace DoTheMath.Linear.Utilities
             }
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static TValue Multiply<TValue>(TValue a, TValue b, TValue c)
+        {
+            if (typeof(TValue) == typeof(double))
+            {
+                return (TValue)(object)((double)(object)a * (double)(object)b * (double)(object)c);
+            }
+            else if (typeof(TValue) == typeof(float))
+            {
+                return (TValue)(object)((float)(object)a * (float)(object)b * (float)(object)c);
+            }
+            else if (typeof(TValue) == typeof(int))
+            {
+                return (TValue)(object)((int)(object)a * (int)(object)b * (int)(object)c);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+#if !PRE_NETSTANDARD && !DEBUG
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public static TValue Multiply<TValue>(TValue a, TValue b, TValue c, TValue d)
+        {
+            if (typeof(TValue) == typeof(double))
+            {
+                return (TValue)(object)((double)(object)a * (double)(object)b * (double)(object)c * (double)(object)d);
+            }
+            else if (typeof(TValue) == typeof(float))
+            {
+                return (TValue)(object)((float)(object)a * (float)(object)b * (float)(object)c * (float)(object)d);
+            }
+            else if (typeof(TValue) == typeof(int))
+            {
+                return (TValue)(object)((int)(object)a * (int)(object)b * (int)(object)c * (int)(object)d);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS

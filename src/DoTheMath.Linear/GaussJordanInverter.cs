@@ -19,7 +19,7 @@ namespace DoTheMath.Linear
         /// </summary>
         /// <param name="scratch">A scratch space used to calculate the inverse. Must be populated with the matrix to be inverted. The matrix will be destroyed.</param>
         /// <param name="inverse">An identity matrix that will be converted into the inverse if successful.</param>
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public GaussJordanInverter(TMatrix scratch, TMatrix inverse)
@@ -38,7 +38,7 @@ namespace DoTheMath.Linear
 
         public TMatrix Inverse
         {
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -63,17 +63,9 @@ namespace DoTheMath.Linear
                 Assume(column <= _scratch.Rows);
 #endif
 
-                for (int row = 0; row < column; row++)
+                for (int row = 0; row < _scratch.Rows; row++)
                 {
-                    if (!ForceColumnElementToZero(row, column))
-                    {
-                        return false;
-                    }
-                }
-
-                for (int row = column + 1; row < _scratch.Rows; row++)
-                {
-                    if (!ForceColumnElementToZero(row, column))
+                    if (row != column && !ForceColumnElementToZero(row, column))
                     {
                         return false;
                     }
@@ -89,6 +81,10 @@ namespace DoTheMath.Linear
             if (IsOne(currentElementValue))
             {
                 return true;
+            }
+            if (IsNotFiniteNumber(currentElementValue))
+            {
+                return false;
             }
 
             int rowIndexSearch;
@@ -148,6 +144,10 @@ namespace DoTheMath.Linear
             {
                 return true;
             }
+            if (IsNotFiniteNumber(currentElementValue))
+            {
+                return false;
+            }
 
             for (var searchRow = column; searchRow < _scratch.Rows; searchRow++)
             {
@@ -191,7 +191,7 @@ namespace DoTheMath.Linear
             return false;
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void AddRow(int sourceRow, int targetRow)
@@ -200,7 +200,7 @@ namespace DoTheMath.Linear
             _inverse.AddRow(sourceRow, targetRow);
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void SubtractRow(int sourceRow, int targetRow)
@@ -209,7 +209,7 @@ namespace DoTheMath.Linear
             _inverse.SubtractRow(sourceRow, targetRow);
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void AddScaledRow(int sourceRow, int targetRow, TElement scalar)
@@ -218,7 +218,7 @@ namespace DoTheMath.Linear
             _inverse.AddScaledRow(sourceRow, targetRow, scalar);
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void SwapRows(int rowA, int rowB)
@@ -230,7 +230,7 @@ namespace DoTheMath.Linear
             _inverse.SwapRows(rowA, rowB);
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void DivideRow(int row, TElement denominator)

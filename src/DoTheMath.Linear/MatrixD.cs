@@ -22,7 +22,7 @@ namespace DoTheMath.Linear
         /// <summary>
         /// Constructs a new zero matrix.
         /// </summary>
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public MatrixD(int rows, int columns)
@@ -41,7 +41,7 @@ namespace DoTheMath.Linear
             _elements = new double[checked(rows * columns)];
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public MatrixD(MatrixD source)
@@ -57,7 +57,7 @@ namespace DoTheMath.Linear
             _elements = Clone(source._elements);
         }
 
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public MatrixD(IMatrix<double> source)
@@ -83,7 +83,7 @@ namespace DoTheMath.Linear
 
         public int Rows
         {
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -97,7 +97,7 @@ namespace DoTheMath.Linear
 #if HAS_CODECONTRACTS
             [Pure]
 #endif
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
             get { return _columns; }
@@ -105,7 +105,7 @@ namespace DoTheMath.Linear
 
         public bool IsSquare
         {
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -119,7 +119,7 @@ namespace DoTheMath.Linear
 
         public double this[int row, int column]
         {
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -129,7 +129,7 @@ namespace DoTheMath.Linear
             {
                 return _elements[(Columns * row) + column];
             }
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
             set
@@ -194,7 +194,7 @@ namespace DoTheMath.Linear
         /// <param name="row">The row.</param>
         /// <param name="column">The column.</param>
         /// <returns>The element value from the given location.</returns>
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #if HAS_CODECONTRACTS
@@ -220,7 +220,7 @@ namespace DoTheMath.Linear
         /// <param name="row">The row.</param>
         /// <param name="column">The column.</param>
         /// <param name="value">The new value.</param>
-#if !PRE_NETSTANDARD
+#if !PRE_NETSTANDARD && !DEBUG
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Set(int row, int column, double value)
@@ -680,19 +680,72 @@ namespace DoTheMath.Linear
 #endif
         public MatrixD GetInverse()
         {
+#if HAS_CODECONTRACTS
+            Ensures(Result<MatrixD>() != null);
+#endif
+
             if (!IsSquare)
             {
                 throw new NotSquareMatrixException();
             }
 
             var inverter = new GaussJordanInverter<MatrixD, double>(new MatrixD(this), CreateIdentity(Rows));
-
-            if (inverter.Invert())
+            if (!inverter.Invert())
             {
-                return inverter.Inverse;
+                throw new NoInverseException();
             }
 
-            throw new NoInverseException();
+            return inverter.Inverse;
+        }
+
+#if HAS_CODECONTRACTS
+        [Pure]
+#endif
+        public bool TryGetInverse(out MatrixD inverse)
+        {
+            if (!IsSquare)
+            {
+                inverse = null;
+                return false;
+            }
+
+            var inverter = new GaussJordanInverter<MatrixD, double>(new MatrixD(this), CreateIdentity(Rows));
+            var successful = inverter.Invert();
+            inverse = inverter.Inverse;
+            return successful;
+        }
+
+        public void Invert()
+        {
+            if (!IsSquare)
+            {
+                throw new NotSquareMatrixException();
+            }
+
+            var inverter = new GaussJordanInverter<MatrixD, double>(new MatrixD(this), CreateIdentity(Rows));
+            if (!inverter.Invert())
+            {
+                throw new NoInverseException();
+            }
+
+            CopyFrom(inverter.Inverse);
+        }
+
+        public bool TryInvert()
+        {
+            if (!IsSquare)
+            {
+                return false;
+            }
+
+            var inverter = new GaussJordanInverter<MatrixD, double>(new MatrixD(this), CreateIdentity(Rows));
+            var successful = inverter.Invert();
+            if (successful)
+            {
+                CopyFrom(inverter.Inverse);
+            }
+
+            return successful;
         }
 
 #if HAS_CODECONTRACTS
@@ -767,6 +820,22 @@ namespace DoTheMath.Linear
             {
                 return 2203 + _elements.Length * 23;
             }
+        }
+
+#if !PRE_NETSTANDARD && !DEBUG
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void CopyFrom(MatrixD source)
+        {
+#if HAS_CODECONTRACTS
+            Requires(source != null);
+            Requires(source.Rows == Rows);
+            Requires(source.Columns == Columns);
+
+            Assume(source._elements.Length == _elements.Length);
+#endif
+
+            CopyTo(source._elements, _elements);
         }
     }
 }

@@ -1773,6 +1773,144 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class TryGetInverse : MatrixFTests
+        {
+            [Fact]
+            public void zero_matrix_has_no_inverse()
+            {
+                var actual = new MatrixF(5, 5);
+                var expected = new MatrixF(actual);
+
+                MatrixF inverse;
+                var result = actual.TryGetInverse(out inverse);
+
+                Assert.NotNull(inverse);
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void rectangle_matrix_has_no_inverse()
+            {
+                var actual = new MatrixF(3, 5);
+                var expected = new MatrixF(actual);
+
+                MatrixF inverse;
+                var result = actual.TryGetInverse(out inverse);
+
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_get_inverse()
+            {
+                var matrix = new MatrixF(2, 2)
+                {
+                    [0, 0] = 2,
+                    [0, 1] = -1,
+                    [1, 0] = 0,
+                    [1, 1] = 1
+                };
+                var expected = matrix.GetInverse();
+
+                MatrixF actual;
+                var result = matrix.TryGetInverse(out actual);
+
+                Assert.True(result);
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Invert : MatrixFTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new MatrixF(5, 5);
+                var expected = new MatrixF(actual);
+
+                Action act = () => actual.Invert();
+
+                Assert.Throws<NoInverseException>(act);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void rectangle_matrix_has_no_inverse()
+            {
+                var actual = new MatrixF(3, 5);
+                var expected = new MatrixF(actual);
+
+                Action act = () => actual.Invert();
+
+                Assert.Throws<NotSquareMatrixException>(act);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new MatrixF(2, 2)
+                {
+                    [0, 0] = 2,
+                    [0, 1] = -1,
+                    [1, 0] = 0,
+                    [1, 1] = 1
+                };
+                var expected = actual.GetInverse();
+
+                actual.Invert();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class TryInvert : MatrixFTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new MatrixF(5, 5);
+                var expected = new MatrixF(actual);
+
+                var result = actual.TryInvert();
+
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void rectangle_matrix_has_no_inverse()
+            {
+                var actual = new MatrixF(3, 5);
+                var expected = new MatrixF(actual);
+
+                var result = actual.TryInvert();
+
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new MatrixF(2, 2)
+                {
+                    [0, 0] = 2,
+                    [0, 1] = -1,
+                    [1, 0] = 0,
+                    [1, 1] = 1
+                };
+                var expected = actual.GetInverse();
+
+                var result = actual.TryInvert();
+
+                Assert.True(result);
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class GetDeterminant : MatrixFTests
         {
             [Fact]

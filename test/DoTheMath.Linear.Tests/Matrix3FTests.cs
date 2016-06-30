@@ -1579,6 +1579,107 @@ namespace DoTheMath.Linear.Tests
             }
         }
 
+        public class TryGetInverse : Matrix3FTests
+        {
+            [Fact]
+            public void failure_does_not_mutate_matrix()
+            {
+                var actual = new Matrix3F(1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix3F(actual);
+
+                Matrix3F inverse;
+                var result = actual.TryGetInverse(out inverse);
+
+                Assert.NotNull(inverse);
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_get_inverse()
+            {
+                var matrix = new Matrix3F(
+                    1, 1, 2,
+                    1, 2, 4,
+                    2, -1, 0);
+                var expected = new Matrix3F(
+                    2, -1, 0,
+                    4, -2, -1,
+                    -2.5f, 1.5f, 0.5f);
+
+                Matrix3F actual;
+                var result = matrix.TryGetInverse(out actual);
+
+                Assert.True(result);
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class Invert : Matrix3FTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix3F(1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix3F(actual);
+
+                Action act = () => actual.Invert();
+
+                Assert.Throws<NoInverseException>(act);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix3F(
+                    1, 1, 2,
+                    1, 2, 4,
+                    2, -1, 0);
+                var expected = new Matrix3F(
+                    2, -1, 0,
+                    4, -2, -1,
+                    -2.5f, 1.5f, 0.5f);
+
+                actual.Invert();
+
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        public class TryInvert : Matrix3FTests
+        {
+            [Fact]
+            public void failure_does_not_mutate()
+            {
+                var actual = new Matrix3F(1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var expected = new Matrix3F(actual);
+
+                var result = actual.TryInvert();
+
+                Assert.False(result);
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void can_invert()
+            {
+                var actual = new Matrix3F(
+                    1, 1, 2,
+                    1, 2, 4,
+                    2, -1, 0);
+                var expected = new Matrix3F(
+                    2, -1, 0,
+                    4, -2, -1,
+                    -2.5f, 1.5f, 0.5f);
+
+                var result = actual.TryInvert();
+
+                Assert.True(result);
+                Assert.Equal(expected, actual);
+            }
+        }
+
         public class GetDeterminant : Matrix3FTests
         {
             [Fact]
