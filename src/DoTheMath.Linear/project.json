@@ -1,6 +1,7 @@
 ﻿{
-  "version": "0.0.0-*",
+  "title": "DoTheMath.Linear",
   "description": "A simple library for Linear Algebra.",
+  "version": "0.0.0-*",
   "authors": [ "aarondandy" ],
   "copyright": "Copyright (c) 2016 Aaron Dandy",
   "packOptions": {

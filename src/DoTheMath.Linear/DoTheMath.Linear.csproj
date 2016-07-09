@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETSTANDARD_1_3;NET_4_6;HAS_CODECONTRACTS;PRE_CORE</DefineConstants>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD_1_3;NET_4_6;HAS_CODECONTRACTS;PRE_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
